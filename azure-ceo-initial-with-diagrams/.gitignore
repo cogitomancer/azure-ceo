@@ -1,0 +1,18 @@
+# Python
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+*.venv/
+.env
+env/
+venv/
+build/
+dist/
+*.egg-info/
+
+# OS
+.DS_Store
+
+# Azure Functions
+.local.settings.json
