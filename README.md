@@ -1,5 +1,12 @@
-<<<<<<< HEAD
 # azure-ceo
+
+![Python](https://img.shields.io/badge/Python-3.10+-blue.svg) 
+![Azure](https://img.shields.io/badge/Azure-Native-blue) 
+![Semantic Kernel](https://img.shields.io/badge/Semantic%20Kernel-Enabled-0080FF)
+![License](https://img.shields.io/badge/License-Proprietary-red)
+![Status](https://img.shields.io/badge/Status-Pre--Alpha-yellow)
+![PRs](https://img.shields.io/badge/PRs-Welcome-lightgrey)
+
 =======
 # Azure CEO (Customer Event Orchestrator)
 
