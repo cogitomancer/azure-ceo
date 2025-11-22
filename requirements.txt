@@ -1,4 +1,4 @@
-azure-functins
+azure-functions
 azure-functions-durable
 fastapi
 pydantic

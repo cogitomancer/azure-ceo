@@ -3,15 +3,15 @@
 from fastapi import FastAPI, HTTPException
 from pydantic import BaseModel, Field
 from typing import Optional, Dict, Any
-from azure.storage.queue import QueueuClient
+from azure.storage.queue import QueueClient
 import os
 import json
 import base64
 
-# Intialize FastAPI app
+# Initialize FastAPI app
 app = FastAPI(title="Azure CEO - Customer Personalization Orchestrator")
 
-#Data Model for Customer Event
+# Data Model for Customer Event
 class CustomerEvent(BaseModel):
     event_id: str
     user_id: str
@@ -37,7 +37,7 @@ def root():
 
 @app.get("/health")
 async def health_check():
-    return{"status": "healthy", "service": "Azure CEO Orchestrator"}
+    return {"status": "healthy", "service": "Azure CEO Orchestrator"}
 
 @app.post("/ingest-event")
 async def ingest_event(event: CustomerEvent):
@@ -47,9 +47,9 @@ async def ingest_event(event: CustomerEvent):
         #in local dev, this uses 'UseDevelopmentStorage=true' from local.settings.json
         conn_str = os.getenv("AzureWebJobsStorage")
         if not conn_str:
-            raise HTTPException(status_code=500, detail="AzureWebJJobsStorage not configured")
+            raise HTTPException(status_code=500, detail="AzureWebJobsStorage not configured")
         
-        #2, Connect to Queue
+        #2. Connect to Queue
 
         queue_name = 'ai-job-queue'
         queue_client = QueueClient.from_connection_string(conn_str, queue_name)
@@ -63,7 +63,7 @@ async def ingest_event(event: CustomerEvent):
         
         #4. Send Message (Base64 encoded for Azure Functions Queue Trigger)
         message_body = json.dumps(event.model_dump())
-        message_bytes = message.body.encode('utf-8')
+        message_bytes = message_body.encode('utf-8')
         base64_message = base64.b64encode(message_bytes).decode('utf-8')
 
         queue_client.send_message(base64_message)

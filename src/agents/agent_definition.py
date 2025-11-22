@@ -8,12 +8,12 @@ def Agent_Sentiment_Analysis(eventData: dict) -> dict:
     """
     Analyzes the sentiment of the provided text.
     """
-    logging.info(f"Agent_aentimentanalysis processing event for user: {eventData.get('user_id')}")
+    logging.info(f"Agent_Sentiment_Analysis processing event for user: {eventData.get('user_id')}")
 
     #Mocking Azure AI Language logic using semantic kernel or Azure OpenAI
     sentiment_score = 0.85
     eventData['enrichment'] = {
-        "sentiment": "postiive",
+        "sentiment": "positive",
         "score": sentiment_score
     }
     return eventData
@@ -33,10 +33,10 @@ def Agent_Segmentation(enrichedData: dict) -> dict:
     return enrichedData
 
 
-# ----- Agent 3 Retriveal Agent  ----
+# ----- Agent 3 Retrieval Agent  ----
 @bp.activity_trigger(input_name="segmentData")
 def Agent_Retrieval(segmentData: dict) -> list:
-    logging.info(f"Agent_Retrival fetching content for segment : {segmentData.get('segment')}")
+    logging.info(f"Agent_Retrieval fetching content for segment : {segmentData.get('segment')}")
 
     #Mocking Azure Cognitive Search using Semantic Kernel
     # for production we should use SearchClient to find approved content chunks
@@ -79,7 +79,7 @@ def Agent_Safety_Check(variants: list) -> dict:
             safe_variants.append(v)
         else:
             blocked_variants.append(v)
-    return {"safe_variants": safe_variants, "blocked_variants": blocked_variants}
+    return {"approved_variants": safe_variants, "blocked_variants": blocked_variants}
 
 # ----Agent 6: Experiment/Uplift Agent 
 @bp.activity_trigger(input_name='safeData')

@@ -28,27 +28,27 @@ def PersonalizationOrchestrator(context: df.DurableOrchestrationContext):
     # 1. Get Input (Customer Event)
     event_data = context.get_input()
 
-    #2. Call Agemmt 1: Sentiment Analysis
+    #2. Call Agent 1: Sentiment Analysis
     enriched_data  = yield context.call_activity("Agent_Sentiment_Analysis", event_data)
 
     #3. Call Agent 2, Segmentation Analysis
     segment_data = yield context.call_activity("Agent_Segmentation", enriched_data)
 
-    #4. Call Agent 3 Retrieval Agent
-    # we might ne to parallelize or segment the data first
+    #4. Call Agent 3: Retrieval Agent
+    # we might need to parallelize or segment the data first
     retrieved_content = yield context.call_activity("Agent_Retrieval", segment_data)
 
-    #5. Call Agnt 4 Variant Generation Agent
+    #5. Call Agent 4: Variant Generation Agent
     #Prepare input for generation
     gen_input = {
-        "segment": segment_data['segment']
+        "segment": segment_data.get('segment', 'unknown')
         ,"content": retrieved_content
-        ,"user_id": event_data['user_id']
+        ,"user_id": event_data.get('user_id')
     }
 
     variants = yield context.call_activity("Agent_VariantGeneration", gen_input)
 
-     # 6. Call Agent 5: Safety Check
+    # 6. Call Agent 5: Safety Check
     safety_result = yield context.call_activity("Agent_SafetyCheck", variants)
     
     if not safety_result['approved']:
