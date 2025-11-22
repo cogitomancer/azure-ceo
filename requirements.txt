@@ -1,0 +1,7 @@
+azure-functins
+azure-functions-durable
+fastapi
+pydantic
+uvicorn
+azure-storage-queue
+semantic-kernel
