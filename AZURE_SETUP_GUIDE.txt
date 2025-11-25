@@ -1,0 +1,124 @@
+================================================================================
+AZURE SETUP GUIDE - Real Production Testing
+================================================================================
+
+STEP 1: CREATE AZURE OPENAI RESOURCE (REQUIRED)
+--------------------------------------------------------------------------------
+In Azure Portal (portal.azure.com):
+
+1. Click "Create a resource"
+2. Search for "Azure OpenAI"
+3. Click "Create"
+4. Fill in:
+   - Subscription: [Your subscription]
+   - Resource group: Create new → "marketing-agents-rg"
+   - Region: East US (or your preferred region)
+   - Name: "marketing-agents-openai" (must be unique)
+   - Pricing tier: Standard S0
+
+5. Click "Review + Create" → "Create"
+6. Wait for deployment (2-3 minutes)
+
+7. After deployment, click "Go to resource"
+8. COPY THIS: Click "Keys and Endpoint" → Copy "Endpoint"
+   Example: https://marketing-agents-openai.openai.azure.com/
+
+
+STEP 2: DEPLOY GPT-4O MODEL
+--------------------------------------------------------------------------------
+Still in your Azure OpenAI resource:
+
+1. Click "Model deployments" in left menu
+2. Click "Manage Deployments" (opens Azure AI Studio)
+   OR go to: https://oai.azure.com/
+
+3. Click "Deployments" → "Create new deployment"
+4. Fill in:
+   - Select model: gpt-4o
+   - Deployment name: "gpt-4o" (use this exact name)
+   - Model version: Latest
+   - Deployment type: Standard
+   - Tokens per minute rate limit: 10K (or higher if available)
+
+5. Click "Create"
+6. COPY THIS: Deployment name = "gpt-4o"
+
+
+STEP 3: CREATE APPLICATION INSIGHTS (REQUIRED FOR MONITORING)
+--------------------------------------------------------------------------------
+In Azure Portal:
+
+1. Click "Create a resource"
+2. Search for "Application Insights"
+3. Click "Create"
+4. Fill in:
+   - Subscription: [Same as above]
+   - Resource group: "marketing-agents-rg" (same as OpenAI)
+   - Name: "marketing-agents-insights"
+   - Region: Same as OpenAI resource
+   - Workspace: Create new or use existing Log Analytics workspace
+
+5. Click "Review + Create" → "Create"
+
+6. After deployment, click "Go to resource"
+7. Click "Overview" → Look for "Connection String"
+8. COPY THIS: The entire connection string
+   Example: InstrumentationKey=12345678-1234-1234-1234-123456789012;IngestionEndpoint=https://...
+
+
+OPTIONAL: CREATE OTHER AZURE SERVICES (For full functionality)
+--------------------------------------------------------------------------------
+You can create these later if needed:
+
+□ Cosmos DB (for conversation state)
+  - Create → Azure Cosmos DB → NoSQL API
+  - Free tier available!
+
+□ Azure AI Search (for RAG/document search)
+  - Create → Azure AI Search
+  - Basic tier is fine for testing
+
+□ Azure AI Content Safety (for compliance filtering)
+  - Create → Content Safety
+
+
+STEP 4: CONFIGURE AZURE CREDENTIALS
+--------------------------------------------------------------------------------
+Open your terminal and run:
+
+    az login
+
+This will authenticate you with Azure. Follow the browser prompts.
+
+Verify you're logged in:
+
+    az account show
+
+
+STEP 5: UPDATE YOUR .env FILE
+--------------------------------------------------------------------------------
+I'll help you update the .env file with your real endpoints in the next step.
+
+You'll need:
+✓ Azure OpenAI Endpoint (from Step 1)
+✓ Deployment name: "gpt-4o" (from Step 2)
+✓ Application Insights Connection String (from Step 3)
+
+
+================================================================================
+WHAT YOU NEED RIGHT NOW (Copy these from portal):
+================================================================================
+
+1. Azure OpenAI Endpoint:
+   _________________________________________________________________
+
+2. Deployment Name:
+   gpt-4o
+
+3. Application Insights Connection String:
+   _________________________________________________________________
+
+
+Once you have these, I'll update your .env and run tests!
+================================================================================
+
