@@ -1,0 +1,24 @@
+version: '3.8'
+
+services:
+  marketing-agent-api:
+    build:
+      context: ../..
+      dockerfile: deployment/docker/Dockerfile
+    ports:
+      - "8000:8000"
+    environment:
+      - AZURE_OPENAI_ENDPOINT=${AZURE_OPENAI_ENDPOINT}
+      - AZURE_SEARCH_ENDPOINT=${AZURE_SEARCH_ENDPOINT}
+      - COSMOS_DB_ENDPOINT=${COSMOS_DB_ENDPOINT}
+      - AZURE_CONTENT_SAFETY_ENDPOINT=${AZURE_CONTENT_SAFETY_ENDPOINT}
+      - AZURE_APP_CONFIG_ENDPOINT=${AZURE_APP_CONFIG_ENDPOINT}
+      - APPLICATIONINSIGHTS_CONNECTION_STRING=${APPLICATIONINSIGHTS_CONNECTION_STRING}
+    volumes:
+      - ../../:/app
+    networks:
+      - agent-network
+
+networks:
+  agent-network:
+    driver: bridge
