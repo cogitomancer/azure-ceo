@@ -1,0 +1,77 @@
+# Base configuration - DO NOT include secrets here
+
+azure_openai:
+  deployment_name: gpt-4o
+  api_version: "2024-02-01"
+  
+azure_search:
+  index_name: product-docs
+  semantic_configuration: default
+
+cosmos_db:
+  database_name: marketing_agents
+  container_name: conversations
+  partition_key: /sessionId
+
+content_safety:
+  api_version: "2023-10-01"
+
+app_configuration:
+  refresh_interval: 300
+
+agents:
+  StrategyLead:
+    name: StrategyLead
+    model: gpt-4o
+    temperature: 0.7
+    max_tokens: 2000
+    
+  DataSegmenter:
+    name: DataSegmenter
+    model: gpt-4-turbo
+    temperature: 0.3
+    max_tokens: 1500
+    
+  ContentCreator:
+    name: ContentCreator
+    model: gpt-4o
+    temperature: 0.8
+    max_tokens: 2000
+    
+  ComplianceOfficer:
+    name: ComplianceOfficer
+    model: gpt-4-turbo
+    temperature: 0.2
+    max_tokens: 1000
+    
+  ExperimentRunner:
+    name: ExperimentRunner
+    model: gpt-4-turbo
+    temperature: 0.3
+    max_tokens: 1500
+
+safety:
+  content_safety:
+    thresholds:
+      hate: 2
+      violence: 2
+      sexual: 2
+      self_harm: 2
+  
+  pii_redaction:
+    enabled: true
+
+rate_limits:
+  max_tokens_per_hour: 100000
+  max_calls_per_hour: 1000
+
+experiment:
+  default_allocation: [33, 33, 34]
+  initial_exposure: 5
+  confidence_level: 0.95
+  minimum_sample_size: 1000
+  minimum_duration_days: 7
+
+logging:
+  level: INFO
+  format: "%(asctime)s - %(name)s - %(levelname)s - %(message)s"

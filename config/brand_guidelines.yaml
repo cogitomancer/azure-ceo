@@ -1,0 +1,42 @@
+brand:
+  voice:
+    tone: "professional, enthusiastic, customer-centric"
+    style: "conversational but not casual"
+    formality: "medium"
+  
+  prohibited:
+    competitor_mentions: true
+    unsubstantiated_claims: true
+    medical_claims: true
+    financial_advice: true
+  
+  required:
+    citations: true
+    clear_value_proposition: true
+    call_to_action: true
+  
+  messaging:
+    key_themes:
+      - innovation
+      - customer_success
+      - quality
+      - reliability
+    
+    avoid:
+      - hyperbole
+      - jargon
+      - negative_comparisons
+      - urgency_manipulation
+  
+compliance:
+  regulations:
+    - GDPR
+    - CCPA
+    - CAN_SPAM
+    - TCPA
+  
+  requirements:
+    unsubscribe_link: true
+    company_address: true
+    privacy_policy_link: true
+    data_retention_notice: false

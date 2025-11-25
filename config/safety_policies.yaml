@@ -1,0 +1,43 @@
+safety_policies:
+  content_safety:
+    thresholds:
+      hate: 2
+      violence: 2
+      sexual: 2
+      self_harm: 2
+    
+    blocked_terms:
+      - competitor_name_1
+      - competitor_name_2
+      - internal_project_code
+    
+  pii_protection:
+    enabled: true
+    redact_patterns:
+      - email
+      - phone
+      - ssn
+      - credit_card
+    
+    anonymization:
+      user_id_format: "uuid"
+      minimum_segment_size: 100
+  
+  injection_prevention:
+    enabled: true
+    patterns:
+      - "ignore.*instructions"
+      - "disregard.*rules"
+      - "you are now"
+      - "</s>"
+      - "<|im_start|>"
+    
+  rate_limits:
+    max_tokens_per_hour: 100000
+    max_calls_per_hour: 1000
+    max_experiment_exposure: 5
+    
+  audit:
+    log_all_actions: true
+    retention_days: 90
+    include_pii_detection: true
