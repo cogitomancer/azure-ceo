@@ -23,7 +23,7 @@ async def main():
 
     #Load Configuration
     config = load_config()
-    logging.ingo("Intializing Marketing Agent System")
+    logging.info("Initializing Marketing Agent System")
 
     #Create Kernel
     kernel_factory = KernelFactory(config)
@@ -31,7 +31,7 @@ async def main():
 
 
     #Create orchestrator
-    orchestrator = MarketingOrchestrator(kernel, config)
+    orchestrator = MarketingOrchestrator(kernel_factory, config)
 
 
     #Example: CEO's high level objective
