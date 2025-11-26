@@ -1,0 +1,36 @@
+#core
+semantic-kernel
+azure-ai-openai
+azure-identity
+azure-cosmos
+azure-search-documents
+azure-ai-contentsafety
+azure-appconfiguration
+azure-monitor-opentelemetry
+
+
+#data processing
+pandas
+numpy
+scipy
+pyodbc
+
+#HTTP clients
+httpx
+aiohttp
+
+#Configuration
+pyyaml
+python-dotenv
+
+# Testing
+pytest
+pytest-asyncio
+pytest-cov
+
+# API Framework
+fastapi
+uvicorn[standard]
+
+# Deployment
+gunicorn
