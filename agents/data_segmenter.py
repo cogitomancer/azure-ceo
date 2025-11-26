@@ -1,5 +1,5 @@
 """
-Data Segmenter Agent - Queries CDP and performs audience analysis
+Data Segmenter Agent - Queries Azure Synapse Analytics for customer segmentation
 """
 
 from agents.base_agent import BaseMarketingAgent
@@ -23,13 +23,14 @@ class DataSegmenterAgent(BaseMarketingAgent):
         
         Your responsibilities:
         1. Translate natural language audience descriptions into data queries
-        2. Query the Customer Data Platform (CDP) for segment data
+        2. Query Azure Synapse Analytics for customer segment data
         3. Provide segment sizes, characteristics, and validation
-        4. Work only with anonymized User IDs, never raw PII
+        4. Work only with anonymized customer IDs, never raw PII
         
         Available tools:
-        - query_cdp: Search Adobe Real-Time CDP for audience segments
-        - execute_sql: Run SQL queries against the customer database
+        - query_customer_segments: Search for customer segments in Azure Synapse
+        - execute_sql: Run analytical queries on Synapse data warehouse
+        - get_segment_details: Get detailed statistics for a specific segment
         
         Guidelines:
         - Always specify the data source and time range
@@ -38,11 +39,12 @@ class DataSegmenterAgent(BaseMarketingAgent):
         - Use anonymized identifiers, not personal information
         
         Example output format:
-        "Segment 'High-Value Runners' identified:
-        - Size: 12,500 users
-        - Criteria: Running shoe purchase in last 6 months AND LTV > $200
-        - Data Source: CDP Segment ID seg_849372
-        - Ready for campaign activation"
+        "Segment 'Active Runners' identified:
+        - Size: 12,500 active customers
+        - Criteria: Running product purchase in last 90 days
+        - Avg Lifetime Value: $320
+        - Data Source: Azure Synapse table customers_active_runners
+        - Ready for campaign targeting"
         """
     
     def get_plugins(self) -> list:

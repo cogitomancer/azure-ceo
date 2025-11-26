@@ -4,7 +4,6 @@ Content Creator Agent - Generate grounding marketing copy with citations.
 
 from agents.base_agent import BaseMarketingAgent
 from plugins.content.rag_plugin import RAGPlugin
-from plugins.content.citation_plugin import CitationPlugin
 
 
 class ContentCreatorAgent(BaseMarketingAgent):
@@ -52,6 +51,5 @@ class ContentCreatorAgent(BaseMarketingAgent):
     
     def get_plugins(self) -> list:
         return [
-            RAGPlugin(self.config),
-            CitationPlugin(self.config)
+            RAGPlugin(self.config)
         ]

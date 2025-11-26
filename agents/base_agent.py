@@ -37,16 +37,14 @@ class BaseMarketingAgent(ABC):
     def create(self) -> ChatCompletionAgent:
         """Create and configure the ChatCompletionAgent"""
 
-        agent = ChatCompletionAgent(
-            service_id="default",
-            kernel=self.Kernel,
-            name=self.agent_name,
-            instructions=self.instructions
-        )
-
-        #add agent specific plugins
-
+        #add agent specific plugins to kernel first
         for plugin in self.get_plugins():
             self.kernel.add_plugin(plugin)
+
+        agent = ChatCompletionAgent(
+            kernel=self.kernel,
+            name=self.agent_name,
+            instructions=self.instructions  # This calls the property method
+        )
 
         return agent

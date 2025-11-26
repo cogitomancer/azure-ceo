@@ -10,6 +10,7 @@ class StrategyLeadAgent(BaseMarketingAgent):
     def agent_name(self) -> str:
         return "StrategyLead"
     
+    @property
     def instructions(self) -> str:
         return """
         You are the Strategy Lead for an enterprise marketing automation team.
