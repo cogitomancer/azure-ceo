@@ -15,12 +15,24 @@ class CosmosService:
     def __init__(self, config: dict):
         self.config = config
         self.logger = logging.getLogger(__name__)
-        self.credential = DefaultAzureCredential()
+        self.credential = None
         
-        self.client = CosmosClient(
-            url=config["cosmos_db"]["endpoint"],
-            credential=self.credential
-        )
+        # Use key-based auth if provided, otherwise use RBAC with DefaultAzureCredential
+        cosmos_key = config["cosmos_db"].get("key")
+        
+        if cosmos_key:
+            self.logger.info("Using Cosmos DB key-based authentication")
+            self.client = CosmosClient(
+                url=config["cosmos_db"]["endpoint"],
+                credential=cosmos_key
+            )
+        else:
+            self.logger.info("Using Cosmos DB RBAC authentication (DefaultAzureCredential)")
+            self.credential = DefaultAzureCredential()
+            self.client = CosmosClient(
+                url=config["cosmos_db"]["endpoint"],
+                credential=self.credential
+            )
         
         self.database_name = config["cosmos_db"]["database_name"]
         self.container_name = config["cosmos_db"]["container_name"]
@@ -114,4 +126,5 @@ class CosmosService:
     async def close(self):
         """Close the client connection."""
         await self.client.close()
-        await self.credential.close()
+        if self.credential:
+            await self.credential.close()

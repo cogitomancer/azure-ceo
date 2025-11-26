@@ -5,7 +5,7 @@
 from core.kernel_factory import KernelFactory
 from semantic_kernel.contents import ChatHistory, ChatMessageContent, AuthorRole
 from semantic_kernel.agents import AgentGroupChat, ChatCompletionAgent
-from semantic_kernel.agents.strategies import SequentialSelectionStrategy
+from semantic_kernel.agents.strategies import SequentialSelectionStrategy, KernelFunctionSelectionStrategy
 from typing import AsyncGenerator, List
 import logging
 
@@ -15,6 +15,7 @@ from agents.content_creator import ContentCreatorAgent
 from agents.compliance_officer import ComplianceOfficerAgent
 from agents.experiment_runner import ExperimentRunnerAgent
 from core.state_manager import StateManager
+from services.monitor_service import MonitorService
 
 
 class MarketingOrchestrator:
@@ -25,12 +26,14 @@ class MarketingOrchestrator:
     """
 
     def __init__(self, kernel_factory: KernelFactory, config: dict):
+        self.kernel_factory = kernel_factory
         self.kernel = kernel_factory.create_kernel()
         self.config = config
         self.logger = logging.getLogger(__name__)
         self.state_manager = StateManager(config)
+        self.monitor = MonitorService(config)  # Application Insights monitoring
 
-        #Intialize specialized agents
+        #Initialize specialized agents
         self.agents = self._initialize_agents()
 
       #Create agent group chat with custom selection strategy
@@ -52,33 +55,14 @@ class MarketingOrchestrator:
     def _create_group_chat(self) -> AgentGroupChat:
         """Create the agent group chat with orchestration strategy."""
         
-        # Use KernelFunctionSelectionStrategy for intelligent agent selection
-        selection_function = self.kernel_factory.create_kernel().create_function(
-            plugin_name="selection",
-            function_name="determine_next_speaker",
-            prompt="""
-            Analyze the conversation and determine which agent should speak next.
-            
-            Available agents:
-            - StrategyLead: Manages overall workflow, makes decisions, assigns tasks
-            - DataSegmenter: Queries customer data, performs segmentation analysis
-            - ContentCreator: Generates marketing copy with citations
-            - ComplianceOfficer: Reviews content for safety and brand compliance
-            - ExperimentRunner: Configures and manages A/B tests
-            
-            Conversation history:
-            {{$history}}
-            
-            Return ONLY the agent name that should speak next.
-            If the goal is complete, return "TERMINATE".
-            """
-        )
-        
-        selection_strategy = KernelFunctionSelectionStrategy(
-            function=selection_function,
-            kernel=self.kernel_factory.create_kernel(),
-            result_parser=lambda result: result.value
-        )
+        # Use SequentialSelectionStrategy which calls agents in order:
+        # 1. StrategyLead -> Plans campaign strategy
+        # 2. DataSegmenter -> Identifies target audience
+        # 3. ContentCreator -> Creates message variants
+        # 4. ComplianceOfficer -> Validates content
+        # 5. ExperimentRunner -> Configures A/B test
+        # This ensures a proper workflow where each agent's output informs the next
+        selection_strategy = SequentialSelectionStrategy()
         
         return AgentGroupChat(
             agents=self.agents,
@@ -103,6 +87,9 @@ class MarketingOrchestrator:
         
         self.logger.info(f"Starting campaign execution: {objective}")
         
+        # Log campaign start to Application Insights
+        self.monitor.log_campaign_start(session_id, objective)
+        
         # Load or create conversation state
         state = await self.state_manager.load_state(session_id)
         
@@ -126,11 +113,22 @@ class MarketingOrchestrator:
         await self.group_chat.add_chat_message(initial_message)
         
         # Stream agent responses
+        message_count = 0
         async for message in self.group_chat.invoke():
+            message_count += 1
+            
             # Save state after each interaction
             await self.state_manager.save_state(session_id, message)
             
-            # Log agent activity
+            # Log agent activity to Application Insights
+            self.monitor.log_agent_activity(
+                agent_name=message.name,
+                function_name="generate_response",
+                tokens_used=len(message.content) // 4,  # Rough token estimate
+                success=True
+            )
+            
+            # Log to standard logger
             self.logger.info(
                 f"Agent: {message.name}, Role: {message.role}, "
                 f"Content length: {len(message.content)}"
@@ -141,6 +139,7 @@ class MarketingOrchestrator:
             # Check for termination
             if "TERMINATE" in message.content or "<APPROVED>" in message.content:
                 self.logger.info("Campaign execution completed successfully")
+                self.monitor.log_campaign_complete(session_id, message_count)
                 break
     
     async def get_campaign_status(self, session_id: str) -> dict:

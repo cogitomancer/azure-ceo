@@ -11,18 +11,29 @@ class StateManager:
     """
 
     def __init__(self, config: dict):
-        self.config = config()
-        self.credential = DefaultAzureCredential()
+        self.config = config
+        self.credential = None
         self.client = None
         self.container = None
 
     async def _intialize(self):
         """Intialize Cosmos DB client and container."""
         if self.client is None:
-            self.client = CosmosClient(
-                url=self.config["cosmos_db"]["endpoint"],
-                credential=self.credential
-            )
+            # Use key-based auth if provided, otherwise use RBAC
+            cosmos_key = self.config["cosmos_db"].get("key")
+            
+            if cosmos_key:
+                self.client = CosmosClient(
+                    url=self.config["cosmos_db"]["endpoint"],
+                    credential=cosmos_key
+                )
+            else:
+                self.credential = DefaultAzureCredential()
+                self.client = CosmosClient(
+                    url=self.config["cosmos_db"]["endpoint"],
+                    credential=self.credential
+                )
+            
             database = self.client.get_database_client(self.config["cosmos_db"]["database_name"])
             self.container = database.get_container_client(self.config["cosmos_db"]["container_name"])
     
@@ -37,7 +48,7 @@ class StateManager:
             #return empty state empty not found
             return {
                 "id": session_id,
-                "message": [],
+                "messages": [],
                 "status": "new",
                 "created_at": datetime.utcnow().isoformat()
            }
@@ -64,3 +75,5 @@ class StateManager:
         """Close Cosmos DB client."""
         if self.client:
             await self.client.close()
+        if self.credential:
+            await self.credential.close()

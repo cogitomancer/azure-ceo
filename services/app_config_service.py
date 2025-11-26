@@ -4,6 +4,7 @@ Azure App Configuration service for feature flags.
 
 from azure.appconfiguration import AzureAppConfigurationClient
 from azure.identity import DefaultAzureCredential
+from typing import Dict, List
 import json
 import logging
 from typing import Dict, Optional
