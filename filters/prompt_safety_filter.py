@@ -6,6 +6,7 @@ from semantic_kernel.filters import FilterTypes, FunctionInvocationContext
 from azure.ai.contentsafety import ContentSafetyClient
 from azure.ai.contentsafety.models import AnalyzeTextOptions
 from azure.identity import DefaultAzureCredential
+from azure.core.credentials import AzureKeyCredential
 import logging
 import re
 
@@ -19,13 +20,23 @@ class PromptSafetyFilter:
     def __init__(self, config: dict):
         self.config = config
         self.logger = logging.getLogger(__name__)
-        self.credential = DefaultAzureCredential()
+        self.credential = None
+        
+        # Use key if provided, otherwise use RBAC
+        content_safety_key = config["content_safety"].get("key")
         
         # Initialize Content Safety client
-        self.safety_client = ContentSafetyClient(
-            endpoint=config["content_safety"]["endpoint"],
-            credential=self.credential
-        )
+        if content_safety_key:
+            self.safety_client = ContentSafetyClient(
+                endpoint=config["content_safety"]["endpoint"],
+                credential=AzureKeyCredential(content_safety_key)
+            )
+        else:
+            self.credential = DefaultAzureCredential()
+            self.safety_client = ContentSafetyClient(
+                endpoint=config["content_safety"]["endpoint"],
+                credential=self.credential
+            )
     
     async def on_prompt_rendering(self, context: FunctionInvocationContext):
         """

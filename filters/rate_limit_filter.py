@@ -30,7 +30,8 @@ class RateLimitFilter:
     
     async def on_function_invocation(self, context: FunctionInvocationContext):
         """
-        Track and enforce rate limits before function execution.
+        Track and enforce rate limits before and during function execution.
+        Also tracks token usage if available in metadata.
         """
         
         # Reset counters if interval passed
@@ -52,6 +53,18 @@ class RateLimitFilter:
                 f"Rate limit exceeded for agent '{agent_name}'. "
                 f"Maximum {self.max_calls_per_agent} calls per hour."
             )
+        
+        # Track token usage if available in metadata
+        tokens_used = context.metadata.get("tokens_used", 0)
+        if tokens_used > 0:
+            self.agent_token_usage[agent_name] += tokens_used
+            
+            # Check token limit (warning only, don't block)
+            if self.agent_token_usage[agent_name] > self.max_tokens_per_agent:
+                self.logger.warning(
+                    f"Token limit exceeded: {agent_name} has used "
+                    f"{self.agent_token_usage[agent_name]} tokens this hour"
+                )
         
         # Log usage for monitoring
         self.logger.info(

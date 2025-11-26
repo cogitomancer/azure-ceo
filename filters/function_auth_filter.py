@@ -20,9 +20,9 @@ class FunctionAuthorizationFilter:
         self.authorization_matrix = {
             "StrategyLead": ["*"],  # Manager can call any function
             "DataSegmenter": [
-                "query_cdp",
-                "execute_sql",
-                "activate_segment"
+                "query_customer_segments",
+                "get_segment_details",
+                "execute_sql"
             ],
             "ContentCreator": [
                 "retrieve_product_info",
