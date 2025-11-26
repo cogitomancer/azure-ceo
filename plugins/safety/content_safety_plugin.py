@@ -7,6 +7,7 @@ from typing import Annotated
 from azure.ai.contentsafety.aio import ContentSafetyClient
 from azure.ai.contentsafety.models import AnalyzeTextOptions
 from azure.identity.aio import DefaultAzureCredential
+from azure.core.credentials import AzureKeyCredential
 
 
 class ContentSafetyPlugin:
@@ -17,12 +18,22 @@ class ContentSafetyPlugin:
     
     def __init__(self, config: dict):
         self.config = config
-        self.credential = DefaultAzureCredential()
+        self.credential = None
         
-        self.safety_client = ContentSafetyClient(
-            endpoint=config["content_safety"]["endpoint"],
-            credential=self.credential
-        )
+        # Use key if provided, otherwise use RBAC
+        content_safety_key = config["content_safety"].get("key")
+        
+        if content_safety_key:
+            self.safety_client = ContentSafetyClient(
+                endpoint=config["content_safety"]["endpoint"],
+                credential=AzureKeyCredential(content_safety_key)
+            )
+        else:
+            self.credential = DefaultAzureCredential()
+            self.safety_client = ContentSafetyClient(
+                endpoint=config["content_safety"]["endpoint"],
+                credential=self.credential
+            )
         
         # Safety thresholds (0-6 scale)
         self.thresholds = {
