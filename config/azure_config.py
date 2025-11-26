@@ -38,12 +38,14 @@ def load_config() -> Dict:
     
     config["cosmos_db"] = {
         "endpoint": os.getenv("COSMOS_DB_ENDPOINT"),
+        "key": os.getenv("COSMOS_DB_KEY"),  # Optional: use key instead of RBAC
         "database_name": os.getenv("COSMOS_DB_DATABASE", "marketing_agents"),
         "container_name": os.getenv("COSMOS_DB_CONTAINER", "conversations")
     }
     
     config["content_safety"] = {
-        "endpoint": os.getenv("AZURE_CONTENT_SAFETY_ENDPOINT")
+        "endpoint": os.getenv("AZURE_CONTENT_SAFETY_ENDPOINT"),
+        "key": os.getenv("AZURE_CONTENT_SAFETY_KEY")  # Optional: use key instead of RBAC
     }
     
     config["app_configuration"] = {
@@ -54,10 +56,10 @@ def load_config() -> Dict:
         "connection_string": os.getenv("APPLICATIONINSIGHTS_CONNECTION_STRING")
     }
     
-    config["cdp"] = {
-        "endpoint": os.getenv("CDP_ENDPOINT", "https://platform.adobe.io"),
-        "org_id": os.getenv("CDP_ORG_ID"),
-        "api_key": os.getenv("CDP_API_KEY")
+    config["synapse"] = {
+        "endpoint": os.getenv("AZURE_SYNAPSE_ENDPOINT"),  # e.g., https://your-synapse.dev.azuresynapse.net
+        "database": os.getenv("AZURE_SYNAPSE_DATABASE", "marketing_data"),
+        "spark_pool": os.getenv("AZURE_SYNAPSE_SPARK_POOL", "sparkpool")  # Optional for Spark jobs
     }
     
     return config
