@@ -36,7 +36,6 @@ app.add_middleware(
 # Global state
 config = load_config()
 kernel_factory = KernelFactory(config)
-kernel = kernel_factory.create_kernel()
 
 
 # Request/Response Models
@@ -73,7 +72,7 @@ class ExperimentResultsRequest(BaseModel):
 # Dependency injection
 async def get_orchestrator():
     """Get orchestrator instance."""
-    return MarketingOrchestrator(kernel, config)
+    return MarketingOrchestrator(kernel_factory, config)
 
 
 # Routes
@@ -92,10 +91,10 @@ async def create_campaign(
     request: CampaignRequest,
     background_tasks: BackgroundTasks
 ):
-    """Create a new marketing campaign."""
+    """Create a new marketing campaign (executes complete workflow)."""
     
     try:
-        workflow = CampaignCreationWorkflow(kernel, config)
+        workflow = CampaignCreationWorkflow(kernel_factory, config)
         campaign = await workflow.execute(
             campaign_name=request.name,
             objective=request.objective,
@@ -116,6 +115,69 @@ async def create_campaign(
     except Exception as e:
         logger.error(f"Campaign creation error: {e}")
         raise HTTPException(status_code=500, detail=str(e))
+
+
+@app.post("/campaigns/stream")
+async def create_campaign_stream(request: CampaignRequest):
+    """
+    Create campaign with real-time agent streaming (for React frontend).
+    Returns Server-Sent Events with agent messages as they are generated.
+    """
+    
+    async def event_generator():
+        """Generate SSE events for each agent message."""
+        try:
+            orchestrator = await get_orchestrator()
+            session_id = f"stream_{request.name.replace(' ', '_')}"
+            
+            # Send initial event
+            import json
+            yield f"data: {json.dumps({'event': 'started', 'campaign': request.name})}\n\n"
+            
+            message_count = 0
+            async for message in orchestrator.execute_campaign_request(
+                objective=request.objective,
+                session_id=session_id
+            ):
+                message_count += 1
+                
+                # Format message for frontend
+                event_data = {
+                    "event": "agent_message",
+                    "message_id": message_count,
+                    "agent_name": message.name,
+                    "agent_role": message.role.value if hasattr(message.role, 'value') else str(message.role),
+                    "content": message.content,
+                    "timestamp": message.metadata.get("timestamp") if hasattr(message, 'metadata') else None
+                }
+                
+                import json
+                yield f"data: {json.dumps(event_data)}\n\n"
+                
+                # Check for completion
+                if "TERMINATE" in message.content or "<APPROVED>" in message.content:
+                    yield f"data: {json.dumps({'event': 'completed', 'total_messages': message_count})}\n\n"
+                    break
+                
+                # Safety limit
+                if message_count > 30:
+                    yield f"data: {json.dumps({'event': 'stopped', 'reason': 'message_limit'})}\n\n"
+                    break
+        
+        except Exception as e:
+            logger.error(f"Streaming error: {e}")
+            import json
+            yield f"data: {json.dumps({'event': 'error', 'message': str(e)})}\n\n"
+    
+    return StreamingResponse(
+        event_generator(),
+        media_type="text/event-stream",
+        headers={
+            "Cache-Control": "no-cache",
+            "Connection": "keep-alive",
+            "X-Accel-Buffering": "no"
+        }
+    )
 
 
 @app.get("/campaigns/{campaign_id}")
@@ -217,21 +279,25 @@ async def get_experiment_analysis(experiment_id: str):
         raise HTTPException(status_code=500, detail=str(e))
 
 
+class ContentValidationRequest(BaseModel):
+    content: str
+
+
 @app.post("/content/validate")
-async def validate_content(content: str):
+async def validate_content(request: ContentValidationRequest):
     """Validate content for safety and compliance."""
     
     try:
         from services.content_safety_service import ContentSafetyService
         
         safety_service = ContentSafetyService(config)
-        result = await safety_service.analyze_text(content)
+        result = await safety_service.analyze_text(request.content)
         await safety_service.close()
         
         return {
-            "is_safe": result["is_safe"],
-            "violations": result["violations"],
-            "categories": result["categories"]
+            "is_safe": result.get("is_safe", True),
+            "violations": result.get("violations", []),
+            "categories": result.get("categories", {})
         }
     
     except Exception as e:
