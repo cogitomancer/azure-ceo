@@ -15,11 +15,11 @@ import uuid
 class CampaignCreationWorkflow:
     """Orchestrate end-to-end campaign creation."""
     
-    def __init__(self, kernel: Kernel, config: dict):
-        self.kernel = kernel
+    def __init__(self, kernel_factory, config: dict):
+        self.kernel_factory = kernel_factory
         self.config = config
         self.logger = logging.getLogger(__name__)
-        self.orchestrator = MarketingOrchestrator(kernel, config)
+        self.orchestrator = MarketingOrchestrator(kernel_factory, config)
     
     async def execute(
         self,
