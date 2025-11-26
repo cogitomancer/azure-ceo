@@ -13,6 +13,7 @@ azure-monitor-opentelemetry
 pandas
 numpy
 scipy
+pyodbc
 
 #HTTP clients
 httpx
@@ -26,6 +27,10 @@ python-dotenv
 pytest
 pytest-asyncio
 pytest-cov
+
+# API Framework
+fastapi
+uvicorn[standard]
 
 # Deployment
 gunicorn
