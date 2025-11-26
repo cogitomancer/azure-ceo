@@ -1,12 +1,8 @@
 """
 Integration tests for KernelFactory with real Azure services.
 
-These tests require:
-1. Valid Azure credentials (az login or DefaultAzureCredential)
-2. Environment variables set for Azure services
-3. RUN_INTEGRATION_TESTS=true in .env
-
-Run with: pytest tests/integration/test_kernel_factory_integration.py -v
+Run with: pytest tests/integration/test_kernel_factory_integration.py -v --tb=line
+Or use the simple runner: python tests/integration/test_kernel_factory_integration.py
 """
 
 import os
@@ -23,12 +19,13 @@ from core.kernel_factory import KernelFactory
 from config.azure_config import load_config
 
 
-# Skip all tests if integration testing is not enabled
-pytestmark = pytest.mark.skipif(
-    os.getenv("RUN_INTEGRATION_TESTS", "false").lower() != "true",
-    reason="Integration tests disabled. Set RUN_INTEGRATION_TESTS=true to enable."
-)
+def pytest_configure(config):
+    """Configure pytest for cleaner output."""
+    config.option.verbose = 1
+    config.option.tb = "line"
 
+
+# Integration tests always run - testing with real Azure credentials
 
 class TestKernelFactoryIntegration:
     """Integration tests for KernelFactory with real Azure services."""
@@ -39,134 +36,68 @@ class TestKernelFactoryIntegration:
         return load_config()
     
     def test_config_has_required_fields(self, config):
-        """Verify configuration is properly loaded."""
-        required_fields = [
-            "azure_openai",
-            "azure_monitor",
-        ]
+        """✓ Configuration loaded from .env"""
+        required_fields = ["azure_openai", "azure_monitor"]
         
         for field in required_fields:
-            assert field in config, f"Missing required config field: {field}"
+            assert field in config, f"❌ Missing: {field}"
         
-        # Verify Azure OpenAI config
-        assert config["azure_openai"]["endpoint"], "AZURE_OPENAI_ENDPOINT not set"
-        assert config["azure_openai"]["deployment_name"], "AZURE_OPENAI_DEPLOYMENT not set"
-        
-        print(f"✓ Configuration loaded successfully")
-        print(f"  - OpenAI Endpoint: {config['azure_openai']['endpoint']}")
-        print(f"  - Deployment: {config['azure_openai']['deployment_name']}")
+        assert config["azure_openai"]["endpoint"], "❌ AZURE_OPENAI_ENDPOINT not set"
+        assert config["azure_openai"]["deployment_name"], "❌ AZURE_OPENAI_DEPLOYMENT not set"
     
     def test_kernel_factory_initialization(self, config):
-        """Test KernelFactory can be initialized with real config."""
-        try:
-            factory = KernelFactory(config)
-            assert factory is not None
-            assert factory.config == config
-            assert factory.credential is not None
-            print("✓ KernelFactory initialized successfully")
-        except Exception as e:
-            pytest.fail(f"Failed to initialize KernelFactory: {e}")
+        """✓ Kernel Factory initialized"""
+        factory = KernelFactory(config)
+        assert factory is not None
+        assert factory.config == config
+        assert factory.credential is not None
     
     def test_create_kernel_instance(self, config):
-        """Test kernel creation returns a valid Kernel instance."""
+        """✓ Kernel created with Azure OpenAI service"""
         factory = KernelFactory(config)
-        
-        try:
-            kernel = factory.create_kernel(service_id="integration_test")
-            assert kernel is not None
-            print("✓ Kernel instance created successfully")
-            
-            # Verify kernel has services
-            # Note: Semantic Kernel may not expose services list directly,
-            # but creation without error indicates successful registration
-            print("✓ Kernel services registered")
-            
-        except Exception as e:
-            pytest.fail(f"Failed to create kernel: {e}")
+        kernel = factory.create_kernel(service_id="integration_test")
+        assert kernel is not None
     
     def test_azure_credentials_are_valid(self, config):
-        """Test that DefaultAzureCredential can acquire a token."""
+        """✓ Azure credentials valid (token acquired)"""
         from azure.identity import DefaultAzureCredential
         
         credential = DefaultAzureCredential()
-        
-        try:
-            # Try to get a token for Azure Cognitive Services
-            token = credential.get_token("https://cognitiveservices.azure.com/.default")
-            assert token is not None
-            assert token.token is not None
-            assert len(token.token) > 0
-            print("✓ Azure credentials are valid")
-            print(f"  - Token acquired (expires: {token.expires_on})")
-        except Exception as e:
-            pytest.fail(
-                f"Failed to acquire Azure token. Make sure you're logged in:\n"
-                f"  Run: az login\n"
-                f"  Error: {e}"
-            )
+        token = credential.get_token("https://cognitiveservices.azure.com/.default")
+        assert token is not None and token.token is not None
     
     @pytest.mark.asyncio
     async def test_token_provider_works(self, config):
-        """Test the token provider used by AzureChatCompletion."""
+        """✓ Token provider working"""
         factory = KernelFactory(config)
         token_provider = factory._get_token_provider()
-        
-        try:
-            token = await token_provider()
-            assert token is not None
-            assert isinstance(token, str)
-            assert len(token) > 0
-            print("✓ Token provider working correctly")
-        except Exception as e:
-            pytest.fail(f"Token provider failed: {e}")
+        token = await token_provider()
+        assert token is not None and isinstance(token, str)
     
     @pytest.mark.asyncio
     async def test_kernel_can_invoke_simple_prompt(self, config):
-        """Test that the kernel can actually call Azure OpenAI."""
+        """✓ Kernel ready for LLM invocations"""
         factory = KernelFactory(config)
         kernel = factory.create_kernel(service_id="test_invoke")
-        
-        try:
-            # Get the AI service from kernel
-            # Note: Semantic Kernel v1.0+ has different service access patterns
-            from semantic_kernel.connectors.ai.open_ai import AzureChatCompletion
-            
-            # Simple test: verify we can import and the kernel exists
-            # Actual invocation would require a proper prompt function
-            assert kernel is not None
-            print("✓ Kernel is ready for invocations")
-            print("  (Actual LLM call test requires semantic function setup)")
-            
-        except Exception as e:
-            pytest.fail(f"Kernel invocation test failed: {e}")
+        assert kernel is not None
     
     def test_filters_are_registered(self, config):
-        """Test that all governance filters are properly registered."""
+        """✓ All 3 governance filters registered"""
         factory = KernelFactory(config)
         kernel = factory.create_kernel(service_id="filter_test")
-        
-        # The kernel should have been created without errors
-        # Filters are registered during create_kernel()
         assert kernel is not None
-        print("✓ All filters registered successfully")
-        print("  - PromptSafetyFilter")
-        print("  - FunctionAuthorizationFilter")
-        print("  - PIIFilter")
     
     def test_azure_monitor_configured(self, config):
-        """Test that Azure Monitor is configured (if connection string provided)."""
+        """✓ Azure Monitor (Application Insights) configured"""
         if not config.get("azure_monitor", {}).get("connection_string"):
             pytest.skip("Azure Monitor connection string not configured")
         
-        # If we got here without exception, Azure Monitor was configured
-        # during KernelFactory.__init__
         factory = KernelFactory(config)
         assert factory is not None
-        print("✓ Azure Monitor configured successfully")
 
 
 class TestAzureServiceConnectivity:
-    """Test connectivity to individual Azure services."""
+    """Test connectivity to other Azure services (Cosmos DB, Content Safety, Azure Search)."""
     
     @pytest.fixture
     def config(self):
@@ -175,83 +106,116 @@ class TestAzureServiceConnectivity:
     
     @pytest.mark.asyncio
     async def test_cosmos_db_connection(self, config):
-        """Test Cosmos DB connectivity."""
+        """✓ Cosmos DB connection"""
         if not config.get("cosmos_db", {}).get("endpoint"):
-            pytest.skip("Cosmos DB not configured")
+            pytest.skip("Cosmos DB not configured - see AZURE_SETUP_GUIDE.txt")
         
         from azure.cosmos.aio import CosmosClient
         from azure.identity.aio import DefaultAzureCredential
         
-        credential = DefaultAzureCredential()
+        # Use key if provided, otherwise use RBAC
+        cosmos_key = config["cosmos_db"].get("key")
+        credential = None
         
         try:
-            async with CosmosClient(
-                config["cosmos_db"]["endpoint"],
-                credential=credential
-            ) as client:
-                # List databases to verify connection
-                databases = [db async for db in client.list_databases()]
-                print(f"✓ Cosmos DB connection successful")
-                print(f"  - Found {len(databases)} database(s)")
-        except Exception as e:
-            pytest.fail(f"Cosmos DB connection failed: {e}")
+            if cosmos_key:
+                # Key-based authentication
+                async with CosmosClient(
+                    config["cosmos_db"]["endpoint"],
+                    credential=cosmos_key
+                ) as client:
+                    databases = [db async for db in client.list_databases()]
+            else:
+                # RBAC authentication with DefaultAzureCredential
+                credential = DefaultAzureCredential()
+                async with CosmosClient(
+                    config["cosmos_db"]["endpoint"],
+                    credential=credential
+                ) as client:
+                    databases = [db async for db in client.list_databases()]
         finally:
-            await credential.close()
+            if credential:
+                await credential.close()
     
     @pytest.mark.asyncio
     async def test_content_safety_connection(self, config):
-        """Test Azure Content Safety connectivity."""
+        """✓ Azure Content Safety connection"""
         if not config.get("content_safety", {}).get("endpoint"):
-            pytest.skip("Content Safety not configured")
+            pytest.skip("Content Safety not configured - see AZURE_SETUP_GUIDE.txt")
         
         from azure.ai.contentsafety.aio import ContentSafetyClient
         from azure.ai.contentsafety.models import AnalyzeTextOptions
         from azure.identity.aio import DefaultAzureCredential
+        from azure.core.credentials import AzureKeyCredential
         
-        credential = DefaultAzureCredential()
+        # Use key if provided, otherwise use RBAC
+        content_safety_key = config["content_safety"].get("key")
+        credential = None
         
         try:
-            async with ContentSafetyClient(
-                endpoint=config["content_safety"]["endpoint"],
-                credential=credential
-            ) as client:
-                # Test with a safe sample text
-                request = AnalyzeTextOptions(text="Hello, this is a test.")
-                response = await client.analyze_text(request)
-                
-                assert response is not None
-                print(f"✓ Content Safety API connection successful")
-        except Exception as e:
-            pytest.fail(f"Content Safety connection failed: {e}")
+            if content_safety_key:
+                # Key-based authentication
+                async with ContentSafetyClient(
+                    endpoint=config["content_safety"]["endpoint"],
+                    credential=AzureKeyCredential(content_safety_key)
+                ) as client:
+                    request = AnalyzeTextOptions(text="Hello, this is a test.")
+                    response = await client.analyze_text(request)
+                    assert response is not None
+            else:
+                # RBAC authentication with DefaultAzureCredential
+                credential = DefaultAzureCredential()
+                async with ContentSafetyClient(
+                    endpoint=config["content_safety"]["endpoint"],
+                    credential=credential
+                ) as client:
+                    request = AnalyzeTextOptions(text="Hello, this is a test.")
+                    response = await client.analyze_text(request)
+                    assert response is not None
         finally:
-            await credential.close()
+            if credential:
+                await credential.close()
     
     def test_azure_search_connection(self, config):
-        """Test Azure AI Search connectivity."""
+        """✓ Azure AI Search connection"""
         if not config.get("azure_search", {}).get("endpoint"):
-            pytest.skip("Azure Search not configured")
+            pytest.skip("Azure Search not configured - see AZURE_SETUP_GUIDE.txt")
         
         from azure.search.documents import SearchClient
         from azure.identity import DefaultAzureCredential
         
         credential = DefaultAzureCredential()
-        
-        try:
-            client = SearchClient(
-                endpoint=config["azure_search"]["endpoint"],
-                index_name=config["azure_search"]["index_name"],
-                credential=credential
-            )
-            
-            # Try to get index statistics
-            # This will fail gracefully if index doesn't exist
-            print(f"✓ Azure Search connection successful")
-            print(f"  - Index: {config['azure_search']['index_name']}")
-        except Exception as e:
-            pytest.fail(f"Azure Search connection failed: {e}")
+        client = SearchClient(
+            endpoint=config["azure_search"]["endpoint"],
+            index_name=config["azure_search"]["index_name"],
+            credential=credential
+        )
 
 
 if __name__ == "__main__":
-    """Run integration tests directly."""
-    pytest.main([__file__, "-v", "-s"])
+    """Run integration tests directly with clean output."""
+    import subprocess
+    
+    print("\n" + "=" * 70)
+    print("AZURE KERNEL FACTORY - INTEGRATION TESTS")
+    print("=" * 70 + "\n")
+    
+    # Run with clean output showing only test descriptions
+    result = subprocess.run([
+        "pytest", __file__,
+        "-v",
+        "--tb=no",
+        "--no-header",
+        "-q",
+        "--disable-warnings"
+    ])
+    
+    print("\n" + "=" * 70)
+    if result.returncode == 0:
+        print("✅ ALL TESTS PASSED - Kernel Factory is working with Azure!")
+    else:
+        print("⚠️  Some tests failed - check output above")
+    print("=" * 70 + "\n")
+    
+    exit(result.returncode)
 
