@@ -1,5 +1,14 @@
 """
 Utility for extracting citations from Semantic Kernel responses.
+
+TODO: Consider refactoring this into a dedicated CitationPlugin for better integration
+      with the agent system. Current implementation is a utility class, but a plugin
+      would allow agents to directly call citation extraction functions.
+      
+      Proposed plugin structure:
+      - plugins/content/citation_plugin.py
+      - Functions: extract_citations(), validate_citations(), format_citations()
+      - Would integrate with ContentCreator and ComplianceOfficer agents
 """
 
 from semantic_kernel.contents import ChatMessageContent
