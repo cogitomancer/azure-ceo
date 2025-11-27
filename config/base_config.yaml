@@ -1,14 +1,24 @@
 # Base configuration - DO NOT include secrets here
 
 azure_openai:
+  endpoint: ${AZURE_OPENAI_ENDPOINT}
   deployment_name: gpt-4o
   api_version: "2024-02-01"
-  
+
+azure_monitor:
+  connection_string: ${APPLICATION_INSIGHTS_CONNECTION_STRING}
+
 azure_search:
+  endpoint: ${AZURE_SEARCH_ENDPOINT}
+  admin_key: ${AZURE_SEARCH_ADMIN_KEY}
   index_name: product-docs
   semantic_configuration: default
+  vector_dimensions: 1536
+  embedding_deployment: text-embedding-3-large
 
 cosmos_db:
+  endpoint: ${COSMOS_DB_ENDPOINT}
+  key: ${COSMOS_DB_KEY}     # null = use managed identity
   database_name: marketing_agents
   container_name: conversations
   partition_key: /sessionId
@@ -21,31 +31,26 @@ app_configuration:
 
 agents:
   StrategyLead:
-    name: StrategyLead
     model: gpt-4o
     temperature: 0.7
     max_tokens: 2000
-    
+
   DataSegmenter:
-    name: DataSegmenter
     model: gpt-4-turbo
     temperature: 0.3
     max_tokens: 1500
     
   ContentCreator:
-    name: ContentCreator
     model: gpt-4o
     temperature: 0.8
     max_tokens: 2000
     
   ComplianceOfficer:
-    name: ComplianceOfficer
     model: gpt-4-turbo
     temperature: 0.2
     max_tokens: 1000
     
   ExperimentRunner:
-    name: ExperimentRunner
     model: gpt-4-turbo
     temperature: 0.3
     max_tokens: 1500

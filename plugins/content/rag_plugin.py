@@ -1,67 +1,118 @@
 """
 Retrieval-Augmented Generation plugin using Azure AI Search.
+Provides grounded product information and citation metadata.
 """
 
-from semantic_kernel.functions import kernel_function
-from typing import Annotated
+from __future__ import annotations
+
+from typing import Dict, Any, List
+
 from azure.search.documents.aio import SearchClient
 from azure.identity.aio import DefaultAzureCredential
-from azure.core.credentials import AzureKeyCredential
+
+from plugins.base_plugin import BasePlugin
 
 
-class RAGPlugin:
+class RAGPlugin(BasePlugin):
     """
-    Plugin for retrieving grounded product information from Azure AI Search.
-    Enables citations and prevents hallucinations.
+    Retrieval-Augmented Generation plugin for grounded product lookup.
+
+    Exposes two functions:
+    - retrieve_product_info(query)
+    - extract_citations(items)
     """
-    
+
     def __init__(self, config: dict):
         self.config = config
+
+        # Credentials (async)
         self.credential = DefaultAzureCredential()
-        
+
+        # Azure AI Search client
         self.search_client = SearchClient(
             endpoint=config["azure_search"]["endpoint"],
             index_name=config["azure_search"]["index_name"],
             credential=self.credential
         )
-    
-    @kernel_function(
-        name="retrieve_product_info",
-        description="Search product documentation for verified information"
-    )
-    async def retrieve_product_info(
-        self,
-        query: Annotated[str, "Product feature or information to look up"]
-    ) -> Annotated[str, "Retrieved information with source metadata"]:
+
+    # ---------------------------------------------------------------------
+    # REQUIRED BY BasePlugin
+    # ---------------------------------------------------------------------
+    def get_functions(self) -> Dict[str, Any]:
+        return {
+            "retrieve_product_info": self.retrieve_product_info,
+            "extract_citations": self.extract_citations,
+        }
+
+    # ---------------------------------------------------------------------
+    # SEARCH FUNCTION (async)
+    # ---------------------------------------------------------------------
+    async def retrieve_product_info(self, query: str) -> Dict[str, Any]:
         """
-        Retrieve grounded product information with citation metadata.
+        Retrieve grounded product information from Azure AI Search.
+
+        Returns structured results:
+        {
+            "items": [
+                {
+                    "content": "...",
+                    "title": "...",
+                    "citation": "[Source: ..., Page X]",
+                    "score": float
+                }
+            ]
+        }
         """
-        
-        # Perform semantic search
-        results = await self.search_client.search(
-            search_text=query,
-            top=5,
-            select=["content", "title", "source_file", "page_number"],
-            query_type="semantic",
-            semantic_configuration_name="default"
-        )
-        
-        # Format results with citations
-        retrieved_content = []
+
+        try:
+            results = await self.search_client.search(
+                search_text=query,
+                top=5,
+                select=["content", "title", "source_file", "page_number"],
+                query_type="semantic",
+                semantic_configuration_name="default"
+            )
+        except Exception as e:
+            return {
+                "items": [],
+                "error": f"Search error: {str(e)}",
+                "query": query
+            }
+
+        retrieved_items: List[Dict[str, Any]] = []
+
         async for result in results:
-            citation = f"[Source: {result['title']}, Page {result['page_number']}]"
-            retrieved_content.append({
-                "content": result["content"],
+            citation = f"[Source: {result['title']}, Page {result.get('page_number', '?')}]"
+
+            retrieved_items.append({
+                "content": result.get("content", ""),
+                "title": result.get("title", "Unknown Source"),
                 "citation": citation,
-                "score": result["@search.score"]
+                "score": result.get("@search.score", 0.0)
             })
-        
-        if not retrieved_content:
-            return "No relevant product information found. Do not make claims without grounding."
-        
-        # Format response
-        response = "Retrieved product information:\n\n"
-        for i, item in enumerate(retrieved_content, 1):
-            response += f"{i}. {item['content']}\n   {item['citation']}\n\n"
-        
-        return response
+
+        return {
+            "items": retrieved_items,
+            "query": query
+        }
+
+    # ---------------------------------------------------------------------
+    # CITATION PROCESSOR
+    # ---------------------------------------------------------------------
+    async def extract_citations(self, items: List[Dict[str, Any]]) -> Dict[str, Any]:
+        """
+        Takes the items returned by retrieve_product_info() and returns
+        a clean list of citation strings.
+
+        Returns:
+        {
+            "citations": ["[Source: manual, Page 3]", ...]
+        }
+        """
+        citations = [
+            item.get("citation", "")
+            for item in items
+            if isinstance(item, dict) and "citation" in item
+        ]
+
+        return {"citations": citations}

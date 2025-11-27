@@ -1,15 +1,15 @@
 """
-Utility functions and helpers.
+Utility exports for the Azure CEO project.
 """
 
 from .citation_extractor import CitationExtractor
-from .statistical_analysis import StatisticalAnalyzer
-from .prompt_templates import PromptTemplates
-from .validators import Validators
+from .prompt_template import PromptTemplate
+from .stats_analysis import StatisticalAnalysis
+from .validators import Validator
 
 __all__ = [
     "CitationExtractor",
-    "StatisticalAnalyzer",
-    "PromptTemplates",
-    "Validators"
+    "PromptTemplate",
+    "StatisticalAnalysis",
+    "Validator",
 ]

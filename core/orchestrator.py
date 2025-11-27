@@ -1,11 +1,11 @@
 """
-    Main orchestration engine for multi agent coordination.
+Main orchestration engine for multi-agent coordination.
 """
 
 from core.kernel_factory import KernelFactory
-from semantic_kernel.contents import ChatHistory, ChatMessageContent, AuthorRole
-from semantic_kernel.agents import AgentGroupChat, ChatCompletionAgent
-from semantic_kernel.agents.strategies import SequentialSelectionStrategy, KernelFunctionSelectionStrategy
+from semantic_kernel.contents import ChatMessageContent, AuthorRole
+from semantic_kernel.agents import AgentGroupChat
+from semantic_kernel.agents.strategies import SequentialSelectionStrategy
 from typing import AsyncGenerator, List
 import logging
 
@@ -14,142 +14,126 @@ from agents.data_segmenter import DataSegmenterAgent
 from agents.content_creator import ContentCreatorAgent
 from agents.compliance_officer import ComplianceOfficerAgent
 from agents.experiment_runner import ExperimentRunnerAgent
+
 from core.state_manager import StateManager
 from services.monitor_service import MonitorService
 
 
 class MarketingOrchestrator:
     """
-
-     Orchestrates the multi-agent marketing team to execute campaigns.
-     Implements the Group Chat pattern from Semantic Kernel with hierarchial coordination.
+    Orchestrates the multi-agent team using the SK Group Chat pattern.
     """
 
     def __init__(self, kernel_factory: KernelFactory, config: dict):
         self.kernel_factory = kernel_factory
-        self.kernel = kernel_factory.create_kernel()
         self.config = config
         self.logger = logging.getLogger(__name__)
+        self.monitor = MonitorService(config)
         self.state_manager = StateManager(config)
-        self.monitor = MonitorService(config)  # Application Insights monitoring
 
-        #Initialize specialized agents
+        # Shared kernel for agent memory continuity
+        self.kernel = kernel_factory.create_kernel()
+
+        # Initialize agents
         self.agents = self._initialize_agents()
 
-      #Create agent group chat with custom selection strategy
+        # Group chat with sequential execution
         self.group_chat = self._create_group_chat()
 
-    
-    def _initialize_agents(self) -> List[ChatCompletionAgent]:
-        """Initialize specialized agents with their configurations."""
+    def _initialize_agents(self) -> List[AgentGroupChat]:
+        shared_kernel = self.kernel
+
         agents = [
-            StrategyLeadAgent(self.kernel_factory.create_kernel(), self.config).create(),
-            DataSegmenterAgent(self.kernel_factory.create_kernel(), self.config).create(),
-            ContentCreatorAgent(self.kernel_factory.create_kernel(), self.config).create(),
-            ComplianceOfficerAgent(self.kernel_factory.create_kernel(), self.config).create(),
-            ExperimentRunnerAgent(self.kernel_factory.create_kernel(), self.config).create()
+            StrategyLeadAgent(shared_kernel, self.config).create(),
+            DataSegmenterAgent(shared_kernel, self.config).create(),
+            ContentCreatorAgent(shared_kernel, self.config).create(),
+            ComplianceOfficerAgent(shared_kernel, self.config).create(),
+            ExperimentRunnerAgent(shared_kernel, self.config).create(),
         ]
+
         self.logger.info(f"Initialized {len(agents)} agents.")
         return agents
-    
+
     def _create_group_chat(self) -> AgentGroupChat:
-        """Create the agent group chat with orchestration strategy."""
-        
-        # Use SequentialSelectionStrategy which calls agents in order:
-        # 1. StrategyLead -> Plans campaign strategy
-        # 2. DataSegmenter -> Identifies target audience
-        # 3. ContentCreator -> Creates message variants
-        # 4. ComplianceOfficer -> Validates content
-        # 5. ExperimentRunner -> Configures A/B test
-        # This ensures a proper workflow where each agent's output informs the next
-        selection_strategy = SequentialSelectionStrategy()
-        
-        return AgentGroupChat(
-            agents=self.agents,
-            selection_strategy=selection_strategy
-        )
-    
+        selection = SequentialSelectionStrategy()
+        return AgentGroupChat(agents=self.agents, selection_strategy=selection)
+
     async def execute_campaign_request(
         self, 
         objective: str, 
         session_id: str
     ) -> AsyncGenerator[ChatMessageContent, None]:
-        """
-        Execute a high-level campaign objective through agent collaboration.
-        
-        Args:
-            objective: CEO's goal (e.g., "Increase runner segment conversion by 15%")
-            session_id: Unique session identifier for state management
-            
-        Yields:
-            Agent responses as they are generated
-        """
-        
+
         self.logger.info(f"Starting campaign execution: {objective}")
-        
-        # Log campaign start to Application Insights
         self.monitor.log_campaign_start(session_id, objective)
-        
-        # Load or create conversation state
+
+        # Load session state
         state = await self.state_manager.load_state(session_id)
-        
-        # Add initial user message
-        initial_message = ChatMessageContent(
+
+        # Initial user instruction
+        initial = ChatMessageContent(
             role=AuthorRole.USER,
             content=f"""
             Campaign Objective: {objective}
-            
+
             Requirements:
             1. Identify and size the target segment
-            2. Generate 3 message variants with grounded product claims
-            3. Ensure all content passes safety validation
-            4. Configure A/B/n experiment with statistical monitoring
-            5. Provide citation for all product claims
-            
-            Execute this campaign following enterprise governance policies.
+            2. Generate grounded variants
+            3. Safety validation required
+            4. Configure A/B/n experiment
+            5. All claims require citations
+
+            Execute with enterprise governance.
             """
         )
-        
-        await self.group_chat.add_chat_message(initial_message)
-        
-        # Stream agent responses
-        message_count = 0
+
+        await self.group_chat.add_chat_message(initial)
+
+        # ==== STREAM RESPONSE CYCLE ====
+
         async for message in self.group_chat.invoke():
-            message_count += 1
-            
-            # Save state after each interaction
-            await self.state_manager.save_state(session_id, message)
-            
-            # Log agent activity to Application Insights
+
+            # Extract safe values
+            text = getattr(message, "content", None) or getattr(message, "value", "")
+            agent_name = getattr(message, "name", "unknown_agent")
+            message_role = getattr(message, "role", None) or getattr(message, "author_role", None)
+
+            # Save state
+            await self.state_manager.save_state(
+                session_id,
+                {
+                    "agent": agent_name,
+                    "role": message_role,
+                    "content": text,
+                }
+            )
+
+            # Log
             self.monitor.log_agent_activity(
-                agent_name=message.name,
+                agent_name=agent_name,
                 function_name="generate_response",
-                tokens_used=len(message.content) // 4,  # Rough token estimate
-                success=True
+                tokens_used=max(1, len(text.split())),
+                success=True,
             )
-            
-            # Log to standard logger
+
             self.logger.info(
-                f"Agent: {message.name}, Role: {message.role}, "
-                f"Content length: {len(message.content)}"
+                f"[{agent_name}] ({message_role}) → {len(text)} chars"
             )
-            
+
             yield message
-            
-            # Check for termination
-            if "TERMINATE" in message.content or "<APPROVED>" in message.content:
-                self.logger.info("Campaign execution completed successfully")
-                self.monitor.log_campaign_complete(session_id, message_count)
+
+            # Termination condition
+            lower = text.lower()
+            if "terminate" in lower or "<approved>" in lower:
+                self.monitor.log_campaign_complete(session_id)
                 break
-    
+
     async def get_campaign_status(self, session_id: str) -> dict:
-        """Retrieve current campaign execution status."""
         state = await self.state_manager.load_state(session_id)
-        
         return {
             "session_id": session_id,
             "messages": len(state.get("messages", [])),
-            "agents_involved": list(set(msg.get("agent") for msg in state.get("messages", []))),
+            "agents_involved": list(set(m.get("agent") for m in state.get("messages", []))),
             "status": state.get("status", "in_progress"),
-            "last_updated": state.get("last_updated")
+            "last_updated": state.get("last_updated"),
         }

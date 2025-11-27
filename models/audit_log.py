@@ -1,52 +1,49 @@
-"""
-Audit log data model for compliance tracking.
-"""
-
-from dataclasses import dataclass, field
+from __future__ import annotations
+from pydantic import BaseModel, Field
 from datetime import datetime
-from typing import Dict, Optional
+from typing import Optional, Dict, Any, List
+import uuid
 
 
-@dataclass
-class AuditLog:
-    """Audit log entry for tracking agent actions."""
-    
-    id: str
-    timestamp: datetime = field(default_factory=datetime.utcnow)
-    
+class AuditLog(BaseModel):
+    """
+    Audit log entry for tracking agent actions, compliance validation,
+    safety flags, and operational observability.
+    """
+
+    # Core identity
+    id: str = Field(default_factory=lambda: str(uuid.uuid4()))
+    timestamp: datetime = Field(default_factory=datetime.utcnow)
+
     # Actor
-    agent_name: str = ""
+    agent_name: str = Field(..., description="Name of the agent performing the action")
+    agent_version: Optional[str] = Field(
+        None, description="Agent version or model identifier"
+    )
     user_id: Optional[str] = None
-    
+
     # Action
-    action_type: str = ""  # query_cdp, generate_content, approve_campaign, etc.
-    action_details: Dict = field(default_factory=dict)
-    
+    action_type: str = Field(..., description="Action performed by the agent")
+    action_details: Dict[str, Any] = Field(default_factory=dict)
+
     # Context
     campaign_id: Optional[str] = None
     session_id: Optional[str] = None
-    
+    trace_id: Optional[str] = None  # Distributed tracing support
+    ip_address: Optional[str] = None  # Useful if actions originate from API clients
+
     # Result
     success: bool = True
     error_message: Optional[str] = None
-    
-    # Compliance
+    latency_ms: Optional[float] = None
+    token_usage: Optional[int] = None
+
+    # Compliance flags
     pii_detected: bool = False
-    safety_violations: list = field(default_factory=list)
-    
-    def to_dict(self) -> Dict:
-        """Convert to dictionary."""
-        return {
-            "id": self.id,
-            "timestamp": self.timestamp.isoformat(),
-            "agent_name": self.agent_name,
-            "user_id": self.user_id,
-            "action_type": self.action_type,
-            "action_details": self.action_details,
-            "campaign_id": self.campaign_id,
-            "session_id": self.session_id,
-            "success": self.success,
-            "error_message": self.error_message,
-            "pii_detected": self.pii_detected,
-            "safety_violations": self.safety_violations
-        }
+    safety_violations: List[str] = Field(default_factory=list)
+
+    def to_dict(self) -> Dict[str, Any]:
+        """Convert to dictionary with timestamp serialized to string."""
+        data = self.dict()
+        data["timestamp"] = self.timestamp.isoformat()
+        return data

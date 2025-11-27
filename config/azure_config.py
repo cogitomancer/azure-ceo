@@ -1,65 +1,89 @@
 """
-Azure service configuration loader.
+Azure service configuration loader (merged YAML + env vars with overrides)
 """
 
 import os
 import yaml
 from pathlib import Path
-from typing import Dict
+from typing import Dict, Any
 from dotenv import load_dotenv
 
-# Load environment variables from .env file
 load_dotenv()
 
 
-def load_config() -> Dict:
+def merge(base: dict, override: dict) -> dict:
+    """Recursively merge dictionaries (override env vars into YAML)."""
+    result = base.copy()
+    for key, value in override.items():
+        if isinstance(value, dict) and isinstance(result.get(key), dict):
+            result[key] = merge(result[key], value)
+        elif value is not None:
+            result[key] = value
+    return result
+
+
+def load_config() -> Dict[str, Any]:
     """
-    Load configuration from environment variables and YAML files.
-    Prioritizes environment variables for sensitive data.
+    Load configuration from:
+    1. YAML file (base defaults)
+    2. ENV variables (override sensitive settings)
     """
-    
+
     config_path = Path(__file__).parent
-    
-    # Load base configuration from YAML
+
     with open(config_path / "base_config.yaml", "r") as f:
-        config = yaml.safe_load(f)
-    
-    # Override with environment variables (for secrets)
-    config["azure_openai"] = {
-        "endpoint": os.getenv("AZURE_OPENAI_ENDPOINT", config.get("azure_openai", {}).get("endpoint")),
-        "deployment_name": os.getenv("AZURE_OPENAI_DEPLOYMENT", "gpt-4o"),
-        "api_version": "2024-02-01"
+        base_cfg = yaml.safe_load(f)
+
+    #
+    # Build overrides from env vars (NULL ignored)
+    #
+    env_cfg = {
+        "azure_openai": {
+            "endpoint": os.getenv("AZURE_OPENAI_ENDPOINT"),
+            "deployment_name": os.getenv("AZURE_OPENAI_DEPLOYMENT"),
+            "api_version": os.getenv("AZURE_OPENAI_API_VERSION"),
+        },
+
+        "azure_search": {
+            "endpoint": os.getenv("AZURE_SEARCH_ENDPOINT"),
+            "admin_key": os.getenv("AZURE_SEARCH_ADMIN_KEY"),
+            "index_name": os.getenv("AZURE_SEARCH_INDEX"),
+            "embedding_deployment": os.getenv("AZURE_EMBEDDING_DEPLOYMENT"),
+            "semantic_configuration": os.getenv("AZURE_SEARCH_SEMANTIC_CONFIG"),
+            "vector_dimensions": os.getenv("AZURE_SEARCH_VECTOR_DIM"),
+        },
+
+        "cosmos_db": {
+            "endpoint": os.getenv("COSMOS_DB_ENDPOINT"),
+            "key": os.getenv("COSMOS_DB_KEY"),
+            "database_name": os.getenv("COSMOS_DB_DATABASE"),
+            "container_name": os.getenv("COSMOS_DB_CONTAINER"),
+            "partition_key": os.getenv("COSMOS_DB_PARTITION_KEY"),
+        },
+
+        "azure_monitor": {
+            "connection_string": os.getenv("APPLICATIONINSIGHTS_CONNECTION_STRING")
+        },
+
+        "content_safety": {
+            "endpoint": os.getenv("AZURE_CONTENT_SAFETY_ENDPOINT"),
+            "key": os.getenv("AZURE_CONTENT_SAFETY_KEY")
+        },
+
+        "app_configuration": {
+            "endpoint": os.getenv("AZURE_APP_CONFIG_ENDPOINT")
+        },
+
+        "synapse": {
+            "endpoint": os.getenv("AZURE_SYNAPSE_ENDPOINT"),
+            "database": os.getenv("AZURE_SYNAPSE_DATABASE"),
+            "spark_pool": os.getenv("AZURE_SYNAPSE_SPARK_POOL"),
+        },
     }
-    
-    config["azure_search"] = {
-        "endpoint": os.getenv("AZURE_SEARCH_ENDPOINT"),
-        "index_name": os.getenv("AZURE_SEARCH_INDEX", "product-docs"),
-    }
-    
-    config["cosmos_db"] = {
-        "endpoint": os.getenv("COSMOS_DB_ENDPOINT"),
-        "key": os.getenv("COSMOS_DB_KEY"),  # Optional: use key instead of RBAC
-        "database_name": os.getenv("COSMOS_DB_DATABASE", "marketing_agents"),
-        "container_name": os.getenv("COSMOS_DB_CONTAINER", "conversations")
-    }
-    
-    config["content_safety"] = {
-        "endpoint": os.getenv("AZURE_CONTENT_SAFETY_ENDPOINT"),
-        "key": os.getenv("AZURE_CONTENT_SAFETY_KEY")  # Optional: use key instead of RBAC
-    }
-    
-    config["app_configuration"] = {
-        "endpoint": os.getenv("AZURE_APP_CONFIG_ENDPOINT")
-    }
-    
-    config["azure_monitor"] = {
-        "connection_string": os.getenv("APPLICATIONINSIGHTS_CONNECTION_STRING")
-    }
-    
-    config["synapse"] = {
-        "endpoint": os.getenv("AZURE_SYNAPSE_ENDPOINT"),  # e.g., https://your-synapse.dev.azuresynapse.net
-        "database": os.getenv("AZURE_SYNAPSE_DATABASE", "marketing_data"),
-        "spark_pool": os.getenv("AZURE_SYNAPSE_SPARK_POOL", "sparkpool")  # Optional for Spark jobs
-    }
-    
-    return config
+
+    #
+    # Merge YAML + env overrides
+    #
+    merged = merge(base_cfg, env_cfg)
+
+    return merged

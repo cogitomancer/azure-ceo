@@ -1,92 +1,124 @@
 """
-Statistical analysis plugin for experiment evaluation.
+Stable statistical analysis plugin for multi-variant A/B/n experiments.
 """
 
 from semantic_kernel.functions import kernel_function
-from typing import Annotated
+from typing import Annotated, Dict, Any
 import math
-from scipy import stats
+import json
 
 
 class MetricsPlugin:
     """
-    Plugin for calculating statistical significance and experiment metrics.
-    Provides rigorous analysis for proving uplift.
-    """
+    Provides statistical evaluation across A/B/n experiments.
+    Uses pure math (no SciPy) for max stability.
     
+    Computes:
+    - conversion rate
+    - uplift vs control
+    - pooled z-test
+    - p-value
+    - 95% confidence interval
+    """
+
     def __init__(self, config: dict):
         self.config = config
-    
+
+    # ----------------------------------------------------------------------
+    # P-value approximation — stable SciPy replacement
+    # ----------------------------------------------------------------------
+    def _normal_cdf(self, x: float) -> float:
+        """Cumulative distribution function of standard normal."""
+        return (1.0 + math.erf(x / math.sqrt(2.0))) / 2.0
+
+    # ----------------------------------------------------------------------
     @kernel_function(
         name="calculate_significance",
-        description="Calculate statistical significance between experiment variants"
+        description="Run multi-variant statistical analysis using pooled z-test."
     )
     async def calculate_significance(
         self,
-        variant_a_conversions: Annotated[int, "Number of conversions for variant A"],
-        variant_a_visits: Annotated[int, "Number of visits for variant A"],
-        variant_b_conversions: Annotated[int, "Number of conversions for variant B"],
-        variant_b_visits: Annotated[int, "Number of visits for variant B"]
-    ) -> Annotated[str, "Statistical analysis results"]:
+        metrics_json: Annotated[str, "JSON metrics per variant"]
+    ) -> Annotated[str, "JSON statistical significance results"]:
         """
-        Perform two-proportion z-test to determine statistical significance.
+        Input format (from ExperimentRunner):
+
+        {
+            "control": { "conversions": 120, "visits": 4000, "unsubscribe_rate": 0.01 },
+            "A":       { "conversions": 150, "visits": 4100, "unsubscribe_rate": 0.012 },
+            "B":       { "conversions": 165, "visits": 4050, "unsubscribe_rate": 0.009 }
+        }
         """
-        
-        # Calculate conversion rates
-        rate_a = variant_a_conversions / variant_a_visits
-        rate_b = variant_b_conversions / variant_b_visits
-        
-        # Calculate uplift
-        uplift = ((rate_b - rate_a) / rate_a) * 100
-        
-        # Pooled proportion for z-test
-        pooled_p = (variant_a_conversions + variant_b_conversions) / (variant_a_visits + variant_b_visits)
-        pooled_se = math.sqrt(pooled_p * (1 - pooled_p) * (1/variant_a_visits + 1/variant_b_visits))
-        
-        # Calculate z-score
-        z_score = (rate_b - rate_a) / pooled_se
-        
-        # Calculate p-value (two-tailed)
-        p_value = 2 * (1 - stats.norm.cdf(abs(z_score)))
-        
-        # Calculate confidence interval (95%)
-        se_diff = math.sqrt((rate_a * (1-rate_a) / variant_a_visits) + 
-                           (rate_b * (1-rate_b) / variant_b_visits))
-        ci_lower = (rate_b - rate_a) - (1.96 * se_diff)
-        ci_upper = (rate_b - rate_a) + (1.96 * se_diff)
-        
-        # Determine significance
-        is_significant = p_value < 0.05
-        
-        result = f"""
-        === Statistical Analysis ===
-        
-        Variant A (Control):
-        - Conversions: {variant_a_conversions:,}
-        - Visits: {variant_a_visits:,}
-        - Conversion Rate: {rate_a*100:.2f}%
-        
-        Variant B (Treatment):
-        - Conversions: {variant_b_conversions:,}
-        - Visits: {variant_b_visits:,}
-        - Conversion Rate: {rate_b*100:.2f}%
-        
-        Results:
-        - Uplift: {uplift:+.2f}%
-        - P-value: {p_value:.4f}
-        - Z-score: {z_score:.2f}
-        - 95% CI: [{ci_lower*100:.2f}%, {ci_upper*100:.2f}%]
-        - Statistical Significance: {'YES' if is_significant else 'NO'}
-        
-        Recommendation:
-        """
-        
-        if is_significant:
-            if uplift > 0:
-                result += f"Variant B shows SIGNIFICANT improvement. Deploy to full audience."
+
+        try:
+            metrics: Dict[str, Any] = json.loads(metrics_json)
+        except Exception:
+            return json.dumps({"error": "Invalid JSON passed to calculate_significance"})
+
+        if "control" not in metrics:
+            return json.dumps({"error": "Metrics must include a 'control' variant"})
+
+        control = metrics["control"]
+        results = {}
+
+        rate_control = control["conversions"] / max(control["visits"], 1)
+
+        # ------------------------------------------------------------------
+        # Evaluate EACH variant independently vs control
+        # ------------------------------------------------------------------
+        for vid, data in metrics.items():
+            conv = data["conversions"]
+            visits = max(data["visits"], 1)
+            rate = conv / visits
+
+            # pooled proportion
+            pooled_p = (control["conversions"] + conv) / (control["visits"] + visits)
+            pooled_se = math.sqrt(pooled_p * (1 - pooled_p) * (1/control["visits"] + 1/visits))
+
+            if pooled_se == 0:
+                z = 0
             else:
-                result += f"Variant B shows SIGNIFICANT decline. Keep control variant."
-        else:
-            result += f"No significant difference detected. Extend test duration or try new variants."
-        
-        return result
+                z = (rate - rate_control) / pooled_se
+
+            # p-value (two-tailed)
+            p_value = 2 * (1 - self._normal_cdf(abs(z)))
+
+            # 95% confidence interval (difference in proportions)
+            se_diff = math.sqrt(
+                (rate_control * (1-rate_control) / control["visits"]) +
+                (rate * (1-rate) / visits)
+            )
+            ci_low = (rate - rate_control) - 1.96 * se_diff
+            ci_high = (rate - rate_control) + 1.96 * se_diff
+
+            uplift = ((rate - rate_control) / rate_control) * 100 if rate_control > 0 else 0
+
+            results[vid] = {
+                "conversions": conv,
+                "visits": visits,
+                "conversion_rate": rate,
+                "uplift_percent": uplift,
+                "z_score": z,
+                "p_value": p_value,
+                "ci_95": [ci_low, ci_high],
+                "unsubscribe_rate": data.get("unsubscribe_rate"),
+                "complaint_rate": data.get("complaint_rate")
+            }
+
+        # ------------------------------------------------------------------
+        # Winner Determination
+        # ------------------------------------------------------------------
+        significant_winner = None
+        for vid, stats in results.items():
+            if vid == "control":
+                continue
+            if stats["p_value"] < 0.05 and stats["uplift_percent"] > 0:
+                significant_winner = vid
+                break
+
+        output = {
+            "results": results,
+            "significant_winner": significant_winner
+        }
+
+        return json.dumps(output, indent=2)
