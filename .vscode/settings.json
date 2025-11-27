@@ -1,0 +1,14 @@
+{
+    "python.analysis.extraPaths": [
+        "./",
+        "./core",
+        "./utils",
+        "./services",
+        "./agents",
+        "./workflows",
+        "./models",
+        "./config"
+    ],
+    "python.defaultInterpreterPath": ".venv/bin/python"
+}
+

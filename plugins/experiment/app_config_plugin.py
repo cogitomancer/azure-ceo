@@ -1,9 +1,10 @@
 """
-Azure App Configuration plugin for feature flag management.
+Stable Azure App Configuration plugin (v1 SDK).
+Manages feature flags for experiments.
 """
 
 from semantic_kernel.functions import kernel_function
-from typing import Annotated
+from typing import Annotated, List, Dict
 from azure.appconfiguration import AzureAppConfigurationClient
 from azure.identity import DefaultAzureCredential
 import json
@@ -11,44 +12,43 @@ import json
 
 class AppConfigPlugin:
     """
-    Plugin for managing feature flags and A/B test configurations.
-    Integrates with Azure App Configuration for experiment control.
+    Stable plugin for managing feature flags in Azure App Configuration.
+    Uses the v1 Azure SDK, which is production-safe.
     """
-    
+
     def __init__(self, config: dict):
         self.config = config
         self.credential = DefaultAzureCredential()
-        
-        self.app_config_client = AzureAppConfigurationClient(
+
+        self.client = AzureAppConfigurationClient(
             base_url=config["app_configuration"]["endpoint"],
             credential=self.credential
         )
-    
+
+    # ----------------------------------------------------------------------
+    # CREATE FEATURE FLAG
+    # ----------------------------------------------------------------------
     @kernel_function(
         name="create_feature_flag",
-        description="Create a variant feature flag for A/B/n testing"
+        description="Create a feature flag for A/B/n testing (stable SDK)."
     )
     async def create_feature_flag(
         self,
         experiment_name: Annotated[str, "Name of the experiment"],
-        variants: Annotated[str, "JSON string of variants with descriptions"],
-        traffic_allocation: Annotated[str, "Percentage allocation per variant (e.g., '33,33,34')"]
+        variants_json: Annotated[str, "JSON list of variants"],
     ) -> Annotated[str, "Feature flag creation result"]:
         """
-        Create feature flag for experiment with variant configuration.
+        Create a stable feature flag using the v1 API.
+        Traffic allocation is NOT set here — ExperimentRunner handles it.
         """
-        
+
         try:
-            # Parse inputs
-            variant_list = json.loads(variants)
-            allocations = [int(x) for x in traffic_allocation.split(",")]
-            
-            if sum(allocations) != 100:
-                return "ERROR: Traffic allocations must sum to 100%"
-            
-            # Create feature flag configuration
+            variants = json.loads(variants_json)
+
+            flag_key = f".appconfig.featureflag/{experiment_name}"
+
             feature_flag = {
-                "id": f"experiment_{experiment_name}",
+                "id": experiment_name,
                 "enabled": True,
                 "conditions": {
                     "client_filters": [
@@ -58,7 +58,7 @@ class AppConfigPlugin:
                                 "Audience": {
                                     "Users": [],
                                     "Groups": [],
-                                    "DefaultRolloutPercentage": 5  # Safety: start at 5%
+                                    "DefaultRolloutPercentage": 5  # safety limit
                                 }
                             }
                         }
@@ -66,87 +66,77 @@ class AppConfigPlugin:
                 },
                 "variants": [
                     {
-                        "name": variant["name"],
-                        "configuration_value": variant["content"],
+                        "name": v["variant_id"],
+                        "configuration_value": v.get("body", ""),
                         "status_override": "Enabled"
                     }
-                    for variant in variant_list
+                    for v in variants
                 ],
-                "allocation": {
-                    "percentile": [
-                        {
-                            "variant": variant_list[i]["name"],
-                            "from": sum(allocations[:i]),
-                            "to": sum(allocations[:i+1])
-                        }
-                        for i in range(len(variant_list))
-                    ]
-                }
             }
-            
-            # Set in App Configuration
-            self.app_config_client.set_configuration_setting(
-                key=f".appconfig.featureflag/{experiment_name}",
+
+            self.client.set_configuration_setting(
+                key=flag_key,
                 value=json.dumps(feature_flag),
                 content_type="application/vnd.microsoft.appconfig.ff+json;charset=utf-8"
             )
-            
-            return f"""
-            Feature flag created successfully!
-            
-            Experiment: {experiment_name}
-            Variants: {', '.join([v['name'] for v in variant_list])}
-            Traffic allocation: {traffic_allocation}
-            Initial exposure: 5% (safety limit)
-            Status: ACTIVE
-            
-            Flag ID: experiment_{experiment_name}
-            """
-            
+
+            return (
+                f"Feature flag created for experiment '{experiment_name}'. "
+                f"Variants: {[v['variant_id'] for v in variants]}. "
+                f"Initial exposure capped at 5%."
+            )
+
         except Exception as e:
             return f"ERROR creating feature flag: {str(e)}"
-    
+
+    # ----------------------------------------------------------------------
+    # UPDATE TRAFFIC ALLOCATION
+    # ----------------------------------------------------------------------
     @kernel_function(
         name="update_traffic_allocation",
-        description="Update traffic allocation percentages for a running experiment"
+        description="Update traffic allocation across variants (stable SDK)."
     )
     async def update_traffic_allocation(
         self,
-        experiment_name: Annotated[str, "Name of the experiment"],
-        new_allocation: Annotated[str, "New percentage allocation"]
-    ) -> Annotated[str, "Update result"]:
-        """
-        Dynamically adjust traffic to variants (e.g., kill underperforming variant).
-        """
-        
+        experiment_name: Annotated[str, "Experiment name"],
+        allocations_json: Annotated[str, "JSON dict of {variant_id: percent}"],
+    ) -> Annotated[str, "Traffic allocation update result"]:
+
         try:
-            # Retrieve current flag
+            allocations = json.loads(allocations_json)
+
             flag_key = f".appconfig.featureflag/{experiment_name}"
-            current_setting = self.app_config_client.get_configuration_setting(key=flag_key)
-            flag_config = json.loads(current_setting.value)
-            
-            # Update allocation
-            allocations = [int(x) for x in new_allocation.split(",")]
-            
-            # Rebuild allocation config
-            variants = flag_config["variants"]
-            flag_config["allocation"]["percentile"] = [
-                {
-                    "variant": variants[i]["name"],
-                    "from": sum(allocations[:i]),
-                    "to": sum(allocations[:i+1])
-                }
-                for i in range(len(variants))
-            ]
-            
-            # Update in App Configuration
-            self.app_config_client.set_configuration_setting(
+            current = self.client.get_configuration_setting(key=flag_key)
+            flag_config = json.loads(current.value)
+
+            # sort keys for deterministic percentile windows
+            variant_ids = list(allocations.keys())
+
+            # rebuild percentile allocation window
+            percent_ranges = []
+            cumulative = 0
+
+            for v in variant_ids:
+                pct = allocations[v]
+                next_cumulative = cumulative + pct
+
+                percent_ranges.append({
+                    "variant": v,
+                    "from": cumulative,
+                    "to": next_cumulative
+                })
+
+                cumulative = next_cumulative
+
+            flag_config["allocation"] = {"percentile": percent_ranges}
+
+            self.client.set_configuration_setting(
                 key=flag_key,
                 value=json.dumps(flag_config),
-                content_type=current_setting.content_type
+                content_type=current.content_type
             )
-            
-            return f"Traffic allocation updated: {new_allocation}"
-            
+
+            return f"Updated allocation: {allocations}"
+
         except Exception as e:
-            return f"ERROR updating traffic: {str(e)}"
+            return f"ERROR updating allocation: {str(e)}"

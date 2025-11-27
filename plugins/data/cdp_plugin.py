@@ -1,226 +1,172 @@
 """
-Customer Data Platform plugin using Azure Synapse Analytics.
-Queries customer data warehouse for audience segmentation.
+CDP Plugin — Azure Synapse backed audience segmentation.
 """
 
-from semantic_kernel.functions import kernel_function
-from typing import Annotated, List, Dict
-from azure.identity import DefaultAzureCredential
+from __future__ import annotations
+
 import logging
+from typing import Annotated, Dict, Any
+
+from semantic_kernel.functions import kernel_function
+from plugins.base_plugin import BasePlugin
 
 
-class CDPPlugin:
+class CDPPlugin(BasePlugin):
     """
-    Plugin for querying Azure Synapse Analytics for customer segmentation.
-    Replaces Adobe CDP with Azure native data warehouse solution.
+    Plugin for retrieving *anonymized, aggregated* customer segment data
+    from Azure Synapse Analytics.
+
+    This plugin NEVER returns PII.
     """
-    
+
     def __init__(self, config: dict):
+        super().__init__(name="CDPPlugin")
         self.config = config
-        self.credential = DefaultAzureCredential()
         self.logger = logging.getLogger(__name__)
-        
-        # Azure Synapse configuration
-        self.synapse_endpoint = config.get("synapse", {}).get("endpoint")
-        self.database_name = config.get("synapse", {}).get("database", "marketing_data")
-        self.spark_pool_name = config.get("synapse", {}).get("spark_pool")
-        
-        # For SQL queries, we'll use pyodbc or direct REST API
-        self.connection_string = self._build_connection_string() if self.synapse_endpoint else None
-    
-    def _build_connection_string(self) -> str:
-        """Build Synapse SQL connection string for direct queries."""
-        if not self.synapse_endpoint:
-            return None
-        
-        # Using dedicated SQL pool endpoint
-        server = self.synapse_endpoint.replace("https://", "").replace(".dev.azuresynapse.net", "")
-        return (
-            f"Driver={{ODBC Driver 18 for SQL Server}};"
-            f"Server=tcp:{server}.sql.azuresynapse.net,1433;"
-            f"Database={self.database_name};"
-            f"Authentication=ActiveDirectoryMsi;"  # Uses managed identity
-        )
-    
+
+        syn_cfg = config.get("synapse", {})
+        self.database = syn_cfg.get("database", "marketing_data")
+
+    # ============================================================
+    # TOOL: QUERY CUSTOMER SEGMENTS
+    # ============================================================
+
     @kernel_function(
         name="query_customer_segments",
-        description="Query Azure Synapse for customer segments matching criteria"
+        description="Retrieve anonymized segment statistics from Azure Synapse"
     )
     async def query_customer_segments(
         self,
-        segment_criteria: Annotated[str, "Natural language description of target audience (e.g., 'active runners', 'new customers')"]
-    ) -> Annotated[str, "Segment details including size and key characteristics"]:
+        criteria: Annotated[str, "Natural language description such as 'active runners'"]
+    ) -> Annotated[Dict[str, Any], "Structured segment metadata (no PII)"]:
         """
-        Query Synapse Analytics for customer segments.
-        
-        Returns aggregated, anonymized segment data - never raw PII.
-        
-        Example segments stored in Synapse:
-        - customers_active_runners: Users who purchased running products in last 90 days
-        - customers_hikers: Users interested in hiking gear
-        - customers_new: Customers registered in last 30 days
+        Converts natural language → segment table → Synapse query.
+        Produces a structured JSON-safe dict.
         """
-        
+
+        segment_table = self._map_to_segment_table(criteria)
+
         try:
-            # Map natural language to predefined segments in Synapse
-            segment_mapping = {
-                "runner": "customers_active_runners",
-                "running": "customers_active_runners",
-                "hiker": "customers_hikers",
-                "hiking": "customers_hikers",
-                "new customer": "customers_new",
-                "new": "customers_new",
-                "engaged": "customers_highly_engaged",
-                "loyal": "customers_loyal"
-            }
-            
-            # Find matching segment table
-            segment_table = None
-            criteria_lower = segment_criteria.lower()
-            for keyword, table in segment_mapping.items():
-                if keyword in criteria_lower:
-                    segment_table = table
-                    break
-            
-            if not segment_table:
-                segment_table = "customers_all"  # Default to all customers
-            
-            # Query Synapse for segment statistics (no PII)
-            sql_query = f"""
+            from plugins.data.sql_plugin import SQLPlugin
+            sql = SQLPlugin(self.config)
+
+            query = f"""
                 SELECT 
-                    '{segment_table}' as segment_name,
-                    COUNT(*) as customer_count,
-                    AVG(total_purchases) as avg_purchases,
-                    AVG(lifetime_value) as avg_ltv,
-                    MAX(last_updated) as last_updated
-                FROM {self.database_name}.dbo.{segment_table}
+                    COUNT(*) AS customer_count,
+                    AVG(total_purchases) AS avg_purchases,
+                    AVG(lifetime_value) AS avg_ltv
+                FROM {self.database}.dbo.{segment_table}
                 WHERE is_active = 1
             """
-            
-            # Execute query using SQL plugin (already available)
-            from plugins.data.sql_plugin import SQLPlugin
-            sql_plugin = SQLPlugin(self.config)
-            
-            result_data = await sql_plugin.execute_sql(sql_query)
-            
-            # Parse and format results
-            if "error" in result_data.lower():
-                self.logger.warning(f"Synapse query failed: {result_data}")
-                # Return mock data for testing
-                return self._get_mock_segment_data(segment_criteria)
-            
-            # Format response
-            return self._format_segment_response(result_data, segment_table)
-            
+
+            result = await sql.execute_sql(query)
+            return self._build_segment_response(segment_table, result)
+
         except Exception as e:
-            self.logger.error(f"Error querying Synapse: {e}")
-            return self._get_mock_segment_data(segment_criteria)
-    
-    def _format_segment_response(self, result_data: str, segment_name: str) -> str:
-        """Format Synapse query results as readable segment description."""
-        # Parse the SQL result
-        lines = result_data.split('\n')
-        
-        # Extract data (simplified parsing)
-        response = f"Found segment in Azure Synapse:\n\n"
-        response += f"**Segment**: {segment_name.replace('customers_', '').replace('_', ' ').title()}\n"
-        response += f"**Size**: 12,500 active customers\n"  # Parsed from result
-        response += f"**Avg Purchases**: 3.2 per customer\n"
-        response += f"**Avg Lifetime Value**: $245\n"
-        response += f"**Last Updated**: Today\n\n"
-        response += f"This segment is ready for campaign targeting.\n"
-        response += f"Segment ID: {segment_name}"
-        
-        return response
-    
-    def _get_mock_segment_data(self, criteria: str) -> str:
-        """Return mock segment data for testing when Synapse isn't available."""
-        self.logger.info("Using mock segment data (Synapse not available)")
-        
-        # Intelligent mock data based on criteria
-        if "runner" in criteria.lower() or "running" in criteria.lower():
-            return """
-Found segment in Azure Synapse:
+            self.logger.error(f"Synapse unavailable, using mock data. Error: {e}")
+            return self._mock_segment(criteria)
 
-**Segment**: Active Runners
-**Size**: 12,500 active customers
-**Avg Purchases**: 4.1 per customer
-**Avg Lifetime Value**: $320
-**Last Updated**: Today
-**Demographics**: 
-  - Age range: 25-45
-  - Primary interest: Running shoes and gear
-  - Purchase frequency: Every 4-6 months
+    # ============================================================
+    # TOOL: GET SEGMENT DETAILS
+    # ============================================================
 
-This segment is ready for campaign targeting.
-Segment ID: customers_active_runners
-            """.strip()
-        
-        elif "new" in criteria.lower():
-            return """
-Found segment in Azure Synapse:
-
-**Segment**: New Customers
-**Size**: 8,300 active customers
-**Avg Purchases**: 1.2 per customer
-**Avg Lifetime Value**: $125
-**Last Updated**: Today
-**Demographics**:
-  - Registration: Last 30 days
-  - Engagement: High (opened 2+ emails)
-  - Conversion potential: Medium-High
-
-This segment is ready for campaign targeting.
-Segment ID: customers_new
-            """.strip()
-        
-        else:
-            return """
-Found segment in Azure Synapse:
-
-**Segment**: General Active Customers
-**Size**: 45,000 active customers
-**Avg Purchases**: 2.8 per customer
-**Avg Lifetime Value**: $210
-**Last Updated**: Today
-
-This segment is ready for campaign targeting.
-Segment ID: customers_all_active
-            """.strip()
-    
     @kernel_function(
         name="get_segment_details",
-        description="Get detailed statistics for a specific customer segment"
+        description="Retrieve extended metadata for a given Synapse segment ID"
     )
     async def get_segment_details(
         self,
-        segment_id: Annotated[str, "Segment identifier from Synapse (e.g., 'customers_active_runners')"]
-    ) -> Annotated[str, "Detailed segment statistics and characteristics"]:
+        segment_id: Annotated[str, "Segment table name such as 'customers_active_runners'"]
+    ) -> Annotated[Dict[str, Any], "Extended segment metadata"]:
         """
-        Retrieve detailed segment information from Synapse.
-        Useful for understanding segment composition before campaign creation.
+        Secondary tool for deeper profile pull.
         """
-        
+
         try:
-            sql_query = f"""
-                SELECT 
-                    segment_name,
-                    COUNT(*) as total_customers,
-                    SUM(CASE WHEN email_opt_in = 1 THEN 1 ELSE 0 END) as contactable,
-                    AVG(engagement_score) as avg_engagement,
-                    COUNT(DISTINCT product_category) as product_interests
-                FROM {self.database_name}.dbo.{segment_id}
-                WHERE is_active = 1
-                GROUP BY segment_name
-            """
-            
             from plugins.data.sql_plugin import SQLPlugin
-            sql_plugin = SQLPlugin(self.config)
-            
-            result = await sql_plugin.execute_sql(sql_query)
-            
-            return f"Segment Details for {segment_id}:\n{result}"
-            
+            sql = SQLPlugin(self.config)
+
+            query = f"""
+                SELECT
+                    COUNT(*) AS total_customers,
+                    AVG(engagement_score) AS avg_engagement
+                FROM {self.database}.dbo.{segment_id}
+                WHERE is_active = 1
+            """
+
+            raw = await sql.execute_sql(query)
+            return {
+                "segment_id": segment_id,
+                "total_customers": raw.get("total_customers", None),
+                "avg_engagement": raw.get("avg_engagement", None),
+                "status": "ok"
+            }
+
         except Exception as e:
-            self.logger.error(f"Error getting segment details: {e}")
-            return f"Segment {segment_id}: 12,500 active, contactable customers ready for targeting."
+            self.logger.error(f"get_segment_details fallback: {e}")
+            return {
+                "segment_id": segment_id,
+                "total_customers": 12500,
+                "avg_engagement": 0.62,
+                "status": "mock"
+            }
+
+    # ============================================================
+    # INTERNAL HELPERS
+    # ============================================================
+
+    def _map_to_segment_table(self, criteria: str) -> str:
+        mapping = {
+            "runner": "customers_active_runners",
+            "running": "customers_active_runners",
+            "hiker": "customers_hikers",
+            "hiking": "customers_hikers",
+            "new": "customers_new",
+            "loyal": "customers_loyal",
+            "engaged": "customers_highly_engaged",
+        }
+
+        query_l = criteria.lower()
+        for k, v in mapping.items():
+            if k in query_l:
+                return v
+
+        return "customers_all_active"
+
+    def _build_segment_response(self, table: str, row: Dict[str, Any]) -> Dict[str, Any]:
+        return {
+            "segment_id": table,
+            "estimated_size": row.get("customer_count", None),
+            "avg_purchases": row.get("avg_purchases", None),
+            "avg_ltv": row.get("avg_ltv", None),
+            "status": "ok",
+        }
+
+    def _mock_segment(self, criteria: str) -> Dict[str, Any]:
+        crit = criteria.lower()
+
+        if "runner" in crit or "running" in crit:
+            return {
+                "segment_id": "customers_active_runners",
+                "estimated_size": 12500,
+                "avg_purchases": 4.1,
+                "avg_ltv": 320,
+                "status": "mock"
+            }
+
+        if "new" in crit:
+            return {
+                "segment_id": "customers_new",
+                "estimated_size": 8300,
+                "avg_purchases": 1.2,
+                "avg_ltv": 125,
+                "status": "mock"
+            }
+
+        return {
+            "segment_id": "customers_all_active",
+            "estimated_size": 45000,
+            "avg_purchases": 2.8,
+            "avg_ltv": 210,
+            "status": "mock"
+        }

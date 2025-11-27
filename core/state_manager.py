@@ -1,9 +1,11 @@
 """
-State persistenece usingAzure Cosmos DB for conversation history and context.
+State persistence using Azure Cosmos DB for conversation history.
 """
+
+from datetime import datetime
 from azure.cosmos.aio import CosmosClient
 from azure.identity.aio import DefaultAzureCredential
-from datetime import datetime
+
 
 class StateManager:
     """
@@ -15,64 +17,77 @@ class StateManager:
         self.credential = None
         self.client = None
         self.container = None
+        self._initialized = False
 
-    async def _intialize(self):
-        """Intialize Cosmos DB client and container."""
-        if self.client is None:
-            # Use key-based auth if provided, otherwise use RBAC
-            cosmos_key = self.config["cosmos_db"].get("key")
-            
-            if cosmos_key:
-                self.client = CosmosClient(
-                    url=self.config["cosmos_db"]["endpoint"],
-                    credential=cosmos_key
-                )
-            else:
-                self.credential = DefaultAzureCredential()
-                self.client = CosmosClient(
-                    url=self.config["cosmos_db"]["endpoint"],
-                    credential=self.credential
-                )
-            
-            database = self.client.get_database_client(self.config["cosmos_db"]["database_name"])
-            self.container = database.get_container_client(self.config["cosmos_db"]["container_name"])
-    
+    async def _initialize(self):
+        """Initialize Cosmos DB client and container (idempotent)."""
+        if self._initialized:
+            return
+
+        cosmos_cfg = self.config["cosmos_db"]
+        cosmos_key = cosmos_cfg.get("key")
+
+        # Use key if supplied, otherwise managed identity
+        if cosmos_key:
+            self.client = CosmosClient(
+                url=cosmos_cfg["endpoint"],
+                credential=cosmos_key
+            )
+        else:
+            self.credential = DefaultAzureCredential()
+            self.client = CosmosClient(
+                url=cosmos_cfg["endpoint"],
+                credential=self.credential
+            )
+
+        database = self.client.get_database_client(cosmos_cfg["database_name"])
+        self.container = database.get_container_client(cosmos_cfg["container_name"])
+
+        self._initialized = True
+
     async def load_state(self, session_id: str) -> dict:
-        """Load conversation state for a session"""
-        await self._intialize()
-    
+        """Load or initialize state for a session."""
+        await self._initialize()
+
         try:
-            item = await self.container.read_item(item=session_id, partition_key=session_id)
+            item = await self.container.read_item(
+                item=session_id,
+                partition_key=session_id
+            )
             return item
         except Exception:
-            #return empty state empty not found
+            # State not found → initialize new
             return {
                 "id": session_id,
                 "messages": [],
                 "status": "new",
                 "created_at": datetime.utcnow().isoformat()
-           }
+            }
+
     async def save_state(self, session_id: str, message: object):
-        """Save conversation state with new message"""
-        await self._intialize()
+        """Append a message and persist."""
+        await self._initialize()
 
         state = await self.load_state(session_id)
 
-         # Append new message
+        # Always ensure ID is preserved
+        state["id"] = session_id
+
+        # Append structured message
         state["messages"].append({
             "agent": message.name,
             "role": str(message.role),
             "content": message.content,
             "timestamp": datetime.utcnow().isoformat()
         })
-        
+
         state["last_updated"] = datetime.utcnow().isoformat()
-        
-        # Upsert to Cosmos DB
+
+        # Write to Cosmos
         await self.container.upsert_item(state)
-    
+
     async def close(self):
-        """Close Cosmos DB client."""
+        """Close resources cleanly."""
         if self.client:
             await self.client.close()
         if self.credential:
