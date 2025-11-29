@@ -1,0 +1,211 @@
+{
+  "value": [
+    {
+      "id": "AZURE-OAI-001",
+      "title": "Azure OpenAI Service Overview",
+      "content": "Azure OpenAI Service provides REST API access to OpenAI's language models including GPT-4, GPT-3.5-Turbo, and Embeddings. The service offers enterprise-grade security, regional availability, and responsible AI content filtering. Customers can deploy models in their own Azure subscription with virtual network support and private endpoint connectivity. Unlike standalone OpenAI offerings, Azure OpenAI Service integrates with Azure Active Directory for enterprise authentication, supports compliance certifications including SOC 2, HIPAA, and ISO 27001, and provides data residency guarantees. Service-level agreements ensure 99.9% uptime for production workloads. Data processed through Azure OpenAI Service is not used to train or improve base models. Customer prompts and completions remain within the customer's designated Azure region. Sample use cases: intelligent document processing, conversational AI applications, content generation workflows, code assistance tools, semantic search implementations, earnings call summarization.",
+      "product_name": "Azure OpenAI Service",
+      "category": "Azure OpenAI",
+      "source_file": "product_reference.json",
+      "page_number": 1
+    },
+    {
+      "id": "AZURE-OAI-002",
+      "title": "Azure OpenAI Fine-tuning Capabilities",
+      "content": "Fine-tuning enables customers to customize base models using their proprietary data. The service supports supervised fine-tuning on GPT-3.5-Turbo and babbage-002 models. Training jobs execute within isolated compute environments with customer-managed encryption keys. Fine-tuned models maintain the same API interface as base models. Azure provides integrated fine-tuning workflows with Azure Machine Learning integration for experiment tracking and model versioning. Training data never leaves the customer boundary. Organizations can create specialized models without investing in GPU infrastructure. Fine-tuning data is encrypted at rest and in transit. Customers retain full ownership of training datasets and resulting model weights. Sample use cases: customer support ticket resolution, legal document analysis, clinical terminology adaptation.",
+      "product_name": "Azure OpenAI Fine-tuning",
+      "category": "Azure OpenAI",
+      "source_file": "product_reference.json",
+      "page_number": 1
+    },
+    {
+      "id": "AZURE-OAI-003",
+      "title": "Responsible AI Content Filtering",
+      "content": "Azure OpenAI Service includes configurable content filters that detect and block harmful content across categories including hate speech, sexual content, violence, and self-harm. Filters operate on both input prompts and generated completions. Filter severity levels can be adjusted to match organizational risk tolerance. Content Safety integration provides real-time filtering without requiring separate API calls. Customers maintain visibility into filter decisions through Azure Monitor logging. The system supports custom blocklists and allowed terms for industry-specific requirements. Content filters help organizations meet acceptable use policies and regulatory requirements. Filtering metadata is available for audit purposes. Sample use cases: education platforms, customer service applications, internal productivity tools.",
+      "product_name": "Content Filtering",
+      "category": "Azure OpenAI",
+      "source_file": "product_reference.json",
+      "page_number": 1
+    },
+    {
+      "id": "AZURE-OAI-004",
+      "title": "Azure OpenAI Token Management and Quotas",
+      "content": "Azure OpenAI Service implements token-based usage metering for request processing. Deployments have allocated tokens-per-minute (TPM) quotas that can be adjusted based on workload requirements. Quota monitoring through Azure Monitor enables proactive capacity planning. The service provides retry logic with exponential backoff for applications approaching quota limits. Enterprise customers receive higher default quotas than standalone OpenAI access. Quota allocation can be distributed across multiple deployments within a subscription. Usage telemetry is available through Azure consumption APIs for cost allocation and chargeback. Token counts include both prompt and completion tokens for transparent metering. Sample use cases: quota allocation across business units, separate deployments for testing and production, departmental budgeting.",
+      "product_name": "Token Management",
+      "category": "Azure OpenAI",
+      "source_file": "product_reference.json",
+      "page_number": 1
+    },
+    {
+      "id": "AZURE-OAI-005",
+      "title": "Azure OpenAI Assistants API",
+      "content": "The Assistants API enables development of stateful conversational agents with persistent threads and integrated tools. Assistants can access code interpretation, file search, and custom function calling capabilities. Thread management handles conversation history storage and context management. The API supports file uploads for document-grounded conversations. Unlike stateless completions APIs, Assistants maintain conversation context across multiple interactions. Built-in retrieval augmented generation eliminates custom RAG implementation. Integration with Azure Cognitive Search enables enterprise knowledge base grounding. Conversation threads and uploaded files are stored in Azure with customer-managed encryption options. Sample use cases: customer support with product documentation, financial statement analysis, clinical decision support tools.",
+      "product_name": "Assistants API",
+      "category": "Azure OpenAI",
+      "source_file": "product_reference.json",
+      "page_number": 1
+    },
+    {
+      "id": "AZURE-SEARCH-001",
+      "title": "Azure Cognitive Search Architecture",
+      "content": "Azure Cognitive Search is a cloud search service providing infrastructure, APIs, and tools for building rich search experiences. The service supports full-text search, semantic search, vector search, and hybrid search approaches. Indexers automate data ingestion from Azure data sources including Blob Storage, SQL Database, and Cosmos DB. Unlike Elasticsearch or Solr deployments, Azure Cognitive Search eliminates infrastructure management. The service provides automatic scaling, built-in high availability, and integrated security. Semantic ranking uses Microsoft's language understanding models without additional configuration. Search indexes can be encrypted using customer-managed keys in Azure Key Vault. Private endpoint connectivity ensures search traffic remains within customer virtual networks. Service complies with SOC 2, ISO 27001, and HIPAA requirements. Sample use cases: e-commerce faceted navigation, knowledge management systems, healthcare patient education search.",
+      "product_name": "Azure Cognitive Search",
+      "category": "Azure Cognitive Search",
+      "source_file": "product_reference.json",
+      "page_number": 1
+    },
+    {
+      "id": "AZURE-SEARCH-002",
+      "title": "Vector Search and Semantic Ranking",
+      "content": "Vector search enables similarity-based retrieval using embedding models. The service supports multiple distance metrics including cosine similarity and Euclidean distance. Semantic ranking applies language understanding to rerank search results based on query intent. Hybrid search combines keyword, vector, and semantic approaches in a single query. Integrated vector indexing eliminates the need for separate vector databases. Customers can combine vector search with traditional filters, facets, and sorting. The service handles index optimization and query performance tuning automatically. Vector embeddings stored in search indexes receive the same encryption and access controls as text content. Customers can use Azure OpenAI embedding models or bring their own embedding vectors. Sample use cases: retrieval-augmented generation, semantic academic paper search, customer support knowledge base ranking.",
+      "product_name": "Vector Search",
+      "category": "Azure Cognitive Search",
+      "source_file": "product_reference.json",
+      "page_number": 1
+    },
+    {
+      "id": "AZURE-SEARCH-003",
+      "title": "Knowledge Store and Enrichment Pipelines",
+      "content": "Enrichment pipelines apply AI skills during indexing to extract information from raw content. Built-in skills include OCR, entity recognition, key phrase extraction, and language detection. Custom skills enable integration with proprietary machine learning models. Knowledge stores persist enriched data in Azure Storage for downstream analytics. AI enrichment transforms unstructured content into searchable structured data without custom code. The pipeline architecture scales automatically to process large document collections. Customers pay only for cognitive services consumption during indexing. Documents processed by enrichment pipelines can include sensitive information. Skills can be configured to redact personal data during processing. Sample use cases: legal contract entity extraction, media video transcription, manufacturing equipment manual processing.",
+      "product_name": "Enrichment Pipelines",
+      "category": "Azure Cognitive Search",
+      "source_file": "product_reference.json",
+      "page_number": 1
+    },
+    {
+      "id": "AZURE-SEARCH-004",
+      "title": "Azure Cognitive Search Skillset Debugging",
+      "content": "Debug sessions enable step-by-step analysis of enrichment pipeline execution. Developers can inspect document processing at each skill stage to identify transformation errors. The enrichment cache stores intermediate results for rapid iteration without re-processing source documents. Custom skill execution logs integrate with Application Insights for troubleshooting. Unlike batch indexing approaches, debug sessions provide immediate feedback on pipeline changes. The enrichment cache reduces development cycle time by caching expensive AI operations. Skill execution time metrics identify performance bottlenecks in complex pipelines. Debug session data includes source document content and should be protected according to data classification. Sample use cases: entity extraction refinement, pipeline performance optimization, enrichment result validation.",
+      "product_name": "Skillset Debugging",
+      "category": "Azure Cognitive Search",
+      "source_file": "product_reference.json",
+      "page_number": 1
+    },
+    {
+      "id": "AZURE-SEARCH-005",
+      "title": "Azure Cognitive Search Index Projections",
+      "content": "Index projections enable output of enriched content to multiple destinations during indexing. Projections can target search indexes, knowledge stores, and object storage simultaneously. The feature supports document shaping to transform complex enriched documents into multiple related indexes. Cross-field references maintain relationships between projected entities. Projections eliminate duplicate indexing pipelines for different output targets. A single enrichment execution populates multiple downstream systems. The architecture supports both search and analytics use cases from one pipeline. Projections inherit security settings from their target destinations. Customer-managed keys can encrypt projection outputs. Sample use cases: content summary and full document storage, entity faceted exploration, compliance immutable copies.",
+      "product_name": "Index Projections",
+      "category": "Azure Cognitive Search",
+      "source_file": "product_reference.json",
+      "page_number": 1
+    },
+    {
+      "id": "AZURE-MONITOR-001",
+      "title": "Azure Monitor Observability Platform",
+      "content": "Azure Monitor collects telemetry from cloud and on-premises resources to provide visibility into application and infrastructure performance. The platform includes metrics, logs, traces, and events. Log Analytics workspaces enable querying across multiple data sources using Kusto Query Language (KQL). Application Insights provides application performance management for web applications. Unlike point solutions for metrics or logging, Azure Monitor provides unified observability across the entire technology stack. Native integration with Azure resources enables automatic collection without instrumentation. The service scales to handle petabytes of telemetry data. Log data retention periods can be configured from 30 days to 730 days. Workspace access controls integrate with Azure RBAC. Data export enables compliance archiving to immutable storage. Service meets requirements for SOC 2, ISO 27001, and regional data residency. Sample use cases: DevOps dashboards, security threat detection, product feature adoption tracking.",
+      "product_name": "Azure Monitor",
+      "category": "Azure Monitor",
+      "source_file": "product_reference.json",
+      "page_number": 1
+    },
+    {
+      "id": "AZURE-MONITOR-002",
+      "title": "Application Insights Distributed Tracing",
+      "content": "Application Insights automatically tracks requests, dependencies, exceptions, and custom events across distributed applications. Distributed tracing correlates telemetry across service boundaries to diagnose performance bottlenecks. Smart detection uses machine learning to identify anomalies in application behavior. Live metrics streaming provides real-time visibility during incidents. Instrumentation libraries support .NET, Java, Node.js, Python, and JavaScript without code changes. Automatic dependency tracking covers Azure services, SQL databases, HTTP calls, and message queues. The service provides end-to-end transaction visibility across complex microservice architectures. Application Insights can be configured to exclude personal data from telemetry. Request data can be sampled to reduce data volumes while maintaining statistical accuracy. Integration with Azure Private Link ensures telemetry transmission over private networks. Sample use cases: checkout funnel tracking, API response time monitoring, mobile crash analysis.",
+      "product_name": "Distributed Tracing",
+      "category": "Azure Monitor",
+      "source_file": "product_reference.json",
+      "page_number": 1
+    },
+    {
+      "id": "AZURE-MONITOR-003",
+      "title": "Azure Monitor Alerts and Action Groups",
+      "content": "Alert rules evaluate metrics and logs on recurring schedules to detect conditions requiring attention. Action groups define notification and automation responses including email, SMS, webhook calls, and Azure Function execution. Smart groups reduce alert fatigue by correlating related alerts. Suppression rules prevent notification storms during maintenance windows. Unlike traditional monitoring tools, Azure Monitor alerts integrate with IT service management platforms including ServiceNow and PagerDuty. Multi-dimensional metrics enable precise alert targeting without alert rule proliferation. The platform handles alert lifecycle management including acknowledgment tracking and resolution workflows. Alert rules and action group configurations are audited through Azure Activity Log. Notification content can be customized to exclude sensitive data. Sample use cases: CPU threshold alerts, error rate spike notifications, budget consumption tracking.",
+      "product_name": "Alerts and Actions",
+      "category": "Azure Monitor",
+      "source_file": "product_reference.json",
+      "page_number": 1
+    },
+    {
+      "id": "AZURE-MONITOR-004",
+      "title": "Azure Monitor Workbooks and Visualization",
+      "content": "Workbooks combine visualizations, text, and interactive parameters to create rich analytical reports. Templates provide starting points for common monitoring scenarios including application performance, Azure resource health, and cost analysis. Workbooks support data sources including Log Analytics, Azure Resource Graph, and Azure Data Explorer. Parameters enable filtering and customization without query modification. Unlike static dashboards, workbooks enable drill-down analysis through interactive components. Workbooks can query across multiple subscriptions and resources for consolidated views. The platform supports sharing and collaboration through Azure RBAC integration. Workbook definitions are stored in Azure resources and inherit resource group access controls. Data access is controlled by underlying data source permissions. Workbooks can be exported to JSON for version control and deployment automation. Sample use cases: security incident investigation, capacity forecast models, SRE runbook documentation.",
+      "product_name": "Workbooks",
+      "category": "Azure Monitor",
+      "source_file": "product_reference.json",
+      "page_number": 1
+    },
+    {
+      "id": "AZURE-MONITOR-005",
+      "title": "Azure Monitor Change Analysis",
+      "content": "Change Analysis tracks modifications to Azure resources and application dependencies to correlate changes with performance degradations. The service monitors resource configuration changes, application deployments, and dependency updates. Integration with Application Insights enables automatic correlation of changes with metric anomalies. Change notifications can trigger alert rules for proactive issue detection. Unlike manual change tracking, Change Analysis automatically discovers configuration modifications across Azure resources. The service provides historical change timelines for incident retrospectives. Integration with Azure Resource Graph enables organization-wide change visibility. Change history includes authentication information for accountability. Data retention follows Azure Monitor workspace policies. Change tracking supports compliance requirements for change management processes. Sample use cases: incident change correlation, unauthorized configuration detection, compliance change auditing.",
+      "product_name": "Change Analysis",
+      "category": "Azure Monitor",
+      "source_file": "product_reference.json",
+      "page_number": 1
+    },
+    {
+      "id": "AZURE-AKS-001",
+      "title": "Azure Kubernetes Service Managed Control Plane",
+      "content": "Azure Kubernetes Service provides managed Kubernetes clusters with automated control plane provisioning, patching, and scaling. The service handles master node management, etcd database maintenance, and API server availability. Customers focus on application workloads while Microsoft manages cluster infrastructure. Support includes current Kubernetes version plus two previous minor versions. AKS eliminates control plane management overhead compared to self-managed Kubernetes. Integration with Azure Active Directory enables enterprise identity management for cluster access. The service provides cost optimization by offering control plane hosting at no charge; customers pay only for worker nodes. Control plane audit logs are available through Azure Monitor for security compliance. Cluster configurations support private clusters with API server endpoints on private networks. Service complies with SOC 2, PCI DSS, HIPAA, and regional certifications. Sample use cases: containerized application migration, ML inference workloads, GitOps continuous deployment.",
+      "product_name": "AKS Control Plane",
+      "category": "Azure Kubernetes Service",
+      "source_file": "product_reference.json",
+      "page_number": 1
+    },
+    {
+      "id": "AZURE-AKS-002",
+      "title": "AKS Node Pool Management and Scaling",
+      "content": "AKS supports multiple node pools within a cluster to run different workload types. System node pools host critical system pods while user node pools run application workloads. Cluster autoscaler automatically adjusts node counts based on pending pod resource requirements. Node pools can use different virtual machine sizes, operating systems, and availability zones. Flexible node pool architecture enables cost optimization by right-sizing compute resources for specific workloads. Spot instance node pools reduce costs for fault-tolerant batch processing. Automatic node image upgrades minimize security vulnerabilities without manual intervention. Node pools can be configured with Azure Policy enforcement to ensure compliance baselines. Disk encryption protects data at rest on node volumes. Confidential computing node pools support encrypted memory for sensitive workloads. Sample use cases: gaming spot instances, financial dedicated node pools, GPU ML training.",
+      "product_name": "Node Pools",
+      "category": "Azure Kubernetes Service",
+      "source_file": "product_reference.json",
+      "page_number": 1
+    },
+    {
+      "id": "AZURE-AKS-003",
+      "title": "AKS Networking and Ingress",
+      "content": "AKS supports multiple network plugin options including Azure CNI and kubenet. Azure CNI assigns Azure Virtual Network IP addresses directly to pods for simplified network security group rules. Application Gateway Ingress Controller provides Layer 7 load balancing with Web Application Firewall integration. Azure Load Balancer integration enables external service exposure. Native Azure networking integration simplifies hybrid connectivity between AKS clusters and on-premises systems. Network policies enforce microsegmentation at the pod level. Azure CNI Overlay mode reduces IP address consumption in large clusters. Private clusters restrict API server access to virtual network ranges. Azure Firewall integration controls egress traffic from cluster nodes. Network security groups apply defense-in-depth at subnet and network interface levels. Sample use cases: e-commerce SSL termination, healthcare private endpoints, global Traffic Manager distribution.",
+      "product_name": "AKS Networking",
+      "category": "Azure Kubernetes Service",
+      "source_file": "product_reference.json",
+      "page_number": 1
+    },
+    {
+      "id": "AZURE-AKS-004",
+      "title": "AKS GitOps with Flux",
+      "content": "AKS supports GitOps workflows using Flux extensions for declarative cluster configuration management. Git repositories serve as the source of truth for cluster desired state. Flux controllers automatically reconcile cluster state with repository definitions. The service supports multi-tenancy with namespace-scoped GitOps configurations. Integration with Azure Key Vault enables secure secret management in GitOps workflows. Managed Flux extensions eliminate self-hosted GitOps infrastructure. Azure integration provides unified monitoring of GitOps operations through Azure Monitor. The service supports both Helm and Kustomize for application packaging. GitOps repositories can be hosted in Azure Repos with Azure Active Directory authentication. Audit logs track configuration changes applied through GitOps workflows. Private Git repositories ensure configuration data remains within compliance boundaries. Sample use cases: platform engineering standardization, multi-tenant isolation, regulated industry audit trails.",
+      "product_name": "GitOps with Flux",
+      "category": "Azure Kubernetes Service",
+      "source_file": "product_reference.json",
+      "page_number": 1
+    },
+    {
+      "id": "AZURE-AKS-005",
+      "title": "AKS Backup and Disaster Recovery",
+      "content": "Azure Backup for AKS provides automated cluster and workload backup including persistent volumes, cluster resources, and namespaces. Backup policies define schedules and retention rules. Restore operations support granular recovery of individual resources or full cluster restoration. Cross-region backup enables disaster recovery for regional outages. Managed backup eliminates custom scripting for cluster state preservation. Integration with Azure Backup Vault provides centralized backup management. The service handles API version compatibility for cluster restore across Kubernetes versions. Backup data is encrypted using Azure Storage encryption. Cross-region replication supports geographic redundancy requirements. Retention policies can enforce compliance hold periods for audit data. Sample use cases: financial regulatory compliance, pre-upgrade backups, business continuity planning.",
+      "product_name": "AKS Backup",
+      "category": "Azure Kubernetes Service",
+      "source_file": "product_reference.json",
+      "page_number": 1
+    },
+    {
+      "id": "AZURE-CONTENTSAFETY-001",
+      "title": "Azure Content Safety API Overview",
+      "content": "Azure Content Safety provides AI-powered detection of harmful content in text and images. The service analyzes content across categories including hate, violence, self-harm, and sexual material. Severity scores enable flexible decision thresholds. The API supports both synchronous and asynchronous processing for batch scenarios. Custom categories can be defined for organization-specific content policies. Unlike basic keyword filtering, Content Safety uses deep learning models to understand context and intent. The service detects subtle policy violations including coded language and visual content manipulation. Integration with Azure OpenAI Service enables real-time filtering without separate API calls. Content analyzed by the service is not retained or used for model training. Processing occurs within customer-designated Azure regions. The service supports compliance requirements for online safety regulations including EU Digital Services Act. Sample use cases: social media moderation, gaming chat filtering, marketplace listing review.",
+      "product_name": "Content Safety API",
+      "category": "Content Safety",
+      "source_file": "product_reference.json",
+      "page_number": 1
+    },
+    {
+      "id": "AZURE-CONTENTSAFETY-002",
+      "title": "Content Safety Custom Categories",
+      "content": "Custom categories enable organizations to define domain-specific content policies beyond built-in safety categories. Customers provide example content representing policy violations. The service trains specialized models to detect similar content patterns. Custom categories support both blocklist and allowlist approaches for nuanced policy enforcement. Custom category training requires only 50-100 examples compared to thousands needed for general-purpose content moderation systems. Models update automatically as customers provide additional examples. The approach reduces false positives for industry-specific terminology. Training data for custom categories remains within customer boundaries. Model performance metrics enable validation of policy enforcement accuracy. Custom categories can be versioned to track policy evolution over time. Sample use cases: financial investment advice compliance, healthcare misinformation detection, educational plagiarism detection.",
+      "product_name": "Custom Categories",
+      "category": "Content Safety",
+      "source_file": "product_reference.json",
+      "page_number": 1
+    },
+    {
+      "id": "AZURE-CONTENTSAFETY-003",
+      "title": "Content Safety Image Analysis",
+      "content": "Image analysis detects harmful visual content including violence, gore, adult content, and hate symbols. The service processes both static images and video frames. Detection operates at multiple semantic levels from object recognition to scene understanding. Image classification includes severity scoring for graduated response workflows. Multi-modal analysis correlates text and image content for comprehensive policy enforcement. The service handles image manipulation detection including deepfakes and synthetic media. Processing latency supports real-time moderation for live-streaming applications. Image content is not retained after analysis. Telemetry includes detection categories and severity scores without storing image data. Processing complies with privacy regulations including GDPR right to deletion. Sample use cases: marketplace product image screening, social profile picture moderation, news image authenticity validation.",
+      "product_name": "Image Analysis",
+      "category": "Content Safety",
+      "source_file": "product_reference.json",
+      "page_number": 1
+    }
+  ]
+}

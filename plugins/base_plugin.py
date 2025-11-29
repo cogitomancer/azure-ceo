@@ -14,6 +14,11 @@ class BasePlugin:
         - Provide register(agent): automatically attaches functions to the agent
     """
 
+    def __init__(self, config: Dict[str, Any] = None, name: str = None):
+        """Initialize plugin with optional configuration and name."""
+        self.config = config or {}
+        self.plugin_name = name or self.__class__.__name__
+
     def get_functions(self) -> Dict[str, Callable]:
         """
         Subclasses override this and return:
@@ -42,8 +47,16 @@ class BasePlugin:
                     f"Function '{name}' in plugin {self.__class__.__name__} is not callable."
                 )
 
+            # Get function description from docstring if available
+            description = f"{self.__class__.__name__}.{name}"
+            if hasattr(fn, '__doc__') and fn.__doc__:
+                # Use first line of docstring as description
+                doc_lines = fn.__doc__.strip().split('\n')
+                if doc_lines:
+                    description = doc_lines[0].strip()
+
             agent.add_function(
                 function=fn,
                 name=name,
-                description=f"{self.__class__.__name__}.{name}"
+                description=description
             )

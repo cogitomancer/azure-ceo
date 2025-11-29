@@ -1,0 +1,184 @@
+{
+  "value": [
+    {
+      "id": "hsb-P001",
+      "title": "Classic Butter Croissant",
+      "content": "Classic Butter Croissant - Flaky, buttery French croissant made with premium European butter. Laminated dough creates dozens of light, airy layers. Baked fresh daily at 5 AM. Category: pastry. Price: $4.25. Allergens: gluten, dairy, eggs. Popular pairings: espresso, cappuccino.",
+      "product_name": "Classic Butter Croissant",
+      "category": "pastry",
+      "source_file": "products.json",
+      "page_number": 1
+    },
+    {
+      "id": "hsb-P002",
+      "title": "Almond Croissant",
+      "content": "Almond Croissant - Butter croissant filled with almond cream and topped with sliced almonds and powdered sugar. A customer favorite since 2018. Category: pastry. Price: $5.50. Allergens: gluten, dairy, eggs, tree nuts. Popular pairings: latte, americano.",
+      "product_name": "Almond Croissant",
+      "category": "pastry",
+      "source_file": "products.json",
+      "page_number": 1
+    },
+    {
+      "id": "hsb-P003",
+      "title": "Blueberry Muffin",
+      "content": "Blueberry Muffin - Moist vanilla muffin studded with fresh blueberries. Topped with raw sugar crystals for a sweet crunch. Made with locally-sourced berries when in season. Category: pastry. Price: $3.75. Allergens: gluten, dairy, eggs. Popular pairings: coffee, tea.",
+      "product_name": "Blueberry Muffin",
+      "category": "pastry",
+      "source_file": "products.json",
+      "page_number": 1
+    },
+    {
+      "id": "hsb-P004",
+      "title": "Vegan Chocolate Chip Cookie",
+      "content": "Vegan Chocolate Chip Cookie - Chewy cookie made with organic coconut oil and dark chocolate chips. No animal products. Crispy edges with a soft center. Category: pastry. Price: $3.25. Allergens: gluten. Dietary: vegan. Popular pairings: oat milk latte, cold brew.",
+      "product_name": "Vegan Chocolate Chip Cookie",
+      "category": "pastry",
+      "source_file": "products.json",
+      "page_number": 1
+    },
+    {
+      "id": "hsb-P005",
+      "title": "Gluten-Free Lemon Poppy Seed Muffin",
+      "content": "Gluten-Free Lemon Poppy Seed Muffin - Light and tangy muffin made with almond flour and fresh lemon zest. Gluten-free certified. Topped with lemon glaze and poppy seeds. Category: pastry. Price: $4.50. Allergens: eggs, tree nuts. Dietary: gluten-free. Popular pairings: green tea, herbal tea.",
+      "product_name": "Gluten-Free Lemon Poppy Seed Muffin",
+      "category": "pastry",
+      "source_file": "products.json",
+      "page_number": 1
+    },
+    {
+      "id": "hsb-P006",
+      "title": "Cinnamon Roll",
+      "content": "Cinnamon Roll - Soft-swirled pastry with cinnamon sugar filling, topped with cream cheese frosting. Best enjoyed warm. Available until 2 PM daily. Category: pastry. Price: $5.00. Allergens: gluten, dairy, eggs. Popular pairings: coffee, cappuccino.",
+      "product_name": "Cinnamon Roll",
+      "category": "pastry",
+      "source_file": "products.json",
+      "page_number": 1
+    },
+    {
+      "id": "hsb-P007",
+      "title": "Pain au Chocolat",
+      "content": "Pain au Chocolat - Buttery croissant dough wrapped around two bars of premium Belgian dark chocolate. A Parisian classic. Category: pastry. Price: $4.75. Allergens: gluten, dairy, eggs. Popular pairings: espresso, macchiato.",
+      "product_name": "Pain au Chocolat",
+      "category": "pastry",
+      "source_file": "products.json",
+      "page_number": 1
+    },
+    {
+      "id": "hsb-P008",
+      "title": "Vegan Banana Walnut Bread",
+      "content": "Vegan Banana Walnut Bread - Moist loaf made with overripe bananas and toasted walnuts. Dairy-free and egg-free. Sliced thick and perfect for breakfast. Category: pastry. Price: $4.00. Allergens: gluten, tree nuts. Dietary: vegan. Popular pairings: coffee, almond milk latte.",
+      "product_name": "Vegan Banana Walnut Bread",
+      "category": "pastry",
+      "source_file": "products.json",
+      "page_number": 1
+    },
+    {
+      "id": "hsb-P009",
+      "title": "Seasonal Pumpkin Pie Slice",
+      "content": "Seasonal Pumpkin Pie Slice - Traditional pumpkin pie with warm spices in a flaky butter crust. Available October through December. Made with organic pumpkin puree. Category: seasonal. Price: $6.50. Allergens: gluten, dairy, eggs. Seasonal availability: October-December. Popular pairings: chai latte, coffee.",
+      "product_name": "Seasonal Pumpkin Pie Slice",
+      "category": "seasonal",
+      "source_file": "products.json",
+      "page_number": 1
+    },
+    {
+      "id": "hsb-P010",
+      "title": "Seasonal Apple Cider Donut",
+      "content": "Seasonal Apple Cider Donut - Cake donut infused with apple cider and rolled in cinnamon sugar. Fall favorite available September through November. Category: seasonal. Price: $3.50. Allergens: gluten, dairy, eggs. Seasonal availability: September-November. Popular pairings: hot cider, coffee.",
+      "product_name": "Seasonal Apple Cider Donut",
+      "category": "seasonal",
+      "source_file": "products.json",
+      "page_number": 1
+    },
+    {
+      "id": "hsb-D001",
+      "title": "Espresso",
+      "content": "Espresso - Rich, full-bodied shot pulled from our house-roasted Italian blend. Sourced from sustainable farms in Colombia and Ethiopia. Category: drink. Price: $3.00. Dietary: vegan, gluten-free. Popular pairings: croissant, biscotti.",
+      "product_name": "Espresso",
+      "category": "drink",
+      "source_file": "products.json",
+      "page_number": 1
+    },
+    {
+      "id": "hsb-D002",
+      "title": "Cappuccino",
+      "content": "Cappuccino - Equal parts espresso, steamed milk, and milk foam. Served in a 6oz cup. Available with dairy or oat milk. Category: drink. Price: $4.50. Allergens: dairy. Dietary: gluten-free. Milk alternatives: oat milk (+$0.50), almond milk (+$0.50), soy milk (+$0.50). Popular pairings: croissant, muffin.",
+      "product_name": "Cappuccino",
+      "category": "drink",
+      "source_file": "products.json",
+      "page_number": 1
+    },
+    {
+      "id": "hsb-D003",
+      "title": "Oat Milk Latte",
+      "content": "Oat Milk Latte - Smooth espresso with steamed oat milk. Our most popular plant-based drink. Made with Oatly barista blend. Category: drink. Price: $5.25. Dietary: vegan, gluten-free. Popular pairings: vegan cookie, banana bread.",
+      "product_name": "Oat Milk Latte",
+      "category": "drink",
+      "source_file": "products.json",
+      "page_number": 1
+    },
+    {
+      "id": "hsb-D004",
+      "title": "Cold Brew Coffee",
+      "content": "Cold Brew Coffee - Smooth, low-acid coffee steeped for 16 hours. Served over ice. Less bitter than traditional iced coffee. Category: drink. Price: $4.75. Dietary: vegan, gluten-free. Popular pairings: cookie, pastry.",
+      "product_name": "Cold Brew Coffee",
+      "category": "drink",
+      "source_file": "products.json",
+      "page_number": 1
+    },
+    {
+      "id": "hsb-D005",
+      "title": "Chai Latte",
+      "content": "Chai Latte - House-made chai blend with black tea, cinnamon, cardamom, ginger, and cloves. Steamed with milk and honey. Category: drink. Price: $5.00. Allergens: dairy. Dietary: gluten-free. Milk alternatives: oat milk (+$0.50), almond milk (+$0.50). Popular pairings: cinnamon roll, muffin.",
+      "product_name": "Chai Latte",
+      "category": "drink",
+      "source_file": "products.json",
+      "page_number": 1
+    },
+    {
+      "id": "hsb-D006",
+      "title": "Matcha Latte",
+      "content": "Matcha Latte - Ceremonial grade matcha whisked with steamed milk. Vibrant green tea from Uji, Japan. Naturally caffeinated. Category: drink. Price: $5.50. Allergens: dairy. Dietary: gluten-free. Milk alternatives: oat milk (+$0.50), almond milk (+$0.50). Popular pairings: almond croissant, cookie.",
+      "product_name": "Matcha Latte",
+      "category": "drink",
+      "source_file": "products.json",
+      "page_number": 1
+    },
+    {
+      "id": "hsb-D007",
+      "title": "Herbal Tea - Assorted",
+      "content": "Herbal Tea - Assorted - Selection of organic herbal teas including chamomile, peppermint, and lemon ginger. Caffeine-free options available. Category: drink. Price: $3.50. Dietary: vegan, gluten-free. Popular pairings: muffin, scone.",
+      "product_name": "Herbal Tea - Assorted",
+      "category": "drink",
+      "source_file": "products.json",
+      "page_number": 1
+    },
+    {
+      "id": "hsb-D008",
+      "title": "Hot Chocolate",
+      "content": "Hot Chocolate - Rich drinking chocolate made with Belgian cocoa and steamed milk. Topped with house-made whipped cream. Category: drink. Price: $4.25. Allergens: dairy. Dietary: gluten-free. Milk alternatives: oat milk (+$0.50). Popular pairings: cookie, croissant.",
+      "product_name": "Hot Chocolate",
+      "category": "drink",
+      "source_file": "products.json",
+      "page_number": 1
+    },
+    {
+      "id": "hsb-D009",
+      "title": "Seasonal Pumpkin Spice Latte",
+      "content": "Seasonal Pumpkin Spice Latte - Espresso with steamed milk, pumpkin puree, and autumn spices. Topped with whipped cream and cinnamon. Available September through November. Category: seasonal. Price: $6.00. Allergens: dairy. Dietary: gluten-free. Seasonal availability: September-November. Popular pairings: pumpkin pie, cinnamon roll.",
+      "product_name": "Seasonal Pumpkin Spice Latte",
+      "category": "seasonal",
+      "source_file": "products.json",
+      "page_number": 1
+    },
+    {
+      "id": "hsb-D010",
+      "title": "Iced Vanilla Sweet Cream Cold Brew",
+      "content": "Iced Vanilla Sweet Cream Cold Brew - Our signature cold brew topped with house-made vanilla sweet cream. Refreshing and subtly sweet. Category: drink. Price: $5.75. Allergens: dairy. Dietary: gluten-free. Popular pairings: chocolate chip cookie, croissant.",
+      "product_name": "Iced Vanilla Sweet Cream Cold Brew",
+      "category": "drink",
+      "source_file": "products.json",
+      "page_number": 1
+    }
+  ]
+}

@@ -1,0 +1,326 @@
+customer_id,first_name,last_name,email,home_zipcode,borough,preferred_channel,last_visit_date,visit_frequency,avg_order_value,dietary_prefs,interests
+C001,Emma,Rodriguez,emma.rodriguez@email.com,10014,Manhattan,email,2025-11-25,loyal,18.50,none,"coffee,pastries"
+C002,Michael,Chen,michael.chen@email.com,10011,Manhattan,email,2025-11-26,loyal,22.75,vegan,"coffee,seasonal events"
+C003,Sarah,Johnson,sarah.j@email.com,10012,Manhattan,SMS,2025-11-24,loyal,15.30,gluten-free,"pastries,coffee"
+C004,David,Kim,d.kim@email.com,10013,Manhattan,email,2025-11-27,loyal,28.90,none,"coffee,pastries,seasonal events"
+C005,Lisa,Patel,lisa.patel@email.com,10014,Manhattan,email,2025-11-23,loyal,19.80,none,"pastries,coffee"
+C006,James,Wilson,james.w@email.com,10003,Manhattan,SMS,2025-11-26,loyal,24.50,none,"coffee,seasonal events"
+C007,Maria,Garcia,maria.garcia@email.com,10009,Manhattan,email,2025-11-25,loyal,17.25,vegan,pastries
+C008,Robert,Taylor,rob.taylor@email.com,10014,Manhattan,email,2025-11-27,loyal,31.40,none,"coffee,pastries,seasonal events"
+C009,Jennifer,Lee,jennifer.lee@email.com,10012,Manhattan,email,2025-11-24,loyal,21.60,none,"coffee,pastries"
+C010,William,Brown,w.brown@email.com,10011,Manhattan,SMS,2025-11-26,loyal,16.75,gluten-free,coffee
+C011,Amanda,Martinez,amanda.m@email.com,10014,Manhattan,email,2025-11-25,loyal,26.30,none,"pastries,seasonal events"
+C012,Christopher,Anderson,chris.anderson@email.com,10003,Manhattan,email,2025-11-23,loyal,19.90,none,"coffee,pastries"
+C013,Jessica,Thomas,jessica.thomas@email.com,10013,Manhattan,email,2025-11-27,loyal,23.80,vegan,"coffee,seasonal events"
+C014,Daniel,Moore,daniel.moore@email.com,10012,Manhattan,SMS,2025-11-24,loyal,20.45,none,coffee
+C015,Emily,Jackson,emily.jackson@email.com,10014,Manhattan,email,2025-11-26,loyal,18.70,none,"pastries,coffee"
+C016,Matthew,White,matt.white@email.com,10011,Manhattan,email,2025-11-25,loyal,27.90,none,"coffee,pastries,seasonal events"
+C017,Ashley,Harris,ashley.harris@email.com,10009,Manhattan,SMS,2025-11-27,loyal,22.15,gluten-free,"pastries,coffee"
+C018,Joshua,Martin,joshua.martin@email.com,10014,Manhattan,email,2025-11-23,loyal,19.35,none,coffee
+C019,Rachel,Thompson,rachel.t@email.com,10012,Manhattan,email,2025-11-26,loyal,25.60,vegan,"coffee,seasonal events"
+C020,Andrew,Garcia,andrew.garcia@email.com,10013,Manhattan,email,2025-11-24,loyal,21.80,none,"pastries,coffee"
+C021,Lauren,Martinez,lauren.m@email.com,10014,Manhattan,SMS,2025-11-27,loyal,17.95,none,pastries
+C022,Kevin,Robinson,kevin.robinson@email.com,10003,Manhattan,email,2025-11-25,loyal,29.40,none,"coffee,pastries,seasonal events"
+C023,Samantha,Clark,samantha.clark@email.com,10011,Manhattan,email,2025-11-26,loyal,20.20,none,"coffee,pastries"
+C024,Ryan,Lewis,ryan.lewis@email.com,10014,Manhattan,email,2025-11-23,loyal,16.50,gluten-free,coffee
+C025,Nicole,Walker,nicole.walker@email.com,10012,Manhattan,SMS,2025-11-27,loyal,24.75,none,"pastries,seasonal events"
+C026,Brandon,Hall,brandon.hall@email.com,10009,Manhattan,email,2025-11-24,loyal,18.90,vegan,coffee
+C027,Stephanie,Allen,stephanie.allen@email.com,10014,Manhattan,email,2025-11-26,loyal,22.30,none,"coffee,pastries"
+C028,Justin,Young,justin.young@email.com,10013,Manhattan,email,2025-11-25,loyal,26.80,none,"coffee,seasonal events"
+C029,Michelle,Hernandez,michelle.h@email.com,10011,Manhattan,SMS,2025-11-27,loyal,19.60,none,pastries
+C030,Tyler,King,tyler.king@email.com,10014,Manhattan,email,2025-11-23,loyal,21.40,none,"coffee,pastries"
+C031,Rebecca,Wright,rebecca.wright@email.com,10012,Manhattan,email,2025-11-26,loyal,25.10,gluten-free,"coffee,seasonal events"
+C032,Jacob,Lopez,jacob.lopez@email.com,10003,Manhattan,email,2025-11-24,loyal,17.85,none,coffee
+C033,Anna,Hill,anna.hill@email.com,10014,Manhattan,SMS,2025-11-27,loyal,23.55,vegan,"pastries,coffee"
+C034,Nathan,Scott,nathan.scott@email.com,10009,Manhattan,email,2025-11-25,loyal,28.20,none,"coffee,pastries,seasonal events"
+C035,Victoria,Green,victoria.green@email.com,10011,Manhattan,email,2025-11-26,loyal,20.95,none,"coffee,pastries"
+C036,Zachary,Adams,zach.adams@email.com,10014,Manhattan,email,2025-11-23,loyal,16.25,none,pastries
+C037,Megan,Baker,megan.baker@email.com,10013,Manhattan,SMS,2025-11-27,loyal,24.40,none,"coffee,seasonal events"
+C038,Austin,Gonzalez,austin.g@email.com,10012,Manhattan,email,2025-11-24,loyal,19.15,gluten-free,coffee
+C039,Hannah,Nelson,hannah.nelson@email.com,10014,Manhattan,email,2025-11-26,loyal,22.70,none,"pastries,coffee"
+C040,Dylan,Carter,dylan.carter@email.com,10011,Manhattan,email,2025-11-25,loyal,27.50,vegan,"coffee,seasonal events"
+C041,Grace,Mitchell,grace.mitchell@email.com,10003,Manhattan,SMS,2025-11-27,loyal,18.35,none,coffee
+C042,Ethan,Perez,ethan.perez@email.com,10014,Manhattan,email,2025-11-23,loyal,21.90,none,"pastries,coffee"
+C043,Olivia,Roberts,olivia.roberts@email.com,10009,Manhattan,email,2025-11-26,loyal,25.65,none,"coffee,seasonal events"
+C044,Logan,Turner,logan.turner@email.com,10012,Manhattan,email,2025-11-24,loyal,19.80,gluten-free,pastries
+C045,Chloe,Phillips,chloe.phillips@email.com,10014,Manhattan,SMS,2025-11-27,loyal,23.25,none,"coffee,pastries"
+C046,Mason,Campbell,mason.campbell@email.com,10013,Manhattan,email,2025-11-25,loyal,17.60,vegan,coffee
+C047,Sophia,Parker,sophia.parker@email.com,10011,Manhattan,email,2025-11-26,loyal,26.95,none,"coffee,pastries,seasonal events"
+C048,Lucas,Evans,lucas.evans@email.com,10014,Manhattan,email,2025-11-23,loyal,20.40,none,"coffee,pastries"
+C049,Ava,Edwards,ava.edwards@email.com,10012,Manhattan,SMS,2025-11-27,loyal,18.85,none,pastries
+C050,Jackson,Collins,jackson.collins@email.com,10003,Manhattan,email,2025-11-24,loyal,24.15,none,"coffee,seasonal events"
+C051,Isabella,Stewart,isabella.stewart@email.com,10014,Manhattan,email,2025-11-26,loyal,21.50,gluten-free,"coffee,pastries"
+C052,Aiden,Sanchez,aiden.sanchez@email.com,10009,Manhattan,email,2025-11-25,loyal,28.75,none,"coffee,pastries,seasonal events"
+C053,Mia,Morris,mia.morris@email.com,10011,Manhattan,SMS,2025-11-27,loyal,19.25,vegan,coffee
+C054,Carter,Rogers,carter.rogers@email.com,10014,Manhattan,email,2025-11-23,loyal,22.90,none,"pastries,coffee"
+C055,Ella,Reed,ella.reed@email.com,10013,Manhattan,email,2025-11-26,loyal,17.40,none,coffee
+C056,Jayden,Cook,jayden.cook@email.com,10012,Manhattan,email,2025-11-24,loyal,25.80,none,"coffee,seasonal events"
+C057,Aria,Morgan,aria.morgan@email.com,10014,Manhattan,SMS,2025-11-27,loyal,20.70,gluten-free,pastries
+C058,Liam,Bell,liam.bell@email.com,10011,Manhattan,email,2025-11-25,loyal,23.45,none,"coffee,pastries"
+C059,Scarlett,Murphy,scarlett.murphy@email.com,10003,Manhattan,email,2025-11-26,loyal,18.95,vegan,"coffee,seasonal events"
+C060,Noah,Bailey,noah.bailey@email.com,10014,Manhattan,email,2025-11-23,loyal,27.20,none,"coffee,pastries,seasonal events"
+C061,Madison,Rivera,madison.rivera@email.com,10009,Manhattan,SMS,2025-11-27,loyal,21.35,none,"coffee,pastries"
+C062,Oliver,Cooper,oliver.cooper@email.com,10012,Manhattan,email,2025-11-24,loyal,16.80,none,pastries
+C063,Lily,Richardson,lily.richardson@email.com,10014,Manhattan,email,2025-11-26,loyal,24.60,gluten-free,"coffee,seasonal events"
+C064,Elijah,Cox,elijah.cox@email.com,10013,Manhattan,email,2025-11-25,loyal,19.50,none,coffee
+C065,Avery,Howard,avery.howard@email.com,10011,Manhattan,SMS,2025-11-27,loyal,22.85,vegan,"pastries,coffee"
+C066,Benjamin,Ward,benjamin.ward@email.com,10014,Manhattan,email,2025-11-23,loyal,26.40,none,"coffee,pastries,seasonal events"
+C067,Harper,Torres,harper.torres@email.com,10012,Manhattan,email,2025-11-26,loyal,18.20,none,"coffee,pastries"
+C068,Sebastian,Peterson,sebastian.p@email.com,10003,Manhattan,email,2025-11-24,loyal,21.75,none,coffee
+C069,Evelyn,Gray,evelyn.gray@email.com,10014,Manhattan,SMS,2025-11-27,loyal,25.30,gluten-free,"pastries,seasonal events"
+C070,Henry,Ramirez,henry.ramirez@email.com,10009,Manhattan,email,2025-11-25,loyal,19.90,none,"coffee,pastries"
+C071,Abigail,James,abigail.james@email.com,10011,Manhattan,email,2025-11-26,loyal,23.65,vegan,coffee
+C072,Alexander,Watson,alex.watson@email.com,10014,Manhattan,email,2025-11-23,loyal,28.10,none,"coffee,pastries,seasonal events"
+C073,Emily,Brooks,emily.brooks@email.com,10013,Manhattan,SMS,2025-11-27,loyal,20.55,none,"coffee,pastries"
+C074,Michael,Kelly,m.kelly@email.com,10012,Manhattan,email,2025-11-24,loyal,17.70,gluten-free,pastries
+C075,Charlotte,Sanders,charlotte.sanders@email.com,10014,Manhattan,email,2025-11-26,loyal,24.95,none,"coffee,seasonal events"
+C076,Daniel,Price,daniel.price@email.com,10011,Manhattan,email,2025-11-25,loyal,21.20,none,"coffee,pastries"
+C077,Amelia,Bennett,amelia.bennett@email.com,10003,Manhattan,SMS,2025-11-27,loyal,18.45,vegan,coffee
+C078,Matthew,Wood,matthew.wood@email.com,10014,Manhattan,email,2025-11-23,loyal,26.75,none,"coffee,pastries,seasonal events"
+C079,Sofia,Barnes,sofia.barnes@email.com,10009,Manhattan,email,2025-11-26,loyal,22.40,none,"coffee,pastries"
+C080,Joseph,Ross,joseph.ross@email.com,10012,Manhattan,email,2025-11-24,loyal,19.65,gluten-free,coffee
+C081,Victoria,Henderson,v.henderson@email.com,10014,Manhattan,SMS,2025-11-27,loyal,25.50,none,"pastries,seasonal events"
+C082,David,Coleman,d.coleman@email.com,10013,Manhattan,email,2025-11-25,loyal,17.95,vegan,coffee
+C083,Layla,Jenkins,layla.jenkins@email.com,10011,Manhattan,email,2025-11-26,loyal,23.80,none,"coffee,pastries"
+C084,Samuel,Perry,samuel.perry@email.com,10014,Manhattan,email,2025-11-23,loyal,20.30,none,"coffee,seasonal events"
+C085,Zoey,Powell,zoey.powell@email.com,10012,Manhattan,SMS,2025-11-27,loyal,27.60,none,"coffee,pastries,seasonal events"
+C086,Christopher,Long,c.long@email.com,10003,Manhattan,email,2025-11-24,loyal,18.75,gluten-free,pastries
+C087,Penelope,Patterson,penelope.p@email.com,10014,Manhattan,email,2025-11-26,loyal,22.10,none,"coffee,pastries"
+C088,Jack,Hughes,jack.hughes@email.com,10009,Manhattan,email,2025-11-25,loyal,24.85,vegan,"coffee,seasonal events"
+C089,Riley,Flores,riley.flores@email.com,10011,Manhattan,SMS,2025-11-27,loyal,19.40,none,coffee
+C090,Luke,Washington,luke.washington@email.com,10014,Manhattan,email,2025-11-23,loyal,21.95,none,"pastries,coffee"
+C091,Nora,Butler,nora.butler@email.com,10013,Manhattan,email,2025-11-26,loyal,26.20,gluten-free,"coffee,seasonal events"
+C092,Owen,Simmons,owen.simmons@email.com,10012,Manhattan,email,2025-11-24,loyal,18.60,none,"coffee,pastries"
+C093,Zoe,Foster,zoe.foster@email.com,10014,Manhattan,SMS,2025-11-27,loyal,23.35,none,"coffee,pastries"
+C094,Wyatt,Gonzales,wyatt.gonzales@email.com,10011,Manhattan,email,2025-11-25,loyal,17.25,vegan,coffee
+C095,Hannah,Bryant,h.bryant@email.com,10003,Manhattan,email,2025-11-26,loyal,25.90,none,"coffee,pastries,seasonal events"
+C096,Gabriel,Alexander,gabriel.a@email.com,10014,Manhattan,email,2025-11-23,loyal,20.80,none,"coffee,pastries"
+C097,Addison,Russell,addison.russell@email.com,10009,Manhattan,SMS,2025-11-27,loyal,22.55,gluten-free,pastries
+C098,Julian,Griffin,julian.griffin@email.com,10012,Manhattan,email,2025-11-24,loyal,28.35,none,"coffee,pastries,seasonal events"
+C099,Audrey,Diaz,audrey.diaz@email.com,10014,Manhattan,email,2025-11-26,loyal,19.70,vegan,"coffee,seasonal events"
+C100,Leo,Hayes,leo.hayes@email.com,10013,Manhattan,email,2025-11-25,loyal,24.25,none,"coffee,pastries"
+C101,Brooklyn,Myers,brooklyn.myers@email.com,10011,Manhattan,SMS,2025-11-27,loyal,21.45,none,coffee
+C102,Thomas,Ford,thomas.ford@email.com,10014,Manhattan,email,2025-11-23,loyal,17.80,gluten-free,"pastries,coffee"
+C103,Bella,Hamilton,bella.hamilton@email.com,10012,Manhattan,email,2025-11-26,loyal,26.65,none,"coffee,seasonal events"
+C104,Isaac,Graham,isaac.graham@email.com,10003,Manhattan,email,2025-11-24,loyal,20.15,none,"coffee,pastries"
+C105,Claire,Sullivan,claire.sullivan@email.com,10014,Manhattan,SMS,2025-11-27,loyal,23.90,vegan,"coffee,pastries"
+C106,Caleb,Wallace,caleb.wallace@email.com,10009,Manhattan,email,2025-11-25,loyal,18.50,none,coffee
+C107,Skylar,Woods,skylar.woods@email.com,10011,Manhattan,email,2025-11-26,loyal,25.40,gluten-free,"pastries,seasonal events"
+C108,Ryan,Cole,ryan.cole@email.com,10014,Manhattan,email,2025-11-23,loyal,22.70,none,"coffee,pastries"
+C109,Violet,West,violet.west@email.com,10013,Manhattan,SMS,2025-11-27,loyal,19.85,none,coffee
+C110,Cameron,Jordan,cameron.jordan@email.com,10012,Manhattan,email,2025-11-24,loyal,27.15,none,"coffee,pastries,seasonal events"
+C111,Lucy,Owens,lucy.owens@email.com,10014,Manhattan,email,2025-11-26,loyal,21.60,vegan,"coffee,pastries"
+C112,Connor,Reynolds,connor.reynolds@email.com,10011,Manhattan,email,2025-11-25,loyal,16.95,none,pastries
+C113,Genesis,Fisher,genesis.fisher@email.com,10003,Manhattan,SMS,2025-11-27,loyal,24.50,gluten-free,"coffee,seasonal events"
+C114,Adam,Ellis,adam.ellis@email.com,10014,Manhattan,email,2025-11-23,loyal,18.30,none,coffee
+C115,Paisley,Nichols,paisley.nichols@email.com,10009,Manhattan,email,2025-11-26,loyal,22.95,none,"pastries,coffee"
+C116,Nathaniel,Freeman,nathaniel.f@email.com,10012,Manhattan,email,2025-11-24,loyal,26.80,vegan,"coffee,seasonal events"
+C117,Savannah,Webb,savannah.webb@email.com,10014,Manhattan,SMS,2025-11-27,loyal,20.45,none,"coffee,pastries"
+C118,Christian,Tucker,christian.tucker@email.com,10013,Manhattan,email,2025-11-25,loyal,17.65,gluten-free,coffee
+C119,Kennedy,Guzman,kennedy.guzman@email.com,10011,Manhattan,email,2025-11-26,loyal,25.20,none,"coffee,pastries,seasonal events"
+C120,Hudson,Burns,hudson.burns@email.com,10014,Manhattan,email,2025-11-23,loyal,19.55,none,"coffee,pastries"
+C121,Autumn,Crawford,autumn.crawford@email.com,10012,Manhattan,SMS,2025-11-27,loyal,23.70,none,pastries
+C122,Eli,Dixon,eli.dixon@email.com,10003,Manhattan,email,2025-11-24,loyal,28.45,vegan,"coffee,seasonal events"
+C123,Stella,Murray,stella.murray@email.com,10014,Manhattan,email,2025-11-26,loyal,21.30,none,"coffee,pastries"
+C124,Colton,Ellis,colton.ellis@email.com,10009,Manhattan,email,2025-11-25,loyal,16.40,gluten-free,coffee
+C125,Maya,Marshall,maya.marshall@email.com,10011,Manhattan,SMS,2025-11-27,loyal,24.90,none,"pastries,seasonal events"
+C126,Jaxon,Owens,jaxon.owens@email.com,10014,Manhattan,email,2025-11-23,loyal,20.75,none,"coffee,pastries"
+C127,Natalie,McDonald,natalie.mcdonald@email.com,10013,Manhattan,email,2025-11-26,loyal,18.95,vegan,coffee
+C128,Aaron,Garza,aaron.garza@email.com,10012,Manhattan,email,2025-11-24,loyal,27.35,none,"coffee,pastries,seasonal events"
+C129,Aaliyah,Cruz,aaliyah.cruz@email.com,10014,Manhattan,SMS,2025-11-27,loyal,22.20,gluten-free,"coffee,pastries"
+C130,Ian,Jimenez,ian.jimenez@email.com,10011,Manhattan,email,2025-11-25,loyal,19.10,none,coffee
+C131,Madelyn,Mendoza,madelyn.mendoza@email.com,10003,Manhattan,email,2025-11-26,loyal,25.65,none,"pastries,seasonal events"
+C132,Jonathan,Meyer,jonathan.meyer@email.com,10014,Manhattan,email,2025-11-23,loyal,21.85,vegan,"coffee,pastries"
+C133,Elena,Fox,elena.fox@email.com,10009,Manhattan,SMS,2025-11-27,loyal,17.50,none,coffee
+C134,Landon,Mills,landon.mills@email.com,10012,Manhattan,email,2025-11-24,loyal,24.40,gluten-free,"coffee,seasonal events"
+C135,Hazel,Day,hazel.day@email.com,10014,Manhattan,email,2025-11-26,loyal,23.15,none,"coffee,pastries"
+C136,Adrian,Castillo,adrian.castillo@email.com,10013,Manhattan,email,2025-11-25,occasional,14.20,none,coffee
+C137,Ivy,Hunt,ivy.hunt@email.com,10011,Manhattan,SMS,2025-11-19,occasional,11.75,vegan,pastries
+C138,Josiah,Lawson,josiah.lawson@email.com,10014,Manhattan,email,2025-11-15,occasional,16.30,none,"coffee,pastries"
+C139,Alice,Palmer,alice.palmer@email.com,10012,Manhattan,email,2025-11-20,occasional,13.80,gluten-free,coffee
+C140,Xavier,Black,xavier.black@email.com,10003,Manhattan,email,2025-11-18,occasional,15.95,none,"coffee,seasonal events"
+C141,Piper,Hale,piper.hale@email.com,10014,Manhattan,SMS,2025-11-22,occasional,12.40,none,pastries
+C142,Easton,Herrera,easton.herrera@email.com,10009,Manhattan,email,2025-11-17,occasional,14.65,vegan,coffee
+C143,Ruby,Boyd,ruby.boyd@email.com,10011,Manhattan,email,2025-11-21,occasional,17.20,none,"coffee,pastries"
+C144,Bentley,Mason,bentley.mason@email.com,10014,Manhattan,email,2025-11-16,occasional,13.50,gluten-free,pastries
+C145,Serenity,Knight,serenity.knight@email.com,10013,Manhattan,SMS,2025-11-19,occasional,15.85,none,coffee
+C146,Jameson,Morales,jameson.morales@email.com,10012,Manhattan,email,2025-11-23,occasional,11.90,none,"coffee,pastries"
+C147,Willow,Dean,willow.dean@email.com,10014,Manhattan,email,2025-11-14,occasional,16.75,vegan,"pastries,seasonal events"
+C148,Robert,Hart,r.hart@email.com,10011,Manhattan,email,2025-11-20,occasional,14.30,none,coffee
+C149,Kinsley,Chavez,kinsley.chavez@email.com,10003,Manhattan,SMS,2025-11-18,occasional,12.85,gluten-free,pastries
+C150,Everett,Fleming,everett.fleming@email.com,10014,Manhattan,email,2025-11-22,occasional,17.40,none,"coffee,pastries"
+C151,Gianna,Fields,gianna.fields@email.com,10009,Manhattan,email,2025-11-15,occasional,13.20,none,coffee
+C152,Jeremiah,Castaneda,jeremiah.c@email.com,10012,Manhattan,email,2025-11-19,occasional,15.60,vegan,"coffee,seasonal events"
+C153,Isabelle,Rhodes,isabelle.rhodes@email.com,10014,Manhattan,SMS,2025-11-21,occasional,11.45,none,pastries
+C154,Kayden,Pierce,kayden.pierce@email.com,10013,Manhattan,email,2025-11-17,occasional,14.90,gluten-free,coffee
+C155,Valentina,Davenport,valentina.d@email.com,10011,Manhattan,email,2025-11-23,occasional,16.25,none,"coffee,pastries"
+C156,Bryson,Armstrong,bryson.armstrong@email.com,10014,Manhattan,email,2025-11-16,occasional,12.70,none,coffee
+C157,Jasmine,Vega,jasmine.vega@email.com,10012,Manhattan,SMS,2025-11-20,occasional,15.35,vegan,pastries
+C158,Jordan,Singleton,jordan.singleton@email.com,10003,Manhattan,email,2025-11-18,occasional,13.95,none,"coffee,pastries"
+C159,Morgan,Warren,morgan.warren@email.com,10014,Manhattan,email,2025-11-22,occasional,17.80,gluten-free,"coffee,seasonal events"
+C160,Sawyer,Norton,sawyer.norton@email.com,10009,Manhattan,email,2025-11-15,occasional,11.60,none,coffee
+C161,Emilia,Becker,emilia.becker@email.com,10011,Manhattan,SMS,2025-11-19,occasional,14.50,none,pastries
+C162,Miles,Bowman,miles.bowman@email.com,10014,Manhattan,email,2025-11-21,occasional,16.90,vegan,"coffee,pastries"
+C163,Quinn,Patrick,quinn.patrick@email.com,10013,Manhattan,email,2025-11-17,occasional,12.25,none,coffee
+C164,Greyson,Moran,greyson.moran@email.com,10012,Manhattan,email,2025-11-23,occasional,15.70,gluten-free,"coffee,seasonal events"
+C165,Luna,Knight,luna.knight@email.com,10014,Manhattan,SMS,2025-11-14,occasional,13.40,none,pastries
+C166,Ezra,Moon,ezra.moon@email.com,10011,Manhattan,email,2025-11-20,occasional,17.15,none,"coffee,pastries"
+C167,Ellie,Mccarthy,ellie.mccarthy@email.com,10003,Manhattan,email,2025-11-18,occasional,11.85,vegan,coffee
+C168,Wesley,Stone,wesley.stone@email.com,10014,Manhattan,email,2025-11-22,occasional,14.60,none,"coffee,pastries"
+C169,Naomi,Stokes,naomi.stokes@email.com,10009,Manhattan,SMS,2025-11-16,occasional,16.35,gluten-free,pastries
+C170,Maxwell,Lamb,maxwell.lamb@email.com,10012,Manhattan,email,2025-11-19,occasional,12.95,none,coffee
+C171,Ariana,Barton,ariana.barton@email.com,10014,Manhattan,email,2025-11-21,occasional,15.50,none,"coffee,seasonal events"
+C172,Lincoln,Dennis,lincoln.dennis@email.com,10013,Manhattan,email,2025-11-17,occasional,13.70,vegan,pastries
+C173,Sarah,Valdez,s.valdez@email.com,10011,Manhattan,SMS,2025-11-23,occasional,17.25,none,"coffee,pastries"
+C174,Hunter,Santiago,hunter.santiago@email.com,10014,Manhattan,email,2025-11-15,occasional,11.50,gluten-free,coffee
+C175,Lydia,Hampton,lydia.hampton@email.com,10012,Manhattan,email,2025-11-20,occasional,14.80,none,pastries
+C176,Asher,Frank,asher.frank@email.com,10003,Manhattan,email,2025-11-18,occasional,16.40,none,"coffee,pastries"
+C177,Cora,Nash,cora.nash@email.com,10014,Manhattan,SMS,2025-11-22,occasional,12.60,vegan,"coffee,seasonal events"
+C178,Silas,Mann,silas.mann@email.com,10009,Manhattan,email,2025-11-16,occasional,15.20,none,coffee
+C179,Brielle,Malone,brielle.malone@email.com,10011,Manhattan,email,2025-11-19,occasional,13.35,gluten-free,pastries
+C180,Jaxson,Carey,jaxson.carey@email.com,10014,Manhattan,email,2025-11-21,occasional,17.95,none,"coffee,pastries"
+C181,Delilah,Bernard,delilah.bernard@email.com,10013,Manhattan,SMS,2025-11-17,occasional,11.20,none,coffee
+C182,Parker,Bates,parker.bates@email.com,10012,Manhattan,email,2025-11-23,occasional,14.45,vegan,"coffee,seasonal events"
+C183,Athena,Kelley,athena.kelley@email.com,10014,Manhattan,email,2025-11-14,occasional,16.70,none,"coffee,pastries"
+C184,Roman,Cannon,roman.cannon@email.com,10011,Manhattan,email,2025-11-20,occasional,12.90,gluten-free,pastries
+C185,Melody,Quinn,melody.quinn@email.com,10003,Manhattan,SMS,2025-11-18,occasional,15.55,none,coffee
+C186,Ryder,Stephens,ryder.stephens@email.com,10014,Manhattan,email,2025-11-22,occasional,13.25,none,"coffee,pastries"
+C187,Eva,Jarvis,eva.jarvis@email.com,10009,Manhattan,email,2025-11-16,occasional,17.60,vegan,"pastries,seasonal events"
+C188,Axel,Weaver,axel.weaver@email.com,10012,Manhattan,email,2025-11-19,occasional,11.95,none,coffee
+C189,Nova,Aguilar,nova.aguilar@email.com,10014,Manhattan,SMS,2025-11-21,occasional,14.70,gluten-free,"coffee,pastries"
+C190,Declan,Cortez,declan.cortez@email.com,10013,Manhattan,email,2025-11-17,occasional,16.15,none,coffee
+C191,Iris,Blake,iris.blake@email.com,10011,Manhattan,email,2025-11-23,occasional,12.40,none,pastries
+C192,Cole,Gross,cole.gross@email.com,10014,Manhattan,email,2025-11-15,occasional,15.85,vegan,"coffee,seasonal events"
+C193,Peyton,Lloyd,peyton.lloyd@email.com,10012,Manhattan,SMS,2025-11-20,occasional,13.60,none,"coffee,pastries"
+C194,Grayson,Marsh,grayson.marsh@email.com,10003,Manhattan,email,2025-11-18,occasional,17.30,gluten-free,coffee
+C195,Jade,Gallagher,jade.gallagher@email.com,10014,Manhattan,email,2025-11-22,occasional,11.75,none,pastries
+C196,Tucker,Hogan,tucker.hogan@email.com,10009,Manhattan,email,2025-11-16,occasional,14.50,none,"coffee,pastries"
+C197,Emery,Walls,emery.walls@email.com,10011,Manhattan,SMS,2025-11-19,occasional,16.95,vegan,coffee
+C198,Beckett,Dawson,beckett.dawson@email.com,10014,Manhattan,email,2025-11-21,occasional,12.20,none,"coffee,seasonal events"
+C199,Raelynn,Koch,raelynn.koch@email.com,10013,Manhattan,email,2025-11-17,occasional,15.40,gluten-free,pastries
+C200,Beau,Roth,beau.roth@email.com,10012,Manhattan,email,2025-11-23,occasional,13.80,none,"coffee,pastries"
+C201,Adalynn,English,adalynn.english@email.com,10014,Manhattan,SMS,2025-11-14,occasional,17.55,none,coffee
+C202,Myles,Moses,myles.moses@email.com,10011,Manhattan,email,2025-11-20,occasional,11.35,vegan,pastries
+C203,Aurora,Reeves,aurora.reeves@email.com,10003,Manhattan,email,2025-11-18,occasional,14.90,none,"coffee,pastries"
+C204,Rowan,Kerr,rowan.kerr@email.com,10014,Manhattan,email,2025-11-22,occasional,16.60,gluten-free,"coffee,seasonal events"
+C205,Josephine,Prince,josephine.prince@email.com,10009,Manhattan,SMS,2025-11-15,occasional,12.75,none,coffee
+C206,Kingston,Buck,kingston.buck@email.com,10012,Manhattan,email,2025-11-19,occasional,15.30,none,pastries
+C207,Katherine,Massey,katherine.massey@email.com,10014,Manhattan,email,2025-11-21,occasional,13.95,vegan,"coffee,pastries"
+C208,Camden,Mathews,camden.mathews@email.com,10013,Manhattan,email,2025-11-17,occasional,17.70,none,"coffee,seasonal events"
+C209,Blake,Lyons,blake.lyons@email.com,10011,Manhattan,SMS,2025-11-23,occasional,11.55,gluten-free,coffee
+C210,Margot,Robles,margot.robles@email.com,10014,Manhattan,email,2025-11-16,occasional,14.25,none,pastries
+C211,Carlos,Vincent,carlos.vincent@email.com,10012,Manhattan,email,2025-11-20,occasional,16.80,none,"coffee,pastries"
+C212,Ophelia,Stevenson,ophelia.s@email.com,10003,Manhattan,email,2025-11-18,occasional,12.50,vegan,coffee
+C213,Travis,Villarreal,travis.v@email.com,10014,Manhattan,SMS,2025-11-22,occasional,15.65,none,"coffee,seasonal events"
+C214,Cecilia,Underwood,cecilia.u@email.com,10009,Manhattan,email,2025-11-14,occasional,13.30,gluten-free,pastries
+C215,Jesse,Conway,jesse.conway@email.com,10011,Manhattan,email,2025-11-19,occasional,17.45,none,"coffee,pastries"
+C216,Carmen,Bolton,carmen.bolton@email.com,10014,Manhattan,email,2025-11-21,rare,9.50,none,coffee
+C217,Tristan,Casey,tristan.casey@email.com,10013,Manhattan,SMS,2025-10-28,rare,7.80,vegan,pastries
+C218,Mariah,Sparks,mariah.sparks@email.com,10012,Manhattan,email,2025-10-15,rare,11.20,none,coffee
+C219,Kyle,Shannon,kyle.shannon@email.com,10014,Manhattan,email,2025-09-22,rare,8.95,gluten-free,pastries
+C220,Elise,Pierce,elise.pierce@email.com,10011,Manhattan,SMS,2025-10-31,rare,10.40,none,"coffee,pastries"
+C221,Derek,Branch,derek.branch@email.com,10003,Manhattan,email,2025-11-05,rare,9.75,none,coffee
+C222,Lila,Gaines,lila.gaines@email.com,10014,Manhattan,email,2025-09-18,rare,12.30,vegan,"coffee,seasonal events"
+C223,Trevor,Hull,trevor.hull@email.com,10009,Manhattan,email,2025-10-20,rare,8.60,none,pastries
+C224,Camila,Osborne,camila.osborne@email.com,10012,Manhattan,SMS,2025-11-08,rare,11.85,gluten-free,coffee
+C225,Edgar,Mullins,edgar.mullins@email.com,10014,Manhattan,email,2025-09-25,rare,7.25,none,pastries
+C226,Lucille,Rush,lucille.rush@email.com,10013,Manhattan,email,2025-10-12,rare,10.90,none,"coffee,pastries"
+C227,Brody,Schwartz,brody.schwartz@email.com,10011,Manhattan,email,2025-11-02,rare,9.35,vegan,coffee
+C228,Gemma,Benson,gemma.benson@email.com,10014,Manhattan,SMS,2025-09-30,rare,12.70,none,"coffee,seasonal events"
+C229,Tanner,Farmer,tanner.farmer@email.com,10012,Manhattan,email,2025-10-18,rare,8.50,gluten-free,pastries
+C230,Mila,Mercado,mila.mercado@email.com,10003,Manhattan,email,2025-11-10,rare,11.45,none,coffee
+C231,Marcus,Frank,marcus.frank@email.com,10014,Manhattan,email,2025-09-27,rare,7.90,none,pastries
+C232,Raegan,Leblanc,raegan.leblanc@email.com,10009,Manhattan,SMS,2025-10-25,rare,10.65,vegan,"coffee,pastries"
+C233,Preston,Mckay,preston.mckay@email.com,10011,Manhattan,email,2025-11-06,rare,9.20,none,coffee
+C234,Fiona,Hanna,fiona.hanna@email.com,10014,Manhattan,email,2025-09-20,rare,12.55,gluten-free,"coffee,seasonal events"
+C235,Garrett,Jacobson,garrett.jacobson@email.com,10013,Manhattan,email,2025-10-22,rare,8.75,none,pastries
+C236,Esther,Randolph,esther.randolph@email.com,10012,Manhattan,SMS,2025-11-04,rare,11.10,none,"coffee,pastries"
+C237,Finn,Aguirre,finn.aguirre@email.com,10014,Manhattan,email,2025-09-29,rare,7.40,vegan,coffee
+C238,Paris,Kaufman,paris.kaufman@email.com,10011,Manhattan,email,2025-10-16,rare,10.25,none,pastries
+C239,Jorge,Singleton,jorge.singleton@email.com,10003,Manhattan,email,2025-11-09,rare,9.85,gluten-free,coffee
+C240,Norah,Galloway,norah.galloway@email.com,10014,Manhattan,SMS,2025-09-24,rare,12.90,none,"coffee,seasonal events"
+C241,Tobias,Hooper,tobias.hooper@email.com,10009,Manhattan,email,2025-10-27,rare,8.30,none,pastries
+C242,Alessandra,Knox,alessandra.knox@email.com,10012,Manhattan,email,2025-11-11,rare,11.60,vegan,"coffee,pastries"
+C243,Graham,Joseph,graham.joseph@email.com,10014,Manhattan,email,2025-09-21,rare,7.95,none,coffee
+C244,Juliette,Pena,juliette.pena@email.com,10013,Manhattan,SMS,2025-10-19,rare,10.50,gluten-free,pastries
+C245,Donovan,Shields,donovan.shields@email.com,10011,Manhattan,email,2025-11-07,rare,9.70,none,"coffee,pastries"
+C246,Adelaide,Yates,adelaide.yates@email.com,10014,Manhattan,email,2025-09-26,rare,12.15,none,coffee
+C247,Maximus,Sandoval,maximus.sandoval@email.com,10012,Manhattan,email,2025-10-23,rare,8.45,vegan,"coffee,seasonal events"
+C248,Thea,English,thea.english@email.com,10003,Manhattan,SMS,2025-11-03,rare,11.75,none,pastries
+C249,Jonah,Bernard,jonah.bernard@email.com,10014,Manhattan,email,2025-09-28,rare,7.60,gluten-free,coffee
+C250,June,Hahn,june.hahn@email.com,10009,Manhattan,email,2025-10-14,rare,10.95,none,"coffee,pastries"
+T001,James,Miller,tourist1@email.com,10001,Manhattan,SMS,2025-11-26,rare,32.50,none,"coffee,pastries,seasonal events"
+T002,Mary,Davis,tourist2@email.com,10002,Manhattan,email,2025-11-25,rare,28.75,gluten-free,"coffee,pastries"
+T003,Patricia,Wilson,tourist3@email.com,10004,Manhattan,SMS,2025-11-27,rare,35.20,none,"coffee,pastries,seasonal events"
+T004,Linda,Moore,tourist4@email.com,10005,Manhattan,email,2025-11-24,rare,26.90,vegan,pastries
+T005,Barbara,Taylor,tourist5@email.com,10006,Manhattan,SMS,2025-11-26,rare,31.40,none,"coffee,pastries"
+T006,Elizabeth,Anderson,tourist6@email.com,10007,Manhattan,email,2025-11-23,rare,29.85,none,"coffee,seasonal events"
+T007,Jennifer,Thomas,tourist7@email.com,10008,Manhattan,SMS,2025-11-27,rare,33.60,gluten-free,"coffee,pastries"
+T008,Maria,Jackson,tourist8@email.com,10010,Manhattan,email,2025-11-25,rare,27.30,none,pastries
+T009,Susan,White,tourist9@email.com,10016,Manhattan,SMS,2025-11-26,rare,30.95,vegan,"coffee,seasonal events"
+T010,Margaret,Harris,tourist10@email.com,10017,Manhattan,email,2025-11-24,rare,34.75,none,"coffee,pastries,seasonal events"
+T011,Dorothy,Martin,tourist11@email.com,10018,Manhattan,SMS,2025-11-27,rare,28.20,none,"coffee,pastries"
+T012,Lisa,Thompson,tourist12@email.com,10019,Manhattan,email,2025-11-23,rare,31.85,gluten-free,pastries
+T013,Nancy,Garcia,tourist13@email.com,10020,Manhattan,SMS,2025-11-26,rare,29.45,none,"coffee,seasonal events"
+T014,Karen,Martinez,tourist14@email.com,10021,Manhattan,email,2025-11-25,rare,33.10,vegan,"coffee,pastries"
+T015,Betty,Robinson,tourist15@email.com,10022,Manhattan,SMS,2025-11-27,rare,26.70,none,pastries
+T016,Helen,Clark,tourist16@email.com,10023,Manhattan,email,2025-11-24,rare,32.90,none,"coffee,pastries,seasonal events"
+T017,Sandra,Rodriguez,tourist17@email.com,10024,Manhattan,SMS,2025-11-26,rare,30.55,gluten-free,"coffee,pastries"
+T018,Donna,Lewis,tourist18@email.com,10025,Manhattan,email,2025-11-25,rare,28.40,none,coffee
+T019,Carol,Lee,tourist19@email.com,10026,Manhattan,SMS,2025-11-27,rare,35.80,vegan,"coffee,seasonal events"
+T020,Ruth,Walker,tourist20@email.com,10027,Manhattan,email,2025-11-23,rare,27.95,none,"coffee,pastries"
+T021,Sharon,Hall,tourist21@email.com,10028,Manhattan,SMS,2025-11-26,rare,31.25,gluten-free,pastries
+T022,Michelle,Allen,tourist22@email.com,10029,Manhattan,email,2025-11-24,rare,29.70,none,"coffee,pastries"
+T023,Laura,Young,tourist23@email.com,10030,Manhattan,SMS,2025-11-27,rare,33.45,none,"coffee,seasonal events"
+T024,Sarah,Hernandez,tourist24@email.com,10031,Manhattan,email,2025-11-25,rare,26.15,vegan,pastries
+T025,Kimberly,King,tourist25@email.com,10032,Manhattan,SMS,2025-11-26,rare,32.60,none,"coffee,pastries,seasonal events"
+T026,Deborah,Wright,tourist26@email.com,10033,Manhattan,email,2025-11-27,rare,30.30,gluten-free,"coffee,pastries"
+T027,Jessica,Lopez,tourist27@email.com,10034,Manhattan,SMS,2025-11-23,rare,28.85,none,coffee
+T028,Shirley,Hill,tourist28@email.com,10035,Manhattan,email,2025-11-25,rare,34.20,none,"coffee,pastries,seasonal events"
+T029,Cynthia,Scott,tourist29@email.com,10036,Manhattan,SMS,2025-11-24,rare,27.50,vegan,"coffee,seasonal events"
+T030,Angela,Green,tourist30@email.com,10037,Manhattan,email,2025-11-26,rare,31.95,gluten-free,"coffee,pastries"
+T031,Melissa,Adams,tourist31@email.com,10038,Manhattan,SMS,2025-11-27,rare,29.10,none,pastries
+T032,Brenda,Baker,tourist32@email.com,10039,Manhattan,email,2025-11-23,rare,33.75,none,"coffee,pastries,seasonal events"
+T033,Amy,Nelson,tourist33@email.com,10040,Manhattan,SMS,2025-11-25,rare,26.85,vegan,coffee
+T034,Anna,Carter,tourist34@email.com,10041,Manhattan,email,2025-11-26,rare,32.35,none,"coffee,pastries"
+T035,Rebecca,Mitchell,tourist35@email.com,10043,Manhattan,SMS,2025-11-27,rare,30.70,gluten-free,"coffee,seasonal events"
+S001,Alex,Turner,student1@nyu.edu,10003,Manhattan,email,2025-11-26,occasional,12.80,none,coffee
+S002,Taylor,Reed,student2@columbia.edu,10027,Manhattan,SMS,2025-11-25,occasional,11.45,vegan,"coffee,pastries"
+S003,Jordan,Foster,student3@nyu.edu,10012,Manhattan,email,2025-11-27,occasional,14.20,none,"coffee,pastries"
+S004,Morgan,Hayes,student4@columbia.edu,10025,Manhattan,SMS,2025-11-24,occasional,10.95,gluten-free,coffee
+S005,Casey,Brooks,student5@nyu.edu,10003,Manhattan,email,2025-11-26,loyal,16.75,none,"coffee,pastries,seasonal events"
+S006,Riley,Bennett,student6@pace.edu,10038,Manhattan,SMS,2025-11-23,occasional,13.30,vegan,pastries
+S007,Cameron,Cole,student7@nyu.edu,10011,Manhattan,email,2025-11-27,occasional,11.90,none,coffee
+S008,Avery,Ross,student8@columbia.edu,10027,Manhattan,email,2025-11-25,loyal,15.60,none,"coffee,pastries"
+S009,Dakota,Price,student9@nyu.edu,10003,Manhattan,SMS,2025-11-26,occasional,12.35,gluten-free,"coffee,pastries"
+S010,Skyler,Wood,student10@newschool.edu,10011,Manhattan,email,2025-11-24,occasional,14.85,none,"coffee,seasonal events"
+S011,Quinn,Barnes,student11@nyu.edu,10012,Manhattan,SMS,2025-11-27,loyal,17.40,vegan,"coffee,pastries"
+S012,Parker,Henderson,student12@columbia.edu,10025,Manhattan,email,2025-11-23,occasional,10.70,none,coffee
+S013,Drew,Coleman,student13@pace.edu,10038,Manhattan,email,2025-11-26,occasional,13.95,gluten-free,pastries
+S014,Blake,Jenkins,student14@nyu.edu,10003,Manhattan,SMS,2025-11-25,loyal,16.20,none,"coffee,pastries,seasonal events"
+S015,Sage,Perry,student15@newschool.edu,10014,Manhattan,email,2025-11-27,occasional,11.55,vegan,coffee
+S016,Reese,Powell,student16@nyu.edu,10011,Manhattan,email,2025-11-24,occasional,14.40,none,"coffee,pastries"
+S017,Charlie,Long,student17@columbia.edu,10027,Manhattan,SMS,2025-11-26,loyal,18.90,gluten-free,"coffee,pastries,seasonal events"
+S018,Sam,Patterson,student18@nyu.edu,10012,Manhattan,email,2025-11-25,occasional,12.65,none,coffee
+S019,Finley,Hughes,student19@pace.edu,10038,Manhattan,SMS,2025-11-27,occasional,15.25,vegan,"coffee,pastries"
+S020,Rowan,Flores,student20@nyu.edu,10003,Manhattan,email,2025-11-23,loyal,17.80,none,"coffee,pastries,seasonal events"
+S021,Phoenix,Washington,student21@newschool.edu,10011,Manhattan,email,2025-11-26,occasional,11.20,gluten-free,pastries
+S022,Remi,Butler,student22@nyu.edu,10014,Manhattan,SMS,2025-11-24,occasional,13.75,none,coffee
+S023,Kai,Simmons,student23@columbia.edu,10027,Manhattan,email,2025-11-27,loyal,16.50,none,"coffee,pastries"
+S024,Ellis,Foster,student24@nyu.edu,10012,Manhattan,email,2025-11-25,occasional,12.10,vegan,"coffee,seasonal events"
+S025,River,Gonzales,student25@pace.edu,10038,Manhattan,SMS,2025-11-26,occasional,14.90,none,"coffee,pastries"
+S026,Arden,Bryant,student26@nyu.edu,10003,Manhattan,email,2025-11-27,loyal,19.35,gluten-free,"coffee,pastries,seasonal events"
+S027,Lennon,Alexander,student27@newschool.edu,10011,Manhattan,SMS,2025-11-23,occasional,11.85,none,coffee
+S028,Scout,Russell,student28@nyu.edu,10014,Manhattan,email,2025-11-25,occasional,13.40,vegan,pastries
+S029,Oakley,Griffin,student29@columbia.edu,10025,Manhattan,email,2025-11-26,loyal,17.95,none,"coffee,pastries,seasonal events"
+S030,Marley,Diaz,student30@nyu.edu,10012,Manhattan,SMS,2025-11-24,occasional,10.60,gluten-free,coffee
+P001,Marcus,Washington,prof1@nyu.edu,11201,Brooklyn,email,2025-11-25,loyal,21.80,none,"coffee,pastries"
+P002,Diana,Foster,prof2@columbia.edu,11215,Brooklyn,email,2025-11-26,loyal,24.50,vegan,"coffee,seasonal events"
+P003,Kenneth,Brooks,prof3@pace.edu,11217,Brooklyn,SMS,2025-11-24,occasional,18.30,none,coffee
+P004,Theresa,Ellis,prof4@newschool.edu,11222,Brooklyn,email,2025-11-27,loyal,26.95,gluten-free,"coffee,pastries,seasonal events"
+P005,Raymond,Murray,prof5@nyu.edu,11231,Brooklyn,email,2025-11-23,occasional,19.70,none,"coffee,pastries"
+P006,Janet,Dixon,prof6@columbia.edu,11101,Queens,SMS,2025-11-26,loyal,23.40,none,"coffee,seasonal events"
+P007,Gerald,Harvey,prof7@pace.edu,11102,Queens,email,2025-11-25,occasional,17.85,vegan,coffee
+P008,Catherine,Armstrong,prof8@nyu.edu,11103,Queens,email,2025-11-27,loyal,25.60,none,"coffee,pastries,seasonal events"
+P009,Russell,Spencer,prof9@columbia.edu,11104,Queens,email,2025-11-24,loyal,22.10,gluten-free,"coffee,pastries"
+P010,Frances,Burton,prof10@newschool.edu,11201,Brooklyn,SMS,2025-11-26,occasional,16.95,none,coffee

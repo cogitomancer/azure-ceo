@@ -62,7 +62,7 @@ def load_config() -> Dict[str, Any]:
         },
 
         "azure_monitor": {
-            "connection_string": os.getenv("APPLICATIONINSIGHTS_CONNECTION_STRING")
+            "connection_string": os.getenv("APPLICATIONINSIGHTS_CONNECTION_STRING") or os.getenv("APPLICATION_INSIGHTS_CONNECTION_STRING")
         },
 
         "content_safety": {

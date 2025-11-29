@@ -1,5 +1,7 @@
 """
 Strategy Lead (Manager) Agent — Interprets objectives and orchestrates workflow.
+
+Uses company-specific data from tables (Hudson Street Bakery by default).
 """
 
 from __future__ import annotations
@@ -19,10 +21,15 @@ class StrategyLeadAgent(BaseMarketingAgent):
 
     def __init__(self, kernel, config):
         super().__init__(kernel, config, agent_key="StrategyLead")
+        
+        # Load company context
+        self.company_context = self._load_company_context()
 
-        # Full persona override
-        self.instructions = """
+        # Full persona override with company context
+        self.instructions = f"""
 You are the Strategy Lead for an enterprise-grade autonomous marketing system.
+
+{self.company_context}
 Your job is to translate high-level business objectives into a structured,
 data-grounded multi-agent plan that is executed by the downstream team.
 
@@ -76,14 +83,14 @@ OUTPUT FORMAT (STRICT)
 ──────────────────────────────────────────────────────────────
 You MUST output a JSON-like structure:
 
-{
+{{
   "objective_summary": "Executive-friendly summary",
   "primary_segments": [
-    {
+    {{
       "name": "...",
       "rationale": "...",
       "why_now": "..."
-    }
+    }}
   ],
   "key_messages": [
     "Must highlight X",
@@ -92,19 +99,30 @@ You MUST output a JSON-like structure:
   ],
   "channels": ["email", "sms", "push"],
   "risk_profile": "low | medium | high",
-  "guidance_for_agents": {
+  "guidance_for_agents": {{
     "data_segmenter": "refinement, constraints, prioritization",
     "content_creator": "specific angles, tone, citations required",
     "compliance_officer": "risk areas, grounding rules, watchpoints",
     "experiment_runner": "primary metrics, guardrails, traffic allocation"
-  }
-}
+  }}
+}}
 
 When the full multi-agent pipeline successfully produces a validated,
 fully compliant end-to-end campaign, output:
 
 <APPROVED>
 """
+
+    def _load_company_context(self) -> str:
+        """Load company context from CompanyDataService."""
+        try:
+            from services.company_data_service import CompanyDataService
+            service = CompanyDataService()
+            return service.get_agent_context()
+        except Exception as e:
+            import logging
+            logging.getLogger(__name__).warning(f"Could not load company context: {e}")
+            return ""
 
     def get_plugins(self) -> list:
         """

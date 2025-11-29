@@ -1,5 +1,11 @@
 """
 Azure Cosmos DB service for state persistence.
+
+Uses company-specific containers:
+- Hudson Street Bakery: hudson_street_campaigns
+- Microsoft: microsoft_campaigns
+
+Campaign state and conversation history stored per company.
 """
 
 from azure.cosmos.aio import CosmosClient
@@ -8,26 +14,33 @@ from azure.identity.aio import DefaultAzureCredential
 import logging
 from typing import Dict, Optional, List
 
+logger = logging.getLogger(__name__)
+
 
 class CosmosService:
-    """Client for Cosmos DB operations."""
+    """
+    Client for Cosmos DB operations.
+    Uses company-specific container based on COMPANY_ID.
+    """
     
     def __init__(self, config: dict):
         self.config = config
-        self.logger = logging.getLogger(__name__)
         self.credential = None
+        
+        # Get company-specific Cosmos configuration
+        self.company_cosmos_config = self._get_company_cosmos_config()
         
         # Use key-based auth if provided, otherwise use RBAC with DefaultAzureCredential
         cosmos_key = config["cosmos_db"].get("key")
         
         if cosmos_key:
-            self.logger.info("Using Cosmos DB key-based authentication")
+            logger.info("Using Cosmos DB key-based authentication")
             self.client = CosmosClient(
                 url=config["cosmos_db"]["endpoint"],
                 credential=cosmos_key
             )
         else:
-            self.logger.info("Using Cosmos DB RBAC authentication (DefaultAzureCredential)")
+            logger.info("Using Cosmos DB RBAC authentication (DefaultAzureCredential)")
             self.credential = DefaultAzureCredential()
             self.client = CosmosClient(
                 url=config["cosmos_db"]["endpoint"],
@@ -35,10 +48,29 @@ class CosmosService:
             )
         
         self.database_name = config["cosmos_db"]["database_name"]
-        self.container_name = config["cosmos_db"]["container_name"]
+        # Use company-specific container if available
+        self.container_name = self.company_cosmos_config.get(
+            "container", 
+            config["cosmos_db"]["container_name"]
+        )
+        self.company_name = self.company_cosmos_config.get("company_name", "Unknown")
         
         self.database = None
         self.container = None
+        
+        logger.info(f"CosmosService initialized for {self.company_name} using container: {self.container_name}")
+
+    def _get_company_cosmos_config(self) -> Dict[str, str]:
+        """Get company-specific Cosmos DB configuration."""
+        try:
+            from services.company_data_service import CompanyDataService
+            service = CompanyDataService()
+            cosmos_config = service.get_cosmos_config()
+            cosmos_config["company_name"] = service.get_company_info()["name"]
+            return cosmos_config
+        except Exception as e:
+            logger.warning(f"Could not load company cosmos config: {e}")
+            return {"container": "campaigns", "company_name": "Unknown"}
     
     async def initialize(self):
         """Initialize database and container."""

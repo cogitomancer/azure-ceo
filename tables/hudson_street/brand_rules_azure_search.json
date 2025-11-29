@@ -1,0 +1,94 @@
+{
+  "value": [
+    {
+      "id": "hsb-brand-001",
+      "title": "Hudson Street Bakery Brand Identity",
+      "content": "Hudson Street Bakery - Your neighborhood bakery since 2015. Location: Hudson Street, West Village, Manhattan, NYC. Brand personality: Warm, welcoming, authentic, community-focused. Target audience: local residents, professionals, students, tourists. Core values: Fresh daily baking, Quality ingredients, Community connection, Sustainability, Inclusivity (diverse dietary options).",
+      "product_name": "Brand Identity",
+      "category": "brand_rules",
+      "source_file": "brand_rules.json",
+      "page_number": 1
+    },
+    {
+      "id": "hsb-brand-002",
+      "title": "Hudson Street Bakery Tone and Voice Guidelines",
+      "content": "Approved tones: warm, neighborly, enthusiastic, friendly, conversational, inviting, genuine. Voice guidelines DO: Use first-person plural (we, our), Address customers as neighbors and friends, Share the story behind products, Express genuine enthusiasm for food, Use sensory language (warm, fresh, flaky, aromatic), Keep sentences concise, Include community references (West Village, Hudson Street), Mention sustainability and local sourcing. Voice guidelines DON'T: Use overly formal or corporate language, Make exaggerated claims, Use aggressive sales language, Be overly casual or use excessive slang, Reference competitors directly, Use food-shaming or diet-culture language. Good example phrases: Fresh from our oven this morning, Your neighborhood favorite, We've been perfecting this recipe since 2015, Stop by and say hello, Made with love on Hudson Street, Join us for your morning ritual. Avoid phrases: Limited time only - ACT NOW!, You won't find better anywhere else, Our competitors can't compete, This will change your life, Guilt-free indulgence.",
+      "product_name": "Tone and Voice",
+      "category": "brand_rules",
+      "source_file": "brand_rules.json",
+      "page_number": 1
+    },
+    {
+      "id": "hsb-brand-003",
+      "title": "Hudson Street Bakery Compliance Rules - Banned Content",
+      "content": "Banned phrases: weight loss, guilt-free, skinny, cheat day, burn calories, detox, cleanse, superfood. Banned content types: medical claims (e.g., cures, treats, prevents disease), discriminatory language (age, race, gender, disability, religion), false urgency tactics (only 2 left, expires in 1 hour when untrue), unsubstantiated health claims, comparison attacks on competitors, pressure tactics targeting vulnerable groups.",
+      "product_name": "Banned Content",
+      "category": "brand_rules",
+      "source_file": "brand_rules.json",
+      "page_number": 1
+    },
+    {
+      "id": "hsb-brand-004",
+      "title": "Hudson Street Bakery Required Disclaimers",
+      "content": "Required disclaimers - Allergens: All marketing materials mentioning specific products must include: Contains allergens. See full ingredient list at hudsonstreetbakery.com or ask in-store. Dietary claims: When mentioning vegan/gluten-free products: Prepared in a facility that handles wheat, dairy, eggs, and tree nuts. Cross-contamination may occur. Seasonal products: For seasonal items: Available for a limited time while supplies last. Offers: All promotional offers must include: One per customer. Cannot be combined with other offers. Valid at Hudson Street location only. NYC legal requirements - Food safety disclaimer: Made fresh daily in our NYC-licensed commercial kitchen. Calorie posting: If calorie information is included, it must be accurate per NYC Health Code Article 81.50. Truth in menu: All ingredient and preparation claims must be accurate per NYC Consumer Affairs regulations. Accessibility: Digital marketing must meet WCAG 2.1 Level AA accessibility standards per NYC Local Law 26.",
+      "product_name": "Required Disclaimers",
+      "category": "brand_rules",
+      "source_file": "brand_rules.json",
+      "page_number": 1
+    },
+    {
+      "id": "hsb-brand-005",
+      "title": "Hudson Street Bakery Promotional Offer Rules",
+      "content": "Discount limits - Pastries: max 20% or $2 off (pastry margins are tight). Drinks: max 10% or $1 off (beverage costs are fixed). Seasonal items: max 15% or $1.50 off (premium ingredients). Bundles: max 25% for combo offers (e.g., coffee + pastry). Offer frequency limits - Email campaigns: Maximum 2 promotional emails per month per customer segment. SMS campaigns: Maximum 1 SMS per month per customer. Loyalty offers: Loyalty members can receive up to 4 offers per month. Prohibited offers: Buy one get one free (BOGO) - devalues products, More than 25% off any individual item, Coupons with expiration less than 7 days, Offers targeting only new customers (loyalty program concern). Approved offer types: Percentage discounts within limits, Dollar-off discounts within limits, Free item with purchase (e.g., free coffee with 2 pastries), Loyalty points multipliers (e.g., double points this week), Early access to seasonal items for loyal customers, Free birthday treat for loyalty members.",
+      "product_name": "Promotional Offers",
+      "category": "brand_rules",
+      "source_file": "brand_rules.json",
+      "page_number": 1
+    },
+    {
+      "id": "hsb-brand-006",
+      "title": "Hudson Street Bakery Content Generation Guidelines",
+      "content": "Imagery requirements - Photo style: Natural lighting, rustic aesthetic, show product texture. Avoid: Over-edited, sterile, stock photo feel. Must include: Branding elements (logo, bakery interior, staff when appropriate). Call to action standards - Approved CTAs: Visit us on Hudson Street, Stop by today, Order ahead online, Join our loyalty program, See what's fresh today, Treat yourself this morning. Prohibited CTAs: Buy now or miss out, You need this, Don't wait, Final chance, Selling out fast (unless truly accurate). Personalization rules - Allowed: First name in email greeting, Reference to past purchase categories (e.g., We know you love our croissants), Location-based references (e.g., Perfect for your morning walk from [neighborhood]), Loyalty tier recognition. Prohibited: Specific past purchase prices, Health or dietary assumptions beyond stated preferences, Age-related assumptions, Income-related language.",
+      "product_name": "Content Guidelines",
+      "category": "brand_rules",
+      "source_file": "brand_rules.json",
+      "page_number": 1
+    },
+    {
+      "id": "hsb-brand-007",
+      "title": "Hudson Street Bakery A/B Testing Guidelines",
+      "content": "Required test elements - Minimum sample size: 100. Minimum test duration: 7 days. Confidence level: 95%. Primary metrics: open_rate, click_through_rate, conversion_rate, unsubscribe_rate. Test categories: subject_lines, cta_placement, offer_types, imagery_style, send_times, personalization_level. Control requirements - Always include control: true. Control definition: Current best-performing variant or brand-standard template. Max variants per test: 3 (including control). Stopping rules - Early stop if unsubscribe spike: If any variant sees >5% unsubscribe rate, stop immediately. Early stop if clear winner: If one variant reaches 95% confidence before test end date, can stop early. Max test duration: 14 days.",
+      "product_name": "A/B Testing",
+      "category": "brand_rules",
+      "source_file": "brand_rules.json",
+      "page_number": 1
+    },
+    {
+      "id": "hsb-brand-008",
+      "title": "Hudson Street Bakery Customer Segment Rules",
+      "content": "Loyal customers - Messaging focus: Appreciation, exclusivity, community. Offer types: Early access, loyalty multipliers, personalized recommendations. Tone: Familiar, warm, like talking to a regular. Frequency: Can sustain higher contact frequency (up to weekly). Occasional visitors - Messaging focus: Reminders, convenience, variety showcase. Offer types: Reactivation discounts, new product highlights. Tone: Friendly invitation to return. Frequency: Bi-weekly to monthly. Rare visitors - Messaging focus: Re-engagement, what they're missing, low-pressure. Offer types: Comeback offers, seasonal highlights. Tone: Welcoming, no-pressure, understanding. Frequency: Monthly maximum, risk of unsubscribe. Tourists - Messaging focus: Authenticity, local experience, convenience. Offer types: Location-based offers, quick service highlights. Tone: Welcoming, helpful, emphasize local charm. Frequency: One-time or very limited follow-up. Students - Messaging focus: Value, study-friendly atmosphere, quick service. Offer types: Student discounts, bundle deals, morning specials. Tone: Energetic, relatable, supportive. Frequency: Weekly during school year, reduced in summer.",
+      "product_name": "Segment Rules",
+      "category": "brand_rules",
+      "source_file": "brand_rules.json",
+      "page_number": 1
+    },
+    {
+      "id": "hsb-brand-009",
+      "title": "Hudson Street Bakery Compliance Officer Checklist",
+      "content": "Pre-send verification checklist: All product claims are accurate and verifiable, Allergen disclaimer included if products mentioned, Cross-contamination warning present for dietary claims, Discount percentages within approved limits, No banned phrases or content, Tone matches brand voice guidelines, CTA is approved and not manipulative, Personalization follows privacy rules, NYC legal requirements met, Offer expiration date is at least 7 days out, Unsubscribe link present and functional, Accessibility standards met (if digital). Red flags for rejection: Medical or health claims, Discriminatory language, Discounts exceeding limits, Banned phrases present, Missing required disclaimers, Aggressive or manipulative tone, False urgency without factual basis, Comparison attacks on competitors.",
+      "product_name": "Compliance Checklist",
+      "category": "brand_rules",
+      "source_file": "brand_rules.json",
+      "page_number": 1
+    },
+    {
+      "id": "hsb-brand-010",
+      "title": "Hudson Street Bakery RAG Grounding Requirements",
+      "content": "Citation mandate: All product information must cite Hudson Street Bakery Inventory v1 as source. Accuracy requirements - Product names: Must match exactly. Prices: Must be current as of last inventory update. Ingredients: Must be complete and accurate for allergen safety. Availability: Must note seasonal restrictions. Prohibited fabrications: Products not in catalog, Prices not in catalog, Ingredients or allergen info not verified, Fake customer testimonials, Unverified preparation methods. Update protocol: When product catalog updates, all marketing agents must re-ingest data within 24 hours.",
+      "product_name": "RAG Requirements",
+      "category": "brand_rules",
+      "source_file": "brand_rules.json",
+      "page_number": 1
+    }
+  ]
+}

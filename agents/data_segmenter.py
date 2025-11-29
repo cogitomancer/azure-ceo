@@ -15,14 +15,21 @@ logger = logging.getLogger(__name__)
 class DataSegmenterAgent(BaseMarketingAgent):
     """
     Converts strategic audience intents into concrete, structured customer segments.
+    
+    Uses company-specific customer data from tables (Hudson Street Bakery by default).
     """
 
     def __init__(self, kernel, config):
         super().__init__(kernel, config, agent_key="DataSegmenter")
+        
+        # Load company context
+        self.company_context = self._load_company_context()
 
-        # Override YAML with full persona
-        self.instructions = """
-You are the Data Segmenter for Azure CEO's autonomous marketing team.
+        # Override YAML with full persona + company context
+        self.instructions = f"""
+You are the Data Segmenter for an autonomous marketing team.
+
+{self.company_context}
 
 PRIMARY RESPONSIBILITIES:
 1. Translate StrategyLead guidance into concrete, anonymized audience segments.
@@ -50,9 +57,9 @@ RULES:
     - ExperimentRunner
 
 OUTPUT FORMAT:
-{
+{{
   "segments": [
-    {
+    {{
       "name": "High-LTV Active Runners",
       "logic": "purchased_running_category_last_90d AND ltv_bucket='high'",
       "estimated_size": 12400,
@@ -60,10 +67,20 @@ OUTPUT FORMAT:
       "insights": [...],
       "notes_for_content_creator": "...",
       "notes_for_experiment_runner": "..."
-    }
+    }}
   ]
-}
+}}
 """
+
+    def _load_company_context(self) -> str:
+        """Load company context from CompanyDataService."""
+        try:
+            from services.company_data_service import CompanyDataService
+            service = CompanyDataService()
+            return service.get_agent_context()
+        except Exception as e:
+            logger.warning(f"Could not load company context: {e}")
+            return ""
 
     def get_plugins(self) -> list:
         return [

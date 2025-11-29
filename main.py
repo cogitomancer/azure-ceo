@@ -8,11 +8,46 @@ from core.kernel_factory import KernelFactory
 from core.orchestrator import MarketingOrchestrator
 from config.azure_config import load_config
 
-#configure logging
-logging.basicConfig(
-    level=logging.INFO,
-    format='%(asctime)s - %(name)s - %(levelname)s - %(message)s'
-)
+# IMPORTANT: Load config and configure Azure Monitor BEFORE setting up logging
+# This ensures Application Insights logging exporter is properly initialized
+config = load_config()
+
+# Configure Azure Monitor first (this sets up OpenTelemetry logging)
+from azure.monitor.opentelemetry import configure_azure_monitor
+try:
+    connection_string = config.get("azure_monitor", {}).get("connection_string")
+    if connection_string:
+        # Configure Azure Monitor - this automatically sets up logging, metrics, and tracing
+        configure_azure_monitor(
+            connection_string=connection_string
+        )
+        print("✓ Azure Monitor (Application Insights) configured")
+        # Show first 50 chars of connection string for verification
+        if len(connection_string) > 50:
+            print(f"  Connection string: {connection_string[:50]}...")
+        else:
+            print(f"  Connection string: {connection_string}")
+    else:
+        print("⚠ Azure Monitor connection string not found - logs will only appear locally")
+        print("  Set APPLICATIONINSIGHTS_CONNECTION_STRING environment variable")
+        print("  Expected format: InstrumentationKey=xxx;IngestionEndpoint=https://...")
+except Exception as e:
+    print(f"⚠ Azure Monitor initialization failed: {e} - logs will only appear locally")
+    import traceback
+    traceback.print_exc()
+
+# Now configure logging (Azure Monitor logging exporter is already set up)
+# IMPORTANT: Don't use force=True as it removes OpenTelemetry handlers
+root_logger = logging.getLogger()
+if not root_logger.handlers:
+    logging.basicConfig(
+        level=logging.INFO,
+        format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',
+        force=False  # Preserve OpenTelemetry handlers
+    )
+else:
+    # Just set the level if handlers already exist
+    root_logger.setLevel(logging.INFO)
 
 logger = logging.getLogger(__name__)
 
@@ -21,8 +56,6 @@ async def main():
     Main execution function of the multiagents
     """
 
-    #Load Configuration
-    config = load_config()
     logging.info("Initializing Marketing Agent System")
 
     #Create Kernel

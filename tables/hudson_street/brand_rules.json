@@ -1,0 +1,291 @@
+{
+  "brand_identity": {
+    "bakery_name": "Hudson Street Bakery",
+    "tagline": "Your neighborhood bakery since 2015",
+    "location": "Hudson Street, West Village, Manhattan, NYC",
+    "brand_personality": "Warm, welcoming, authentic, community-focused",
+    "target_audience": ["local residents", "professionals", "students", "tourists"],
+    "core_values": [
+      "Fresh daily baking",
+      "Quality ingredients",
+      "Community connection",
+      "Sustainability",
+      "Inclusivity (diverse dietary options)"
+    ]
+  },
+  "tone_and_voice": {
+    "approved_tones": [
+      "warm",
+      "neighborly",
+      "enthusiastic",
+      "friendly",
+      "conversational",
+      "inviting",
+      "genuine"
+    ],
+    "voice_guidelines": {
+      "do": [
+        "Use first-person plural (we, our)",
+        "Address customers as neighbors and friends",
+        "Share the story behind our products",
+        "Express genuine enthusiasm for food",
+        "Use sensory language (warm, fresh, flaky, aromatic)",
+        "Keep sentences concise and readable",
+        "Include community references (West Village, Hudson Street)",
+        "Mention sustainability and local sourcing when relevant"
+      ],
+      "dont": [
+        "Use overly formal or corporate language",
+        "Make exaggerated claims",
+        "Use aggressive sales language",
+        "Be overly casual or use excessive slang",
+        "Reference competitors directly",
+        "Use food-shaming or diet-culture language"
+      ]
+    },
+    "example_phrases": {
+      "good": [
+        "Fresh from our oven this morning",
+        "Your neighborhood favorite",
+        "We've been perfecting this recipe since 2015",
+        "Stop by and say hello",
+        "Made with love on Hudson Street",
+        "Join us for your morning ritual"
+      ],
+      "avoid": [
+        "Limited time only - ACT NOW!",
+        "You won't find better anywhere else",
+        "Our competitors can't compete",
+        "This will change your life",
+        "Guilt-free indulgence"
+      ]
+    }
+  },
+  "compliance_rules": {
+    "banned_phrases": [
+      "weight loss",
+      "guilt-free",
+      "skinny",
+      "cheat day",
+      "burn calories",
+      "detox",
+      "cleanse",
+      "superfood"
+    ],
+    "banned_content_types": [
+      "medical claims (e.g., 'cures', 'treats', 'prevents disease')",
+      "discriminatory language (age, race, gender, disability, religion)",
+      "false urgency tactics ('only 2 left', 'expires in 1 hour' when untrue)",
+      "unsubstantiated health claims",
+      "comparison attacks on competitors",
+      "pressure tactics targeting vulnerable groups"
+    ],
+    "required_disclaimers": {
+      "allergens": "All marketing materials mentioning specific products must include: 'Contains allergens. See full ingredient list at hudsonstreetbakery.com or ask in-store.'",
+      "dietary_claims": "When mentioning vegan/gluten-free products: 'Prepared in a facility that handles wheat, dairy, eggs, and tree nuts. Cross-contamination may occur.'",
+      "seasonal_products": "For seasonal items: 'Available for a limited time while supplies last.'",
+      "offers": "All promotional offers must include: 'One per customer. Cannot be combined with other offers. Valid at Hudson Street location only.'"
+    },
+    "nyc_legal_requirements": {
+      "food_safety_disclaimer": "Required for prepared food marketing in NYC: 'Made fresh daily in our NYC-licensed commercial kitchen.'",
+      "calorie_posting": "If calorie information is included, it must be accurate and based on standard serving sizes per NYC Health Code Article 81.50",
+      "truth_in_menu": "All ingredient and preparation claims must be accurate per NYC Consumer Affairs regulations",
+      "accessibility": "Digital marketing must meet WCAG 2.1 Level AA accessibility standards per NYC Local Law 26"
+    }
+  },
+  "promotional_offer_rules": {
+    "discount_limits": {
+      "pastries": {
+        "max_percentage": 20,
+        "max_dollar_amount": 2.00,
+        "explanation": "Pastry margins are tight; max 20% or $2 off"
+      },
+      "drinks": {
+        "max_percentage": 10,
+        "max_dollar_amount": 1.00,
+        "explanation": "Beverage costs are fixed; max 10% or $1 off"
+      },
+      "seasonal_items": {
+        "max_percentage": 15,
+        "max_dollar_amount": 1.50,
+        "explanation": "Seasonal items have premium ingredients"
+      },
+      "bundles": {
+        "max_percentage": 25,
+        "explanation": "Bundle discounts can go up to 25% for combo offers (e.g., coffee + pastry)"
+      }
+    },
+    "offer_frequency_limits": {
+      "email_campaigns": "Maximum 2 promotional emails per month per customer segment",
+      "SMS_campaigns": "Maximum 1 SMS per month per customer (higher opt-out sensitivity)",
+      "loyalty_offers": "Loyalty members can receive up to 4 offers per month"
+    },
+    "prohibited_offers": [
+      "Buy one get one free (BOGO) - devalues products",
+      "More than 25% off any individual item",
+      "Coupons with expiration less than 7 days",
+      "Offers targeting only new customers (loyalty program concern)"
+    ],
+    "approved_offer_types": [
+      "Percentage discounts within limits",
+      "Dollar-off discounts within limits",
+      "Free item with purchase (e.g., free coffee with 2 pastries)",
+      "Loyalty points multipliers (e.g., double points this week)",
+      "Early access to seasonal items for loyal customers",
+      "Free birthday treat for loyalty members"
+    ]
+  },
+  "content_generation_guidelines": {
+    "imagery_requirements": {
+      "photo_style": "Natural lighting, rustic aesthetic, show product texture",
+      "avoid": "Over-edited, sterile, stock photo feel",
+      "must_include": "Branding elements (logo, bakery interior, staff when appropriate)"
+    },
+    "call_to_action_standards": {
+      "approved_ctas": [
+        "Visit us on Hudson Street",
+        "Stop by today",
+        "Order ahead online",
+        "Join our loyalty program",
+        "See what's fresh today",
+        "Treat yourself this morning"
+      ],
+      "prohibited_ctas": [
+        "Buy now or miss out",
+        "You need this",
+        "Don't wait",
+        "Final chance",
+        "Selling out fast (unless truly accurate)"
+      ]
+    },
+    "personalization_rules": {
+      "allowed": [
+        "First name in email greeting",
+        "Reference to past purchase categories (e.g., 'We know you love our croissants')",
+        "Location-based references (e.g., 'Perfect for your morning walk from [neighborhood]')",
+        "Loyalty tier recognition"
+      ],
+      "prohibited": [
+        "Specific past purchase prices",
+        "Health or dietary assumptions beyond stated preferences",
+        "Age-related assumptions",
+        "Income-related language"
+      ]
+    }
+  },
+  "a_b_testing_guidelines": {
+    "required_test_elements": {
+      "minimum_sample_size": 100,
+      "minimum_test_duration_days": 7,
+      "confidence_level": 0.95,
+      "primary_metrics": ["open_rate", "click_through_rate", "conversion_rate", "unsubscribe_rate"]
+    },
+    "test_categories": [
+      "subject_lines",
+      "cta_placement",
+      "offer_types",
+      "imagery_style",
+      "send_times",
+      "personalization_level"
+    ],
+    "control_requirements": {
+      "always_include_control": true,
+      "control_definition": "Current best-performing variant or brand-standard template",
+      "max_variants_per_test": 3,
+      "explanation": "Testing more than 3 variants (including control) dilutes sample size"
+    },
+    "stopping_rules": {
+      "early_stop_if_unsubscribe_spike": "If any variant sees >5% unsubscribe rate, stop immediately",
+      "early_stop_if_clear_winner": "If one variant reaches 95% confidence before test end date, can stop early",
+      "max_test_duration_days": 14
+    }
+  },
+  "segment_specific_rules": {
+    "loyal_customers": {
+      "messaging_focus": "Appreciation, exclusivity, community",
+      "offer_types": "Early access, loyalty multipliers, personalized recommendations",
+      "tone": "Familiar, warm, like talking to a regular",
+      "frequency": "Can sustain higher contact frequency (up to weekly)"
+    },
+    "occasional_visitors": {
+      "messaging_focus": "Reminders, convenience, variety showcase",
+      "offer_types": "Reactivation discounts, new product highlights",
+      "tone": "Friendly invitation to return",
+      "frequency": "Bi-weekly to monthly"
+    },
+    "rare_visitors": {
+      "messaging_focus": "Re-engagement, what they're missing, low-pressure",
+      "offer_types": "Comeback offers, seasonal highlights",
+      "tone": "Welcoming, no-pressure, understanding",
+      "frequency": "Monthly maximum, risk of unsubscribe"
+    },
+    "tourists": {
+      "messaging_focus": "Authenticity, local experience, convenience",
+      "offer_types": "Location-based offers, quick service highlights",
+      "tone": "Welcoming, helpful, emphasize local charm",
+      "frequency": "One-time or very limited follow-up"
+    },
+    "students": {
+      "messaging_focus": "Value, study-friendly atmosphere, quick service",
+      "offer_types": "Student discounts, bundle deals, morning specials",
+      "tone": "Energetic, relatable, supportive",
+      "frequency": "Weekly during school year, reduced in summer"
+    }
+  },
+  "compliance_officer_checklist": {
+    "pre_send_verification": [
+      "✓ All product claims are accurate and verifiable",
+      "✓ Allergen disclaimer included if products mentioned",
+      "✓ Cross-contamination warning present for dietary claims",
+      "✓ Discount percentages within approved limits",
+      "✓ No banned phrases or content",
+      "✓ Tone matches brand voice guidelines",
+      "✓ CTA is approved and not manipulative",
+      "✓ Personalization follows privacy rules",
+      "✓ NYC legal requirements met",
+      "✓ Offer expiration date is at least 7 days out",
+      "✓ Unsubscribe link present and functional",
+      "✓ Accessibility standards met (if digital)"
+    ],
+    "red_flags_for_rejection": [
+      "Medical or health claims",
+      "Discriminatory language",
+      "Discounts exceeding limits",
+      "Banned phrases present",
+      "Missing required disclaimers",
+      "Aggressive or manipulative tone",
+      "False urgency without factual basis",
+      "Comparison attacks on competitors"
+    ]
+  },
+  "rag_grounding_requirements": {
+    "citation_mandate": "All product information must cite 'Hudson Street Bakery Inventory v1' as source",
+    "accuracy_requirements": {
+      "product_names": "Must match exactly",
+      "prices": "Must be current as of last inventory update",
+      "ingredients": "Must be complete and accurate for allergen safety",
+      "availability": "Must note seasonal restrictions"
+    },
+    "prohibited_fabrications": [
+      "Products not in catalog",
+      "Prices not in catalog",
+      "Ingredients or allergen info not verified",
+      "Fake customer testimonials",
+      "Unverified preparation methods"
+    ],
+    "update_protocol": "When product catalog updates, all marketing agents must re-ingest data within 24 hours"
+  },
+  "metadata": {
+    "document_version": "1.0",
+    "effective_date": "2025-11-27",
+    "last_updated": "2025-11-27",
+    "approved_by": "Marketing & Legal Team",
+    "review_frequency": "Quarterly",
+    "related_documents": [
+      "Hudson Street Bakery Inventory v1",
+      "NYC Health Code Article 81.50",
+      "NYC Consumer Affairs Truth in Menu Regulations",
+      "WCAG 2.1 Accessibility Guidelines"
+    ]
+  }
+}

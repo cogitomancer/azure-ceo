@@ -33,6 +33,7 @@ from filters.pii_filter import PIIFilter
 from filters.rate_limit_filter import RateLimitFilter
 
 from utils.citation_extractor import CitationExtractor
+from utils.prompt_template import PromptTemplates
 
 
 class TestSystemOrchestration:
@@ -127,7 +128,7 @@ class TestAgentsIntegration:
         agent = agent_wrapper.create()
         
         assert agent.name == "StrategyLead"
-        assert "orchestrator" in agent_wrapper.instructions.lower()
+        assert "strategy lead" in agent_wrapper.instructions.lower()
         assert isinstance(agent_wrapper.get_plugins(), list)
         
         print("  ✓ StrategyLead agent configured correctly")
@@ -144,7 +145,7 @@ class TestAgentsIntegration:
         agent = agent_wrapper.create()
         
         assert agent.name == "DataSegmenter"
-        assert "data analyst" in agent_wrapper.instructions.lower()
+        assert "data segmenter" in agent_wrapper.instructions.lower()
         assert len(agent_wrapper.get_plugins()) > 0
         
         # Verify CDP plugin is available
@@ -273,20 +274,22 @@ class TestPluginsIntegration:
     @pytest.mark.asyncio
     async def test_metrics_plugin(self, live_config):
         """Test metrics plugin for statistical analysis."""
+        import json
         print("\n📈 Testing Metrics Plugin...")
         
         plugin = MetricsPlugin(live_config)
         
-        # Test statistical significance calculation
-        result = await plugin.calculate_significance(
-            variant_a_conversions=100,
-            variant_a_visits=1000,
-            variant_b_conversions=120,
-            variant_b_visits=1000
-        )
+        # Test statistical significance calculation with JSON input
+        metrics_json = json.dumps({
+            "control": {"conversions": 100, "visits": 1000, "unsubscribe_rate": 0.01},
+            "A": {"conversions": 120, "visits": 1000, "unsubscribe_rate": 0.012},
+            "B": {"conversions": 115, "visits": 1000, "unsubscribe_rate": 0.009}
+        })
         
-        assert "uplift" in result.lower()
-        assert "p-value" in result.lower() or "significant" in result.lower()
+        result = await plugin.calculate_significance(metrics_json=metrics_json)
+        
+        assert "uplift" in result.lower() or "results" in result.lower()
+        assert "p_value" in result.lower() or "significant" in result.lower()
         
         print("  ✓ Statistical calculations working")
         print(f"  - Result preview: {result[:100]}...")

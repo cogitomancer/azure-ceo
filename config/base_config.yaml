@@ -31,26 +31,36 @@ app_configuration:
 
 agents:
   StrategyLead:
+    name: "StrategyLead"
+    instructions: "You are the Strategy Lead for an enterprise-grade autonomous marketing system."
     model: gpt-4o
     temperature: 0.7
     max_tokens: 2000
 
   DataSegmenter:
+    name: "DataSegmenter"
+    instructions: "You are the Data Segmentation Specialist responsible for customer analysis."
     model: gpt-4-turbo
     temperature: 0.3
     max_tokens: 1500
     
   ContentCreator:
+    name: "ContentCreator"
+    instructions: "You are the Content Creation Specialist responsible for generating marketing content."
     model: gpt-4o
     temperature: 0.8
     max_tokens: 2000
     
   ComplianceOfficer:
+    name: "ComplianceOfficer"
+    instructions: "You are the Compliance Officer responsible for brand and legal compliance."
     model: gpt-4-turbo
     temperature: 0.2
     max_tokens: 1000
     
   ExperimentRunner:
+    name: "ExperimentRunner"
+    instructions: "You are the Experiment Runner responsible for A/B testing and optimization."
     model: gpt-4-turbo
     temperature: 0.3
     max_tokens: 1500

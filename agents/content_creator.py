@@ -19,14 +19,21 @@ class ContentCreatorAgent(BaseMarketingAgent):
     """
     Generates grounded, on-brand marketing message variants using RAG data
     and Semantic Kernel. Produces 3 variants: Feature, Benefit, Urgency.
+    
+    Uses company-specific data from tables (Hudson Street Bakery by default).
     """
 
     def __init__(self, kernel, config):
         super().__init__(kernel, config, agent_key="ContentCreator")
+        
+        # Load company context
+        self.company_context = self._load_company_context()
 
-        # Override YAML persona with full structured instructions
-        self.instructions = """
+        # Override YAML persona with full structured instructions + company context
+        self.instructions = f"""
 You are a Senior Marketing Copywriter specializing in personalized campaigns.
+
+{self.company_context}
 
 Responsibilities:
 1. Generate compelling marketing copy for email, SMS, and push.
@@ -47,18 +54,28 @@ RULES:
 - Variants must differ in structure + messaging angle.
 - NO unsupported claims, no invented product capabilities.
 - Output STRICT JSON:
-{
+{{
   "variants": [
-    {
+    {{
       "variant_id": "A",
       "subject": "...",
       "body": "...",
       "citations": [...],
       "mode": "feature_focused"
-    }
+    }}
   ]
-}
+}}
 """
+
+    def _load_company_context(self) -> str:
+        """Load company context from CompanyDataService."""
+        try:
+            from services.company_data_service import CompanyDataService
+            service = CompanyDataService()
+            return service.get_agent_context()
+        except Exception as e:
+            logger.warning(f"Could not load company context: {e}")
+            return ""
 
     def get_plugins(self) -> list:
         return [RAGPlugin(self.config)]

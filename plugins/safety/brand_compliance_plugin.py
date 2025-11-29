@@ -1,6 +1,8 @@
 """
 Brand Compliance Plugin — validates outbound content against brand, tone,
 and legal restrictions. Safe, structured, and BasePlugin-compatible.
+
+Uses company-specific data from tables (Hudson Street Bakery by default).
 """
 
 from __future__ import annotations
@@ -8,7 +10,7 @@ from __future__ import annotations
 import json
 import yaml
 import logging
-from typing import Annotated, Dict, Any
+from typing import Annotated, Dict, Any, List
 
 from semantic_kernel.functions import kernel_function
 from plugins.base_plugin import BasePlugin
@@ -19,7 +21,7 @@ class BrandCompliancePlugin(BasePlugin):
     Ensures that model-generated marketing content adheres to brand standards.
     
     Validation includes:
-    - prohibited terms (e.g., competitor names)
+    - prohibited terms (e.g., competitor names, banned phrases)
     - required elements (e.g., citations)
     - tone & style guardrails
     - claim substantiation
@@ -28,15 +30,19 @@ class BrandCompliancePlugin(BasePlugin):
     """
 
     def __init__(self, config: dict):
-        super().__init__(config)
+        super().__init__(config=config, name="BrandCompliancePlugin")
         self.logger = logging.getLogger(__name__)
 
-        # Load brand guidelines safely
+        # Load company-specific data
+        self.company_data = self._load_company_data()
+        self.company_name = self.company_data.get("name", "Unknown Company")
+        
+        # Load brand guidelines from config as fallback
         try:
             with open("config/brand_guidelines.yaml", "r") as f:
                 self.guidelines = yaml.safe_load(f)
         except Exception as e:
-            self.logger.error(f"Brand guidelines not found or unreadable: {e}")
+            self.logger.warning(f"Brand guidelines YAML not found, using company data: {e}")
             self.guidelines = {
                 "brand": {
                     "prohibited": {"competitor_mentions": True},
@@ -45,12 +51,45 @@ class BrandCompliancePlugin(BasePlugin):
                 }
             }
 
-        # Preload competitor list if allowed
+        # Load banned phrases from company data
+        self.banned_phrases = self._get_banned_phrases()
+        
+        # Preload competitor list
         self.competitors = [
             c.lower() for c in config.get("competitors", [
                 "competitor1", "competitor2"
             ])
         ]
+        
+        self.logger.info(f"BrandCompliancePlugin initialized for: {self.company_name}")
+
+    def _load_company_data(self) -> Dict[str, Any]:
+        """Load company info from CompanyDataService."""
+        try:
+            from services.company_data_service import CompanyDataService
+            service = CompanyDataService()
+            return {
+                "name": service.get_company_info()["name"],
+                "brand_rules": service.get_brand_rules(),
+                "banned_phrases": service.get_banned_phrases(),
+                "tone_guidelines": service.get_tone_guidelines(),
+            }
+        except Exception as e:
+            self.logger.error(f"Could not load company data: {e}")
+            return {"name": "Unknown", "brand_rules": {}, "banned_phrases": [], "tone_guidelines": {}}
+
+    def _get_banned_phrases(self) -> List[str]:
+        """Get merged banned phrases from company data and config."""
+        banned = list(self.company_data.get("banned_phrases", []))
+        
+        # Also add from config guidelines
+        messaging = self.guidelines.get("brand", {}).get("messaging", {})
+        config_avoid = messaging.get("avoid", [])
+        for term in config_avoid:
+            if term.lower() not in banned:
+                banned.append(term.lower())
+        
+        return banned
 
     # ----------------------------------------------------------------------
     # Register plugin with Semantic Kernel
@@ -107,14 +146,15 @@ class BrandCompliancePlugin(BasePlugin):
                 })
 
         # --------------------------------------------------------------
-        # Messaging: forbidden terms
+        # Company-specific banned phrases
         # --------------------------------------------------------------
-        forbidden_terms = self.guidelines["brand"]["messaging"].get("avoid", [])
-        for term in forbidden_terms:
-            if term.lower() in content.lower():
+        content_lower = content.lower()
+        for phrase in self.banned_phrases:
+            if phrase in content_lower:
                 violations.append({
-                    "type": "forbidden_term",
-                    "detail": term
+                    "type": "banned_phrase",
+                    "detail": phrase,
+                    "company": self.company_name
                 })
 
         # --------------------------------------------------------------

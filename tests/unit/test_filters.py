@@ -6,7 +6,7 @@ import pytest
 from unittest.mock import Mock, AsyncMock
 
 from filters.prompt_safety_filter import PromptSafetyFilter
-from filters.function_authorization_filter import FunctionAuthorizationFilter
+from filters.function_auth_filter import FunctionAuthorizationFilter
 
 
 class TestFilters:

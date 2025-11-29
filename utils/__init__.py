@@ -3,13 +3,13 @@ Utility exports for the Azure CEO project.
 """
 
 from .citation_extractor import CitationExtractor
-from .prompt_template import PromptTemplate
-from .stats_analysis import StatisticalAnalysis
-from .validators import Validator
+from .prompt_template import PromptTemplates
+from .stats_analysis import StatisticalAnalyzer
+from .validators import Validators
 
 __all__ = [
     "CitationExtractor",
-    "PromptTemplate",
-    "StatisticalAnalysis",
-    "Validator",
+    "PromptTemplates",
+    "StatisticalAnalyzer",
+    "Validators",
 ]

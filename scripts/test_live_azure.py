@@ -3,6 +3,13 @@ Simple script to test live Azure OpenAI connection and see activity in portal.
 Run this and then check Azure Portal → Application Insights → Live Metrics
 """
 
+import sys
+from pathlib import Path
+
+# Add project root to Python path
+project_root = Path(__file__).parent.parent
+sys.path.insert(0, str(project_root))
+
 import asyncio
 from config.azure_config import load_config
 from core.kernel_factory import KernelFactory

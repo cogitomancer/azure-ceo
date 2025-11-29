@@ -32,7 +32,11 @@ sem.connectors = connectors
 
 # Create fake filters submodule (required by filter imports)
 filters_mod = types.ModuleType("semantic_kernel.filters")
-filters_mod.FilterTypes = Mock
+# Create a proper FilterTypes enum-like mock
+filter_types_mock = Mock()
+filter_types_mock.PROMPT_RENDERING = "prompt_rendering"
+filter_types_mock.FUNCTION_INVOCATION = "function_invocation"
+filters_mod.FilterTypes = filter_types_mock
 filters_mod.FunctionInvocationContext = Mock
 sem.filters = filters_mod
 
@@ -67,14 +71,25 @@ def test_create_kernel_uses_kernel_and_registers_services_and_filters():
         }
     }
 
+    # Create mock filter instances with required methods
+    mock_prompt_filter = Mock()
+    mock_prompt_filter.on_prompt_rendering = Mock()
+    mock_auth_filter = Mock()
+    mock_auth_filter.on_function_invocation = Mock()
+    mock_pii_filter = Mock()
+    mock_pii_filter.on_prompt_rendering = Mock()
+    mock_rate_limit_filter = Mock()
+    mock_rate_limit_filter.on_function_invocation = Mock()
+
     # Patch heavy dependencies in the module under test and filters
     with patch("core.kernel_factory.Kernel") as MockKernel, \
          patch("core.kernel_factory.AzureChatCompletion") as MockAzureChat, \
          patch("core.kernel_factory.configure_azure_monitor") as mock_configure, \
          patch("core.kernel_factory.DefaultAzureCredential") as MockCredential, \
-         patch("filters.prompt_safety_filter.PromptSafetyFilter", Mock), \
-         patch("filters.function_auth_filter.FunctionAuthorizationFilter", Mock), \
-         patch("filters.pii_filter.PIIFilter", Mock):
+         patch("filters.prompt_safety_filter.PromptSafetyFilter", return_value=mock_prompt_filter), \
+         patch("filters.function_auth_filter.FunctionAuthorizationFilter", return_value=mock_auth_filter), \
+         patch("filters.pii_filter.PIIFilter", return_value=mock_pii_filter), \
+         patch("filters.rate_limit_filter.RateLimitFilter", return_value=mock_rate_limit_filter):
 
         # Make DefaultAzureCredential return an object with get_token
         cred_instance = Mock()
@@ -98,5 +113,5 @@ def test_create_kernel_uses_kernel_and_registers_services_and_filters():
         MockAzureChat.assert_called_once()
         kernel_instance.add_service.assert_called()
 
-        # Three filters are registered in create_kernel
-        assert kernel_instance.add_filter.call_count >= 3
+        # Four filters are registered in create_kernel (2 prompt + 2 function invocation)
+        assert kernel_instance.add_filter.call_count >= 4

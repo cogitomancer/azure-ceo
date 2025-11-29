@@ -1,0 +1,273 @@
+{
+  "catalog_metadata": {
+    "source": "Hudson Street Bakery Inventory v1",
+    "last_updated": "2025-11-27",
+    "version": "1.0",
+    "location": "Hudson Street, Manhattan, NYC"
+  },
+  "products": [
+    {
+      "product_id": "P001",
+      "product_name": "Classic Butter Croissant",
+      "category": "pastry",
+      "description": "Flaky, buttery French croissant made with premium European butter. Laminated dough creates dozens of light, airy layers. Baked fresh daily at 5 AM.",
+      "price": 4.25,
+      "ingredient_tags": ["wheat", "butter", "eggs"],
+      "allergens": ["gluten", "dairy", "eggs"],
+      "dietary_compatibility": ["none"],
+      "popular_pairing": ["espresso", "cappuccino"],
+      "citation_source": "Hudson Street Bakery Inventory v1"
+    },
+    {
+      "product_id": "P002",
+      "product_name": "Almond Croissant",
+      "category": "pastry",
+      "description": "Butter croissant filled with almond cream and topped with sliced almonds and powdered sugar. A customer favorite since 2018.",
+      "price": 5.50,
+      "ingredient_tags": ["wheat", "butter", "almonds", "eggs"],
+      "allergens": ["gluten", "dairy", "eggs", "tree nuts"],
+      "dietary_compatibility": ["none"],
+      "popular_pairing": ["latte", "americano"],
+      "citation_source": "Hudson Street Bakery Inventory v1"
+    },
+    {
+      "product_id": "P003",
+      "product_name": "Blueberry Muffin",
+      "category": "pastry",
+      "description": "Moist vanilla muffin studded with fresh blueberries. Topped with raw sugar crystals for a sweet crunch. Made with locally-sourced berries when in season.",
+      "price": 3.75,
+      "ingredient_tags": ["wheat", "blueberries", "butter", "eggs"],
+      "allergens": ["gluten", "dairy", "eggs"],
+      "dietary_compatibility": ["none"],
+      "popular_pairing": ["coffee", "tea"],
+      "citation_source": "Hudson Street Bakery Inventory v1"
+    },
+    {
+      "product_id": "P004",
+      "product_name": "Vegan Chocolate Chip Cookie",
+      "category": "pastry",
+      "description": "Chewy cookie made with organic coconut oil and dark chocolate chips. No animal products. Crispy edges with a soft center.",
+      "price": 3.25,
+      "ingredient_tags": ["wheat", "coconut oil", "dark chocolate", "cane sugar"],
+      "allergens": ["gluten"],
+      "dietary_compatibility": ["vegan"],
+      "popular_pairing": ["oat milk latte", "cold brew"],
+      "citation_source": "Hudson Street Bakery Inventory v1"
+    },
+    {
+      "product_id": "P005",
+      "product_name": "Gluten-Free Lemon Poppy Seed Muffin",
+      "category": "pastry",
+      "description": "Light and tangy muffin made with almond flour and fresh lemon zest. Gluten-free certified. Topped with lemon glaze and poppy seeds.",
+      "price": 4.50,
+      "ingredient_tags": ["almond flour", "lemon", "poppy seeds", "eggs"],
+      "allergens": ["eggs", "tree nuts"],
+      "dietary_compatibility": ["gluten-free"],
+      "popular_pairing": ["green tea", "herbal tea"],
+      "citation_source": "Hudson Street Bakery Inventory v1"
+    },
+    {
+      "product_id": "P006",
+      "product_name": "Cinnamon Roll",
+      "category": "pastry",
+      "description": "Soft-swirled pastry with cinnamon sugar filling, topped with cream cheese frosting. Best enjoyed warm. Available until 2 PM daily.",
+      "price": 5.00,
+      "ingredient_tags": ["wheat", "butter", "cinnamon", "cream cheese", "eggs"],
+      "allergens": ["gluten", "dairy", "eggs"],
+      "dietary_compatibility": ["none"],
+      "popular_pairing": ["coffee", "cappuccino"],
+      "citation_source": "Hudson Street Bakery Inventory v1"
+    },
+    {
+      "product_id": "P007",
+      "product_name": "Pain au Chocolat",
+      "category": "pastry",
+      "description": "Buttery croissant dough wrapped around two bars of premium Belgian dark chocolate. A Parisian classic.",
+      "price": 4.75,
+      "ingredient_tags": ["wheat", "butter", "dark chocolate", "eggs"],
+      "allergens": ["gluten", "dairy", "eggs"],
+      "dietary_compatibility": ["none"],
+      "popular_pairing": ["espresso", "macchiato"],
+      "citation_source": "Hudson Street Bakery Inventory v1"
+    },
+    {
+      "product_id": "P008",
+      "product_name": "Vegan Banana Walnut Bread",
+      "category": "pastry",
+      "description": "Moist loaf made with overripe bananas and toasted walnuts. Dairy-free and egg-free. Sliced thick and perfect for breakfast.",
+      "price": 4.00,
+      "ingredient_tags": ["wheat", "bananas", "walnuts", "coconut oil"],
+      "allergens": ["gluten", "tree nuts"],
+      "dietary_compatibility": ["vegan"],
+      "popular_pairing": ["coffee", "almond milk latte"],
+      "citation_source": "Hudson Street Bakery Inventory v1"
+    },
+    {
+      "product_id": "P009",
+      "product_name": "Seasonal Pumpkin Pie Slice",
+      "category": "seasonal",
+      "description": "Traditional pumpkin pie with warm spices in a flaky butter crust. Available October through December. Made with organic pumpkin puree.",
+      "price": 6.50,
+      "ingredient_tags": ["wheat", "pumpkin", "butter", "eggs", "cinnamon", "nutmeg"],
+      "allergens": ["gluten", "dairy", "eggs"],
+      "dietary_compatibility": ["none"],
+      "seasonal_availability": "October-December",
+      "popular_pairing": ["chai latte", "coffee"],
+      "citation_source": "Hudson Street Bakery Inventory v1"
+    },
+    {
+      "product_id": "P010",
+      "product_name": "Seasonal Apple Cider Donut",
+      "category": "seasonal",
+      "description": "Cake donut infused with apple cider and rolled in cinnamon sugar. Fall favorite available September through November.",
+      "price": 3.50,
+      "ingredient_tags": ["wheat", "apple cider", "cinnamon", "butter", "eggs"],
+      "allergens": ["gluten", "dairy", "eggs"],
+      "dietary_compatibility": ["none"],
+      "seasonal_availability": "September-November",
+      "popular_pairing": ["hot cider", "coffee"],
+      "citation_source": "Hudson Street Bakery Inventory v1"
+    },
+    {
+      "product_id": "D001",
+      "product_name": "Espresso",
+      "category": "drink",
+      "description": "Rich, full-bodied shot pulled from our house-roasted Italian blend. Sourced from sustainable farms in Colombia and Ethiopia.",
+      "price": 3.00,
+      "ingredient_tags": ["coffee beans", "water"],
+      "allergens": [],
+      "dietary_compatibility": ["vegan", "gluten-free"],
+      "popular_pairing": ["croissant", "biscotti"],
+      "citation_source": "Hudson Street Bakery Inventory v1"
+    },
+    {
+      "product_id": "D002",
+      "product_name": "Cappuccino",
+      "category": "drink",
+      "description": "Equal parts espresso, steamed milk, and milk foam. Served in a 6oz cup. Available with dairy or oat milk.",
+      "price": 4.50,
+      "ingredient_tags": ["coffee beans", "milk", "water"],
+      "allergens": ["dairy"],
+      "dietary_compatibility": ["gluten-free"],
+      "milk_alternatives": ["oat milk (+$0.50)", "almond milk (+$0.50)", "soy milk (+$0.50)"],
+      "popular_pairing": ["croissant", "muffin"],
+      "citation_source": "Hudson Street Bakery Inventory v1"
+    },
+    {
+      "product_id": "D003",
+      "product_name": "Oat Milk Latte",
+      "category": "drink",
+      "description": "Smooth espresso with steamed oat milk. Our most popular plant-based drink. Made with Oatly barista blend.",
+      "price": 5.25,
+      "ingredient_tags": ["coffee beans", "oat milk", "water"],
+      "allergens": [],
+      "dietary_compatibility": ["vegan", "gluten-free"],
+      "popular_pairing": ["vegan cookie", "banana bread"],
+      "citation_source": "Hudson Street Bakery Inventory v1"
+    },
+    {
+      "product_id": "D004",
+      "product_name": "Cold Brew Coffee",
+      "category": "drink",
+      "description": "Smooth, low-acid coffee steeped for 16 hours. Served over ice. Less bitter than traditional iced coffee.",
+      "price": 4.75,
+      "ingredient_tags": ["coffee beans", "water", "ice"],
+      "allergens": [],
+      "dietary_compatibility": ["vegan", "gluten-free"],
+      "popular_pairing": ["cookie", "pastry"],
+      "citation_source": "Hudson Street Bakery Inventory v1"
+    },
+    {
+      "product_id": "D005",
+      "product_name": "Chai Latte",
+      "category": "drink",
+      "description": "House-made chai blend with black tea, cinnamon, cardamom, ginger, and cloves. Steamed with milk and honey.",
+      "price": 5.00,
+      "ingredient_tags": ["black tea", "spices", "milk", "honey", "water"],
+      "allergens": ["dairy"],
+      "dietary_compatibility": ["gluten-free"],
+      "milk_alternatives": ["oat milk (+$0.50)", "almond milk (+$0.50)"],
+      "popular_pairing": ["cinnamon roll", "muffin"],
+      "citation_source": "Hudson Street Bakery Inventory v1"
+    },
+    {
+      "product_id": "D006",
+      "product_name": "Matcha Latte",
+      "category": "drink",
+      "description": "Ceremonial grade matcha whisked with steamed milk. Vibrant green tea from Uji, Japan. Naturally caffeinated.",
+      "price": 5.50,
+      "ingredient_tags": ["matcha powder", "milk", "water"],
+      "allergens": ["dairy"],
+      "dietary_compatibility": ["gluten-free"],
+      "milk_alternatives": ["oat milk (+$0.50)", "almond milk (+$0.50)"],
+      "popular_pairing": ["almond croissant", "cookie"],
+      "citation_source": "Hudson Street Bakery Inventory v1"
+    },
+    {
+      "product_id": "D007",
+      "product_name": "Herbal Tea - Assorted",
+      "category": "drink",
+      "description": "Selection of organic herbal teas including chamomile, peppermint, and lemon ginger. Caffeine-free options available.",
+      "price": 3.50,
+      "ingredient_tags": ["tea leaves", "herbs", "water"],
+      "allergens": [],
+      "dietary_compatibility": ["vegan", "gluten-free"],
+      "popular_pairing": ["muffin", "scone"],
+      "citation_source": "Hudson Street Bakery Inventory v1"
+    },
+    {
+      "product_id": "D008",
+      "product_name": "Hot Chocolate",
+      "category": "drink",
+      "description": "Rich drinking chocolate made with Belgian cocoa and steamed milk. Topped with house-made whipped cream.",
+      "price": 4.25,
+      "ingredient_tags": ["cocoa powder", "milk", "sugar", "cream"],
+      "allergens": ["dairy"],
+      "dietary_compatibility": ["gluten-free"],
+      "milk_alternatives": ["oat milk (+$0.50)"],
+      "popular_pairing": ["cookie", "croissant"],
+      "citation_source": "Hudson Street Bakery Inventory v1"
+    },
+    {
+      "product_id": "D009",
+      "product_name": "Seasonal Pumpkin Spice Latte",
+      "category": "seasonal",
+      "description": "Espresso with steamed milk, pumpkin puree, and autumn spices. Topped with whipped cream and cinnamon. Available September through November.",
+      "price": 6.00,
+      "ingredient_tags": ["coffee beans", "milk", "pumpkin", "cinnamon", "nutmeg", "cream"],
+      "allergens": ["dairy"],
+      "dietary_compatibility": ["gluten-free"],
+      "seasonal_availability": "September-November",
+      "milk_alternatives": ["oat milk (+$0.50)"],
+      "popular_pairing": ["pumpkin pie", "cinnamon roll"],
+      "citation_source": "Hudson Street Bakery Inventory v1"
+    },
+    {
+      "product_id": "D010",
+      "product_name": "Iced Vanilla Sweet Cream Cold Brew",
+      "category": "drink",
+      "description": "Our signature cold brew topped with house-made vanilla sweet cream. Refreshing and subtly sweet.",
+      "price": 5.75,
+      "ingredient_tags": ["coffee beans", "cream", "vanilla", "sugar", "ice"],
+      "allergens": ["dairy"],
+      "dietary_compatibility": ["gluten-free"],
+      "popular_pairing": ["chocolate chip cookie", "croissant"],
+      "citation_source": "Hudson Street Bakery Inventory v1"
+    }
+  ],
+  "pricing_tiers": {
+    "pastries": {
+      "standard": "3.25-5.00",
+      "premium": "5.00-6.50"
+    },
+    "drinks": {
+      "standard": "3.00-5.00",
+      "specialty": "5.00-6.00"
+    }
+  },
+  "dietary_categories": {
+    "vegan": ["P004", "P008", "D001", "D003"],
+    "gluten-free": ["P005", "D001", "D002", "D003", "D004", "D005", "D006", "D007", "D008", "D009", "D010"],
+    "nut-free": ["P001", "P003", "P006", "P007", "P009", "P010", "D001", "D002", "D003", "D004", "D005", "D007", "D008", "D009", "D010"]
+  }
+}

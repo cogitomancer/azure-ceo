@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { healthAPI } from './services/api';
+import { healthAPI, companyAPI } from './services/api';
 import CampaignCreator from './components/CampaignCreator';
 import CampaignList from './components/CampaignList';
 import ConfigurationPanel from './components/ConfigurationPanel';
@@ -11,12 +11,15 @@ import {
   List, 
   BarChart3, 
   Shield,
-  Activity
+  Activity,
+  Building2,
+  Package
 } from 'lucide-react';
 
 function App() {
   const [activeTab, setActiveTab] = useState('create');
   const [healthStatus, setHealthStatus] = useState(null);
+  const [companyData, setCompanyData] = useState(null);
   const [config, setConfig] = useState({
     agents: {
       StrategyLead: { model: 'gpt-4o', temperature: 0.7, max_tokens: 2000 },
@@ -45,6 +48,11 @@ function App() {
     healthAPI.check()
       .then(data => setHealthStatus({ status: 'connected', ...data }))
       .catch(err => setHealthStatus({ status: 'disconnected', error: err.message }));
+    
+    // Load company data
+    companyAPI.getCompany()
+      .then(data => setCompanyData(data))
+      .catch(err => console.error('Failed to load company data:', err));
   }, []);
 
   const tabs = [
@@ -71,8 +79,20 @@ function App() {
               </div>
             </div>
             
-            {/* Health Status */}
-            <div className="flex items-center space-x-2">
+            {/* Company & Health Status */}
+            <div className="flex items-center space-x-4">
+              {/* Company Info */}
+              {companyData && (
+                <div className="flex items-center space-x-2 px-3 py-1 bg-blue-50 rounded-full text-sm border border-blue-200">
+                  <Building2 className="w-4 h-4 text-blue-600" />
+                  <span className="font-medium text-blue-700">{companyData.company?.name}</span>
+                  <span className="text-blue-500">|</span>
+                  <Package className="w-3 h-3 text-blue-500" />
+                  <span className="text-blue-600">{companyData.products_count} products</span>
+                </div>
+              )}
+              
+              {/* Health Status */}
               {healthStatus && (
                 <div className={`flex items-center space-x-2 px-3 py-1 rounded-full text-sm ${
                   healthStatus.status === 'connected' 

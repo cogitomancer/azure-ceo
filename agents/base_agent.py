@@ -39,53 +39,57 @@ class BaseMarketingAgent:
         Create and return a ChatCompletionAgent with execution settings +
         registered tools/plugins.
         """
+        from semantic_kernel.functions import KernelArguments
+        from semantic_kernel.connectors.ai.open_ai import AzureChatPromptExecutionSettings
+        
+        # Create execution settings for Azure OpenAI
+        settings = AzureChatPromptExecutionSettings(
+            temperature=self.temperature,
+            max_tokens=self.max_tokens,
+        )
+        
+        # Create kernel arguments with settings
+        arguments = KernelArguments(settings=settings)
+        
+        # Collect plugins for the agent
+        plugins = self.get_plugins()
+        
+        # Create agent first
         agent = ChatCompletionAgent(
             name=self.agent_name,
             instructions=self.instructions,
             kernel=self.kernel,
-            execution_settings={
-                "model": self.model,
-                "temperature": self.temperature,
-                "max_tokens": self.max_tokens,
-            },
+            arguments=arguments,
         )
-
-        # 🔥 Plugin registration, backward-compatible
-        for plugin in self.get_plugins():
-            # 1) If plugin knows how to register itself, let it
-            if hasattr(plugin, "register") and callable(getattr(plugin, "register")):
+        
+        # Register plugin functions on the agent
+        for plugin in plugins:
+            plugin_name = getattr(plugin, "plugin_name", plugin.__class__.__name__)
+            logger.info(
+                "Registering plugin %s for agent %s",
+                plugin_name,
+                self.agent_name,
+            )
+            
+            # Call the plugin's register method to add its functions to the agent
+            if hasattr(plugin, 'register'):
                 try:
                     plugin.register(agent)
                     logger.info(
-                        "Registered plugin %s via .register() for agent %s",
-                        plugin.__class__.__name__,
-                        self.agent_name,
+                        "Successfully registered functions from plugin %s",
+                        plugin_name
                     )
                 except Exception as e:
                     logger.error(
-                        "Error registering plugin %s via .register(): %s",
-                        plugin.__class__.__name__,
-                        e,
-                    )
-                    raise
-            else:
-                # 2) Fallback: add as a Semantic Kernel plugin
-                try:
-                    # Name plugin after its class unless overridden
-                    plugin_name = getattr(plugin, "plugin_name", plugin.__class__.__name__)
-                    self.kernel.add_plugin(plugin, plugin_name)
-                    logger.info(
-                        "Registered plugin %s on kernel as '%s' for agent %s",
-                        plugin.__class__.__name__,
+                        "Failed to register plugin %s: %s",
                         plugin_name,
-                        self.agent_name,
-                    )
-                except Exception as e:
-                    logger.error(
-                        "Error registering plugin %s on kernel: %s",
-                        plugin.__class__.__name__,
                         e,
+                        exc_info=True
                     )
-                    raise
+            else:
+                logger.warning(
+                    "Plugin %s does not have a register() method, skipping",
+                    plugin_name
+                )
 
         return agent

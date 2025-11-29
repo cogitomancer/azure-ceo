@@ -71,9 +71,7 @@ class MarketingOrchestrator:
         state = await self.state_manager.load_state(session_id)
 
         # Initial user instruction
-        initial = ChatMessageContent(
-            role=AuthorRole.USER,
-            content=f"""
+        initial_content = f"""
             Campaign Objective: {objective}
 
             Requirements:
@@ -85,6 +83,20 @@ class MarketingOrchestrator:
 
             Execute with enterprise governance.
             """
+        
+        initial = ChatMessageContent(
+            role=AuthorRole.USER,
+            content=initial_content
+        )
+
+        # Save initial user message
+        await self.state_manager.save_state(
+            session_id,
+            {
+                "agent": "user",
+                "role": "user",
+                "content": initial_content,
+            }
         )
 
         await self.group_chat.add_chat_message(initial)
@@ -95,20 +107,45 @@ class MarketingOrchestrator:
 
             # Extract safe values
             text = getattr(message, "content", None) or getattr(message, "value", "")
-            agent_name = getattr(message, "name", "unknown_agent")
             message_role = getattr(message, "role", None) or getattr(message, "author_role", None)
-
-            # Save state
-            await self.state_manager.save_state(
-                session_id,
-                {
-                    "agent": agent_name,
-                    "role": message_role,
-                    "content": text,
-                }
+            
+            # Try multiple ways to extract agent name from Semantic Kernel message
+            agent_name = "unknown_agent"
+            
+            # Method 1: Check message.name directly
+            if hasattr(message, "name") and message.name:
+                agent_name = message.name
+            # Method 2: Check message.metadata.agent
+            elif hasattr(message, "metadata") and hasattr(message.metadata, "agent") and message.metadata.agent:
+                agent_name = message.metadata.agent
+            # Method 3: Check message.author
+            elif hasattr(message, "author") and message.author:
+                agent_name = message.author
+            # Method 4: Check message.items for agent info (some SK versions)
+            elif hasattr(message, "items"):
+                for item in message.items:
+                    if hasattr(item, "name") and item.name:
+                        agent_name = item.name
+                        break
+                    elif hasattr(item, "author") and item.author:
+                        agent_name = item.author
+                        break
+            
+            # Log for debugging - show what we extracted
+            self.logger.info(
+                f"[Orchestrator] Message from agent: {agent_name}, "
+                f"role: {message_role}, content length: {len(text)} chars, "
+                f"message type: {type(message).__name__}"
             )
+            
+            # Log message attributes for debugging
+            if self.logger.isEnabledFor(logging.DEBUG):
+                attrs = [attr for attr in dir(message) if not attr.startswith('_')]
+                self.logger.debug(f"Message attributes: {attrs}")
+                if hasattr(message, "metadata"):
+                    self.logger.debug(f"Message metadata: {message.metadata}")
 
-            # Log
+            # Log agent activity first (non-blocking)
             self.monitor.log_agent_activity(
                 agent_name=agent_name,
                 function_name="generate_response",
@@ -120,11 +157,30 @@ class MarketingOrchestrator:
                 f"[{agent_name}] ({message_role}) → {len(text)} chars"
             )
 
+            # Yield message immediately to keep stream responsive
             yield message
 
-            # Termination condition
+            # Save state after yielding (non-blocking for stream, but still saves)
+            # This ensures ALL messages from ALL agents are persisted
+            # Wrapped in try/except so failures don't break the workflow
+            try:
+                await self.state_manager.save_state(
+                    session_id,
+                    {
+                        "agent": agent_name,
+                        "role": str(message_role) if message_role else "assistant",
+                        "content": text,
+                    }
+                )
+                self.logger.debug(f"[Orchestrator] Saved message from {agent_name} to Cosmos DB")
+            except Exception as e:
+                # Log error but don't break workflow
+                self.logger.warning(f"[Orchestrator] Failed to save message from {agent_name}: {e}")
+
+            # Termination condition - only check for explicit "terminate" keyword
+            # Let SequentialSelectionStrategy handle natural flow through all agents
             lower = text.lower()
-            if "terminate" in lower or "<approved>" in lower:
+            if "terminate" in lower:
                 self.monitor.log_campaign_complete(session_id)
                 break
 

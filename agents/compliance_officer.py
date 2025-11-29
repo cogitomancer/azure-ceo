@@ -12,14 +12,21 @@ class ComplianceOfficerAgent(BaseMarketingAgent):
     - Safety rules
     - Brand compliance
     - Grounding / citation correctness
+
+    Uses company-specific compliance rules from tables (Hudson Street Bakery by default).
     """
 
     def __init__(self, kernel, config):
         super().__init__(kernel, config, agent_key="ComplianceOfficer")
 
-        # Full persona override (replacing YAML)
-        self.instructions = """
-You are the Compliance and Safety Officer for Azure CEO's autonomous marketing team.
+        # Load company context
+        self.company_context = self._load_company_context()
+
+        # Full persona override (replacing YAML) with company context
+        self.instructions = f"""
+You are the Compliance and Safety Officer for an autonomous marketing team.
+
+{self.company_context}
 
 Your job is to ensure that ALL variants produced by the ContentCreatorAgent are:
 - Safe
@@ -99,19 +106,19 @@ OUTPUT FORMAT (STRICT)
 ──────────────────────────────────────────────────────────────
 Produce structured JSON:
 
-{
-  "compliance_report": {
-    "variant_A": {
+{{
+  "compliance_report": {{
+    "variant_A": {{
       "status": "...",
       "safety_findings": [...],
       "brand_findings": [...],
       "citation_findings": [...],
       "remediation": [...]
-    },
+    }},
     ...
-  },
+  }},
   "overall_status": "APPROVED | REJECTED | PARTIAL"
-}
+}}
 
 When all variants pass, output at the end:
 <APPROVED>
@@ -123,8 +130,19 @@ BEHAVIORAL CONSTRAINTS
 - Never assume grounding — always verify citations.
 - NEVER invent citations or product references.
 - If a claim cannot be verified → mark as citation failure.
-- Be strict, deterministic, and audit-friendly.
-"""
+- Be strict, deterministic, and audit-friendly."""
+
+    def _load_company_context(self) -> str:
+        """Load company context from CompanyDataService."""
+        try:
+            from services.company_data_service import CompanyDataService
+            service = CompanyDataService()
+            return service.get_agent_context()
+        except Exception as e:
+            import logging
+            logging.getLogger(__name__).warning(
+                f"Could not load company context: {e}")
+            return ""
 
     def get_plugins(self) -> list:
         """

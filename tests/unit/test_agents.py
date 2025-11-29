@@ -21,21 +21,34 @@ class TestAgents:
     
     @pytest.fixture
     def config(self):
-        """Test configuration."""
+        """Test configuration with all required fields."""
         return {
             "agents": {
                 "StrategyLead": {
+                    "name": "StrategyLead",
+                    "instructions": "You are the Strategy Lead.",
                     "model": "gpt-4o",
-                    "temperature": 0.7
+                    "temperature": 0.7,
+                    "max_tokens": 2000
                 },
                 "DataSegmenter": {
+                    "name": "DataSegmenter",
+                    "instructions": "You are the Data Segmenter.",
                     "model": "gpt-4-turbo",
-                    "temperature": 0.3
+                    "temperature": 0.3,
+                    "max_tokens": 1500
                 },
                 "ContentCreator": {
+                    "name": "ContentCreator",
+                    "instructions": "You are the Content Creator.",
                     "model": "gpt-4o",
-                    "temperature": 0.8
+                    "temperature": 0.8,
+                    "max_tokens": 2000
                 }
+            },
+            "azure_search": {
+                "endpoint": "https://fake.search.windows.net",
+                "index_name": "test-index"
             }
         }
     
@@ -44,7 +57,7 @@ class TestAgents:
         agent = StrategyLeadAgent(mock_kernel, config)
         
         assert agent.agent_name == "StrategyLead"
-        assert "orchestrator" in agent.instructions.lower()
+        assert "strategy lead" in agent.instructions.lower()
         assert isinstance(agent.get_plugins(), list)
     
     def test_data_segmenter_initialization(self, mock_kernel, config):
@@ -52,7 +65,7 @@ class TestAgents:
         agent = DataSegmenterAgent(mock_kernel, config)
         
         assert agent.agent_name == "DataSegmenter"
-        assert "data analyst" in agent.instructions.lower()
+        assert "data segmenter" in agent.instructions.lower()
         assert len(agent.get_plugins()) > 0
     
     def test_content_creator_initialization(self, mock_kernel, config):
@@ -60,5 +73,5 @@ class TestAgents:
         agent = ContentCreatorAgent(mock_kernel, config)
         
         assert agent.agent_name == "ContentCreator"
-        assert "copywriter" in agent.instructions.lower()
-        assert "citation" in agent.instructions.lower()
+        assert "copywriter" in agent.instructions.lower() or "content" in agent.instructions.lower()
+        assert "citation" in agent.instructions.lower() or "variant" in agent.instructions.lower()

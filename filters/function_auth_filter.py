@@ -21,6 +21,7 @@ class FunctionAuthorizationFilter:
             "StrategyLead": ["*"],  # Manager can call any function
             "DataSegmenter": [
                 "query_customer_segments",
+                "query_cdp",
                 "get_segment_details",
                 "execute_sql"
             ],

@@ -66,12 +66,12 @@ class TestKernelFactoryIntegration:
         token = credential.get_token("https://cognitiveservices.azure.com/.default")
         assert token is not None and token.token is not None
     
-    @pytest.mark.asyncio
-    async def test_token_provider_works(self, config):
+    def test_token_provider_works(self, config):
         """✓ Token provider working"""
         factory = KernelFactory(config)
         token_provider = factory._get_token_provider()
-        token = await token_provider()
+        # Token provider is synchronous, not async
+        token = token_provider()
         assert token is not None and isinstance(token, str)
     
     @pytest.mark.asyncio

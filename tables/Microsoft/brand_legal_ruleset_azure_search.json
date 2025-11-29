@@ -1,0 +1,76 @@
+{
+  "value": [
+    {
+      "id": "ms-brand-001",
+      "title": "Microsoft Brand Voice Guidelines",
+      "content": "Microsoft brand tone: professional. Characteristics: concise, impact-focused, data-driven, customer-centric, technically accurate. Style guidelines - Sentence structure: Use active voice. Limit sentences to 25 words. Avoid jargon unless technically necessary. Paragraph length: Maximum 4-5 sentences per paragraph. Use whitespace for readability. Terminology: Use Microsoft-approved product names. Capitalize Azure service names consistently. Perspective: Write from customer benefit perspective. Lead with business outcomes before technical features. Approved messaging frameworks: Challenge-Solution-Outcome, Feature-Benefit-Proof Point, Customer Story-Technical Deep Dive.",
+      "product_name": "Brand Voice",
+      "category": "brand_rules",
+      "source_file": "Brand & Legal Ruleset.json",
+      "page_number": 1
+    },
+    {
+      "id": "ms-brand-002",
+      "title": "Microsoft Banned Claims - Guaranteed Outcomes",
+      "content": "Banned claims - Guaranteed outcomes: guaranteed ROI, guaranteed performance improvements, guaranteed cost savings, eliminate all security risks, 100% uptime, zero downtime, complete protection, never fails. Unverifiable performance claims: infinitely scalable, unlimited capacity, fastest in the industry, best performance available, most secure solution, industry-leading without citation, revolutionary technology without substantiation, breakthrough innovation without context. Competitive disparagement: direct negative comparisons to named competitors, claims that competitors are inadequate or inferior, unsubstantiated superiority claims, misleading competitive feature matrices. Absolute statements: always works, never requires maintenance, all customers achieve, every use case is supported, no limitations, perfect solution.",
+      "product_name": "Banned Claims",
+      "category": "brand_rules",
+      "source_file": "Brand & Legal Ruleset.json",
+      "page_number": 1
+    },
+    {
+      "id": "ms-brand-003",
+      "title": "Microsoft Mandatory Disclaimers",
+      "content": "Mandatory disclaimers - Performance claims: Performance results are based on internal Microsoft testing and may vary. Actual performance depends on configuration, workload characteristics, and other factors. Cost estimates: Pricing examples are illustrative. Actual costs depend on usage patterns, selected tiers, and regional pricing. Refer to Azure Pricing Calculator for specific estimates. SLA references: Service level agreements are subject to terms and conditions. Refer to Azure SLA documentation for specific coverage details. Preview features: Preview features are provided without service level agreement and may have limited support. Preview features should not be used for production workloads without risk assessment. Third-party integration: Integration with third-party services is subject to those services' terms and availability. Microsoft does not warrant third-party service performance. Compliance certifications: Compliance certifications apply to Azure platform services. Customer applications inherit compliance posture based on configuration. Customers are responsible for their use of Azure services in regulated environments.",
+      "product_name": "Mandatory Disclaimers",
+      "category": "brand_rules",
+      "source_file": "Brand & Legal Ruleset.json",
+      "page_number": 1
+    },
+    {
+      "id": "ms-brand-004",
+      "title": "Microsoft Privacy Rules",
+      "content": "Customer data protection rules: Never reference actual customer names without written approval and executed case study agreement, Do not disclose specific usage metrics from customer environments, Anonymize all customer scenarios unless public case study exists, Obtain legal review for any content mentioning customer implementation details, Do not reference customer security configurations or vulnerabilities. Data handling statements - Azure OpenAI: Customer prompts and completions processed through Azure OpenAI Service are not available to other customers or used to improve Microsoft or third-party models. Cognitive Search: Data indexed in Azure Cognitive Search remains within customer-designated resources and is not used for service improvement. Telemetry: Azure Monitor telemetry is customer-owned data subject to customer-configured retention and access policies. Prohibited content: Screenshots or data from customer environments without consent, Customer contact information or organizational structures, Customer implementation architectures without approval, Specific customer budget or spending data, Customer security incidents or vulnerabilities.",
+      "product_name": "Privacy Rules",
+      "category": "brand_rules",
+      "source_file": "Brand & Legal Ruleset.json",
+      "page_number": 1
+    },
+    {
+      "id": "ms-brand-005",
+      "title": "Microsoft Tone Rules - Accuracy and Inclusivity",
+      "content": "Avoid exaggeration: Do not overstate capabilities or market position, Use measured language for competitive positioning, Support forward-looking statements with reasonable basis, Acknowledge limitations and constraints where relevant, Use quantitative claims only when substantiated by data. Avoid emotional overreach: Minimize superlatives (amazing, incredible, revolutionary) unless contextually justified, Avoid fear-based messaging or urgency manipulation, Do not use emotional appeals that undermine rational decision-making, Maintain professional distance; avoid casual or informal language, Do not anthropomorphize technology inappropriately. Technical accuracy requirements: Verify all technical specifications against current product documentation, Distinguish between features in general availability vs. preview, Accurately represent service limitations and constraints, Use precise terminology for technical concepts, Cite performance benchmarks with methodology context. Inclusive language: Avoid gendered language when referring to users or roles, Use person-first language for accessibility references, Avoid cultural idioms that may not translate globally, Ensure examples represent diverse industries and geographies, Use they/them for singular indefinite pronouns.",
+      "product_name": "Tone Rules",
+      "category": "brand_rules",
+      "source_file": "Brand & Legal Ruleset.json",
+      "page_number": 1
+    },
+    {
+      "id": "ms-brand-006",
+      "title": "Microsoft Legal Review Triggers",
+      "content": "Mandatory review scenarios: Content making financial performance claims, Comparative advertising mentioning competitors by name, Content targeting regulated industries (healthcare, finance, government), Case studies or customer references, Content discussing security vulnerabilities or incidents, Forward-looking statements about unreleased features, Content for use in contracts or formal proposals. Expedited review available: Minor updates to previously approved content, Technical documentation without business claims, Internal-only content for Microsoft employees.",
+      "product_name": "Legal Review",
+      "category": "brand_rules",
+      "source_file": "Brand & Legal Ruleset.json",
+      "page_number": 1
+    },
+    {
+      "id": "ms-brand-007",
+      "title": "Microsoft Regional Compliance Notes",
+      "content": "Regional compliance notes - EMEA: Content must acknowledge GDPR compliance for data processing. Reference data residency options for regulated data. APAC: Be aware of local data sovereignty requirements in Australia, China, and Singapore. Mention regional availability where relevant. LATAM: Highlight Spanish and Portuguese language support. Reference local compliance certifications where available. NA: Include references to HIPAA, SOC 2, and FedRAMP certifications for relevant audiences. Mention US-based data center options.",
+      "product_name": "Regional Compliance",
+      "category": "brand_rules",
+      "source_file": "Brand & Legal Ruleset.json",
+      "page_number": 1
+    },
+    {
+      "id": "ms-brand-008",
+      "title": "Microsoft Approval Workflow",
+      "content": "Approval workflow - Tier 1 Product Descriptions: Approvers: Product Marketing Manager. SLA: 24 hours. Scope: Standard feature descriptions, technical specifications, use case examples without customer references. Tier 2 Competitive Positioning: Approvers: Product Marketing Manager, Legal Review. SLA: 48 hours. Scope: Competitive comparisons, performance claims, pricing discussions, market position statements. Tier 3 Customer-Facing Assets: Approvers: Product Marketing Manager, Legal Review, Executive Stakeholder. SLA: 72 hours. Scope: Case studies, customer quotes, joint marketing materials, content for regulated industries.",
+      "product_name": "Approval Workflow",
+      "category": "brand_rules",
+      "source_file": "Brand & Legal Ruleset.json",
+      "page_number": 1
+    }
+  ]
+}

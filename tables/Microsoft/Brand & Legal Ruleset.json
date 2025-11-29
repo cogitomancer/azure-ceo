@@ -1,0 +1,163 @@
+﻿{
+  "brand_voice": {
+    "tone": "professional",
+    "characteristics": [
+      "concise",
+      "impact-focused",
+      "data-driven",
+      "customer-centric",
+      "technically accurate"
+    ],
+    "style_guidelines": {
+      "sentence_structure": "Use active voice. Limit sentences to 25 words. Avoid jargon unless technically necessary.",
+      "paragraph_length": "Maximum 4-5 sentences per paragraph. Use whitespace for readability.",
+      "terminology": "Use Microsoft-approved product names. Capitalize Azure service names consistently.",
+      "perspective": "Write from customer benefit perspective. Lead with business outcomes before technical features."
+    },
+    "approved_messaging_frameworks": [
+      "Challenge-Solution-Outcome",
+      "Feature-Benefit-Proof Point",
+      "Customer Story-Technical Deep Dive"
+    ]
+  },
+  "banned_claims": {
+    "guaranteed_outcomes": [
+      "guaranteed ROI",
+      "guaranteed performance improvements",
+      "guaranteed cost savings",
+      "eliminate all security risks",
+      "100% uptime",
+      "zero downtime",
+      "complete protection",
+      "never fails"
+    ],
+    "unverifiable_performance": [
+      "infinitely scalable",
+      "unlimited capacity",
+      "fastest in the industry",
+      "best performance available",
+      "most secure solution",
+      "industry-leading without citation",
+      "revolutionary technology without substantiation",
+      "breakthrough innovation without context"
+    ],
+    "competitive_disparagement": [
+      "direct negative comparisons to named competitors",
+      "claims that competitors are inadequate or inferior",
+      "unsubstantiated superiority claims",
+      "misleading competitive feature matrices"
+    ],
+    "absolute_statements": [
+      "always works",
+      "never requires maintenance",
+      "all customers achieve",
+      "every use case is supported",
+      "no limitations",
+      "perfect solution"
+    ]
+  },
+  "mandatory_disclaimers": {
+    "performance_claims": "Performance results are based on internal Microsoft testing and may vary. Actual performance depends on configuration, workload characteristics, and other factors.",
+    "cost_estimates": "Pricing examples are illustrative. Actual costs depend on usage patterns, selected tiers, and regional pricing. Refer to Azure Pricing Calculator for specific estimates.",
+    "sla_references": "Service level agreements are subject to terms and conditions. Refer to Azure SLA documentation for specific coverage details.",
+    "preview_features": "Preview features are provided without service level agreement and may have limited support. Preview features should not be used for production workloads without risk assessment.",
+    "third_party_integration": "Integration with third-party services is subject to those services' terms and availability. Microsoft does not warrant third-party service performance.",
+    "compliance_certifications": "Compliance certifications apply to Azure platform services. Customer applications inherit compliance posture based on configuration. Customers are responsible for their use of Azure services in regulated environments."
+  },
+  "privacy_rules": {
+    "customer_data_protection": [
+      "Never reference actual customer names without written approval and executed case study agreement",
+      "Do not disclose specific usage metrics from customer environments",
+      "Anonymize all customer scenarios unless public case study exists",
+      "Obtain legal review for any content mentioning customer implementation details",
+      "Do not reference customer security configurations or vulnerabilities"
+    ],
+    "data_handling_statements": {
+      "azure_openai": "Customer prompts and completions processed through Azure OpenAI Service are not available to other customers or used to improve Microsoft or third-party models.",
+      "cognitive_search": "Data indexed in Azure Cognitive Search remains within customer-designated resources and is not used for service improvement.",
+      "telemetry": "Azure Monitor telemetry is customer-owned data subject to customer-configured retention and access policies."
+    },
+    "prohibited_content": [
+      "Screenshots or data from customer environments without consent",
+      "Customer contact information or organizational structures",
+      "Customer implementation architectures without approval",
+      "Specific customer budget or spending data",
+      "Customer security incidents or vulnerabilities"
+    ]
+  },
+  "tone_rules": {
+    "avoid_exaggeration": [
+      "Do not overstate capabilities or market position",
+      "Use measured language for competitive positioning",
+      "Support forward-looking statements with reasonable basis",
+      "Acknowledge limitations and constraints where relevant",
+      "Use quantitative claims only when substantiated by data"
+    ],
+    "avoid_emotional_overreach": [
+      "Minimize superlatives (amazing, incredible, revolutionary) unless contextually justified",
+      "Avoid fear-based messaging or urgency manipulation",
+      "Do not use emotional appeals that undermine rational decision-making",
+      "Maintain professional distance; avoid casual or informal language",
+      "Do not anthropomorphize technology inappropriately"
+    ],
+    "technical_accuracy_requirements": [
+      "Verify all technical specifications against current product documentation",
+      "Distinguish between features in general availability vs. preview",
+      "Accurately represent service limitations and constraints",
+      "Use precise terminology for technical concepts",
+      "Cite performance benchmarks with methodology context"
+    ],
+    "inclusive_language": [
+      "Avoid gendered language when referring to users or roles",
+      "Use person-first language for accessibility references",
+      "Avoid cultural idioms that may not translate globally",
+      "Ensure examples represent diverse industries and geographies",
+      "Use 'they/them' for singular indefinite pronouns"
+    ]
+  },
+  "legal_review_triggers": {
+    "mandatory_review_scenarios": [
+      "Content making financial performance claims",
+      "Comparative advertising mentioning competitors by name",
+      "Content targeting regulated industries (healthcare, finance, government)",
+      "Case studies or customer references",
+      "Content discussing security vulnerabilities or incidents",
+      "Forward-looking statements about unreleased features",
+      "Content for use in contracts or formal proposals"
+    ],
+    "expedited_review_available": [
+      "Minor updates to previously approved content",
+      "Technical documentation without business claims",
+      "Internal-only content for Microsoft employees"
+    ]
+  },
+  "regional_compliance_notes": {
+    "EMEA": "Content must acknowledge GDPR compliance for data processing. Reference data residency options for regulated data.",
+    "APAC": "Be aware of local data sovereignty requirements in Australia, China, and Singapore. Mention regional availability where relevant.",
+    "LATAM": "Highlight Spanish and Portuguese language support. Reference local compliance certifications where available.",
+    "NA": "Include references to HIPAA, SOC 2, and FedRAMP certifications for relevant audiences. Mention US-based data center options."
+  },
+  "approval_workflow": {
+    "tier_1_product_descriptions": {
+      "approvers": ["Product Marketing Manager"],
+      "sla_hours": 24,
+      "scope": "Standard feature descriptions, technical specifications, use case examples without customer references"
+    },
+    "tier_2_competitive_positioning": {
+      "approvers": ["Product Marketing Manager", "Legal Review"],
+      "sla_hours": 48,
+      "scope": "Competitive comparisons, performance claims, pricing discussions, market position statements"
+    },
+    "tier_3_customer_facing_assets": {
+      "approvers": ["Product Marketing Manager", "Legal Review", "Executive Stakeholder"],
+      "sla_hours": 72,
+      "scope": "Case studies, customer quotes, joint marketing materials, content for regulated industries"
+    }
+  },
+  "version_control": {
+    "document_version": "0.1-synthetic",
+    "last_updated": "2025-01-15",
+    "review_cycle": "quarterly",
+    "next_review_date": "2025-04-15"
+  }
+}

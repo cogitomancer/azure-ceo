@@ -19,12 +19,17 @@ class KernelFactory:
         self.config = config
         self.credential = DefaultAzureCredential()
 
-        # Safe Azure Monitor initialization
+        # Azure Monitor initialization
+        # Note: configure_azure_monitor is idempotent - safe to call multiple times
+        # It's typically configured at application startup (main.py/api/main.py),
+        # but we configure it here as a fallback for other usage contexts
         try:
-            configure_azure_monitor(
-                connection_string=config["azure_monitor"]["connection_string"]
-            )
-            logger.info("Azure Monitor successfully initialized.")
+            connection_string = config.get("azure_monitor", {}).get("connection_string")
+            if connection_string:
+                configure_azure_monitor(connection_string=connection_string)
+                logger.debug("Azure Monitor configured in KernelFactory (may be redundant if already configured at startup)")
+            else:
+                logger.debug("Azure Monitor connection string not provided in config")
         except Exception as e:
             logger.warning(f"Azure Monitor initialization failed: {e}")
 
@@ -42,11 +47,11 @@ class KernelFactory:
             deployment_name=self.config["azure_openai"]["deployment_name"],
             endpoint=self.config["azure_openai"]["endpoint"],
             api_version=self.config["azure_openai"]["api_version"],
-            azure_ad_token_provider=self._get_token_provider(),
+            ad_token_provider=self._get_token_provider(),
         )
 
         # ADD MODEL SERVICE PROPERLY
-        kernel.add_chat_completion_service(service_id, azure_openai_service)
+        kernel.add_service(azure_openai_service)
 
         # Register all governance filters
         self._register_filters(kernel)
