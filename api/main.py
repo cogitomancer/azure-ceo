@@ -387,11 +387,13 @@ async def create_campaign_stream(request: CampaignRequest):
 
         try:
             message_count = 0
+            logger.info(f"[Stream] Starting workflow execution for session {session_id}, objective: {request.objective}")
 
             async for message in orchestrator.execute_campaign_request(
                 objective=request.objective,
                 session_id=session_id
             ):
+                logger.info(f"[Stream] Received message #{message_count + 1} from workflow")
                 message_count += 1
 
                 # Try multiple ways to extract agent name (matching orchestrator logic)
@@ -434,7 +436,12 @@ async def create_campaign_stream(request: CampaignRequest):
                     break
 
             # Stream ended - mark as completed and send completion event with campaign data
-            if message_count > 0:
+            # Always send completion event, even if no messages were received
+            if message_count == 0:
+                # No messages received - this indicates the workflow didn't execute
+                logger.warning(f"No messages received from workflow for session {session_id}. Workflow may have failed silently.")
+                yield f"data: {json.dumps({'event': 'error', 'message': 'Workflow execution failed - no messages received from agents. Check backend logs for details.'})}\n\n"
+            else:
                 try:
                     await orchestrator.state_manager.update_campaign_status(session_id, "completed")
                     
@@ -543,7 +550,7 @@ Write in natural, conversational language - NOT JSON or technical format. Be spe
                 yield f"data: {json.dumps({'event': 'completed', 'campaign': campaign_summary})}\n\n"
 
         except Exception as e:
-            logger.error(f"SSE Error: {e}")
+            logger.error(f"SSE Error: {e}", exc_info=True)
             # Update campaign status to failed
             try:
                 await orchestrator.state_manager.update_campaign_status(session_id, "failed")

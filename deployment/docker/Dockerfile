@@ -19,12 +19,12 @@ COPY . .
 RUN useradd -m -u 1000 appuser && chown -R appuser:appuser /app
 USER appuser
 
-# Expose port
+# Expose port (Azure Container Apps uses PORT env var, default to 8000)
 EXPOSE 8000
 
-# Health check
+# Health check (Container Apps will map the port correctly)
 HEALTHCHECK --interval=30s --timeout=10s --start-period=5s --retries=3 \
-    CMD python -c "import requests; requests.get('http://localhost:8000/health')"
+    CMD python -c "import requests; import os; port = os.getenv('PORT', '8000'); requests.get(f'http://localhost:{port}/health')"
 
-# Run application
-CMD ["uvicorn", "api.main:app", "--host", "0.0.0.0", "--port", "8000"]
+# Run application (use PORT env var for Azure Container Apps compatibility)
+CMD sh -c "PORT=\${PORT:-8000} && uvicorn api.main:app --host 0.0.0.0 --port \$PORT"
