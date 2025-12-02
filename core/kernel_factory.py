@@ -17,7 +17,8 @@ class KernelFactory:
 
     def __init__(self, config: dict):
         self.config = config
-        self.credential = DefaultAzureCredential()
+        # Don't create credential until we know we need it (lazy initialization)
+        self._credential = None
 
         # Azure Monitor initialization
         # Note: configure_azure_monitor is idempotent - safe to call multiple times
@@ -36,19 +37,72 @@ class KernelFactory:
     def create_kernel(self, service_id: str = "default") -> Kernel:
         """
         Create a Semantic Kernel configured with:
-        - Azure OpenAI (MSI)
+        - Azure OpenAI (API Key or Managed Identity)
         - Governance filters (PII, Safety, Auth, Rate Limits)
         """
         kernel = Kernel()
 
+        # Get Azure OpenAI config
+        openai_config = self.config["azure_openai"]
+        api_key = openai_config.get("api_key")
+        endpoint = openai_config.get("endpoint", "")
+        
+        # Clean up endpoint URL - remove any path/query parameters if present
+        if endpoint:
+            # Remove path and query parameters
+            from urllib.parse import urlparse, urlunparse
+            parsed = urlparse(endpoint)
+            # Reconstruct with just scheme, netloc (no path, params, query, fragment)
+            endpoint = urlunparse((parsed.scheme, parsed.netloc, "", "", "", ""))
+            # Remove trailing slash
+            endpoint = endpoint.rstrip('/')
+        
+        # Log what we found (without exposing the key)
+        if api_key:
+            logger.info(f"Azure OpenAI API key found: {'*' * min(len(api_key), 8)}... (length: {len(api_key)})")
+        else:
+            logger.warning("Azure OpenAI API key not found in config, will use Azure AD token provider")
+        
+        logger.info(f"Azure OpenAI endpoint: {endpoint}")
+        logger.info(f"Azure OpenAI deployment: {openai_config.get('deployment_name')}")
+        
+        # Build AzureChatCompletion arguments
+        service_args = {
+            "service_id": service_id,
+            "deployment_name": openai_config["deployment_name"],
+            "endpoint": endpoint,
+            "api_version": openai_config["api_version"],
+        }
+        
+        # Use API key if available and not empty, otherwise use Azure AD token provider
+        # IMPORTANT: Only pass ONE authentication method - either api_key OR ad_token_provider, not both
+        if api_key and api_key.strip():
+            logger.info("✓ Using API key authentication for Azure OpenAI")
+            service_args["api_key"] = api_key.strip()
+            # Explicitly ensure we don't pass ad_token_provider when using api_key
+            if "ad_token_provider" in service_args:
+                del service_args["ad_token_provider"]
+        else:
+            logger.warning("⚠ Using Azure AD token provider for Azure OpenAI (API key not available or empty)")
+            if api_key is None:
+                logger.warning("  → API key is None (not found in config)")
+            elif not api_key.strip():
+                logger.warning("  → API key is empty string")
+            service_args["ad_token_provider"] = self._get_token_provider()
+            # Explicitly ensure we don't pass api_key when using ad_token_provider
+            if "api_key" in service_args:
+                del service_args["api_key"]
+
+        # Log final service args (without sensitive data)
+        logger.info(f"Creating AzureChatCompletion with: service_id={service_id}, deployment={openai_config['deployment_name']}, endpoint={endpoint}, auth_method={'api_key' if 'api_key' in service_args else 'ad_token_provider'}")
+
         # Chat completion service
-        azure_openai_service = AzureChatCompletion(
-            service_id=service_id,
-            deployment_name=self.config["azure_openai"]["deployment_name"],
-            endpoint=self.config["azure_openai"]["endpoint"],
-            api_version=self.config["azure_openai"]["api_version"],
-            ad_token_provider=self._get_token_provider(),
-        )
+        try:
+            azure_openai_service = AzureChatCompletion(**service_args)
+            logger.info("✓ AzureChatCompletion service created successfully")
+        except Exception as e:
+            logger.error(f"✗ Failed to create AzureChatCompletion: {e}", exc_info=True)
+            raise
 
         # ADD MODEL SERVICE PROPERLY
         kernel.add_service(azure_openai_service)
@@ -93,9 +147,13 @@ class KernelFactory:
 
     def _get_token_provider(self):
         """Azure AD Managed Identity token provider (sync)."""
+        # Lazy initialization of credential
+        if self._credential is None:
+            logger.info("Initializing DefaultAzureCredential for Azure AD authentication")
+            self._credential = DefaultAzureCredential()
 
         def token_provider():
-            token = self.credential.get_token(
+            token = self._credential.get_token(
                 "https://cognitiveservices.azure.com/.default"
             )
             return token.token

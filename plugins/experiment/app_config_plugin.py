@@ -19,11 +19,19 @@ class AppConfigPlugin:
     def __init__(self, config: dict):
         self.config = config
         self.credential = DefaultAzureCredential()
-
-        self.client = AzureAppConfigurationClient(
-            base_url=config["app_configuration"]["endpoint"],
-            credential=self.credential
-        )
+        
+        # App Configuration endpoint is optional - only create client if endpoint is provided
+        app_config_endpoint = config.get("app_configuration", {}).get("endpoint")
+        if app_config_endpoint:
+            self.client = AzureAppConfigurationClient(
+                base_url=app_config_endpoint,
+                credential=self.credential
+            )
+        else:
+            self.client = None
+            import logging
+            logger = logging.getLogger(__name__)
+            logger.warning("App Configuration endpoint not configured - AppConfigPlugin will be disabled")
 
     # ----------------------------------------------------------------------
     # CREATE FEATURE FLAG
@@ -41,6 +49,9 @@ class AppConfigPlugin:
         Create a stable feature flag using the v1 API.
         Traffic allocation is NOT set here — ExperimentRunner handles it.
         """
+        
+        if not self.client:
+            return f"App Configuration not available - feature flag '{experiment_name}' would be created if configured"
 
         try:
             variants = json.loads(variants_json)
@@ -101,6 +112,9 @@ class AppConfigPlugin:
         experiment_name: Annotated[str, "Experiment name"],
         allocations_json: Annotated[str, "JSON dict of {variant_id: percent}"],
     ) -> Annotated[str, "Traffic allocation update result"]:
+        
+        if not self.client:
+            return f"App Configuration not available - traffic allocation for '{experiment_name}' would be updated if configured"
 
         try:
             allocations = json.loads(allocations_json)

@@ -8,8 +8,6 @@ from core.kernel_factory import KernelFactory
 from core.orchestrator import MarketingOrchestrator
 from config.azure_config import load_config
 
-# IMPORTANT: Load config and configure Azure Monitor BEFORE setting up logging
-# This ensures Application Insights logging exporter is properly initialized
 config = load_config()
 
 # Configure Azure Monitor first (this sets up OpenTelemetry logging)
@@ -36,8 +34,6 @@ except Exception as e:
     import traceback
     traceback.print_exc()
 
-# Now configure logging (Azure Monitor logging exporter is already set up)
-# IMPORTANT: Don't use force=True as it removes OpenTelemetry handlers
 root_logger = logging.getLogger()
 if not root_logger.handlers:
     logging.basicConfig(
@@ -65,22 +61,6 @@ async def main():
 
     #Create orchestrator
     orchestrator = MarketingOrchestrator(kernel_factory, config)
-
-
-    #Example: CEO's high level objective
-    #TODO: This should come from my react client
-    campaign_objective = """
-    Launch a promotional campaign for our new UltraRun Pro sneakers targeting 
-    high-value running enthusiasts. The goal is to achieve a 15% increase in 
-    conversion rate compared to our baseline.
-    
-    Requirements:
-    - Target users who purchased running shoes in the last 6 months with LTV > $200
-    - Highlight the new Rebound Foam technology
-    - Create 3 message variants for testing
-    - Ensure all claims are properly cited from product documentation
-    - Set up A/B test with statistical monitoring
-    """
 
     session_id = "campaign_001"
 

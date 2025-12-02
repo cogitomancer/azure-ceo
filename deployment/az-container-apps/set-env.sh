@@ -75,7 +75,10 @@ prompt_if_empty() {
         fi
         eval "$var_name=\"$value\""
     else
-        if [ "$is_secret" = true ]; then
+        # Always show Content Safety key value (not redacted)
+        if [ "$var_name" = "AZURE_CONTENT_SAFETY_KEY" ]; then
+            echo -e "${GREEN}✓ $prompt_text: ${!var_name}${NC}"
+        elif [ "$is_secret" = true ]; then
             echo -e "${GREEN}✓ $prompt_text: [REDACTED]${NC}"
         else
             echo -e "${GREEN}✓ $prompt_text: ${!var_name}${NC}"
@@ -98,33 +101,51 @@ prompt_if_empty "COSMOS_DB_DATABASE" "Cosmos DB Database Name" "marketing_agents
 prompt_if_empty "COSMOS_DB_CONTAINER" "Cosmos DB Container Name" "conversations"
 prompt_if_empty "COMPANY_ID" "Company ID" "hudson_street"
 
-# Optional variables
-if [ -z "$APPLICATIONINSIGHTS_CONNECTION_STRING" ]; then
-    read -p "Application Insights Connection String (optional, press Enter to skip): " APPLICATIONINSIGHTS_CONNECTION_STRING
-fi
+# Application Insights (required)
+prompt_if_empty "APPLICATIONINSIGHTS_CONNECTION_STRING" "Application Insights Connection String" "" false
 
-# Build environment variables string
-ENV_VARS="AZURE_OPENAI_ENDPOINT=$AZURE_OPENAI_ENDPOINT"
-ENV_VARS="$ENV_VARS AZURE_OPENAI_DEPLOYMENT=$AZURE_OPENAI_DEPLOYMENT"
-ENV_VARS="$ENV_VARS AZURE_OPENAI_API_VERSION=$AZURE_OPENAI_API_VERSION"
-ENV_VARS="$ENV_VARS AZURE_SEARCH_ENDPOINT=$AZURE_SEARCH_ENDPOINT"
-ENV_VARS="$ENV_VARS AZURE_SEARCH_ADMIN_KEY=$AZURE_SEARCH_ADMIN_KEY"
-ENV_VARS="$ENV_VARS COSMOS_DB_ENDPOINT=$COSMOS_DB_ENDPOINT"
-ENV_VARS="$ENV_VARS COSMOS_DB_KEY=$COSMOS_DB_KEY"
-ENV_VARS="$ENV_VARS COSMOS_DB_DATABASE=$COSMOS_DB_DATABASE"
-ENV_VARS="$ENV_VARS COSMOS_DB_CONTAINER=$COSMOS_DB_CONTAINER"
-ENV_VARS="$ENV_VARS COMPANY_ID=$COMPANY_ID"
+# App Configuration (optional)
+prompt_if_empty "AZURE_APP_CONFIG_ENDPOINT" "Azure App Configuration Endpoint (optional)" "" false
 
-if [ -n "$APPLICATIONINSIGHTS_CONNECTION_STRING" ]; then
-    ENV_VARS="$ENV_VARS APPLICATIONINSIGHTS_CONNECTION_STRING=$APPLICATIONINSIGHTS_CONNECTION_STRING"
-fi
+# Content Safety (required)
+prompt_if_empty "AZURE_CONTENT_SAFETY_ENDPOINT" "Azure Content Safety Endpoint" "" false
+prompt_if_empty "AZURE_CONTENT_SAFETY_KEY" "Azure Content Safety Key" "" false
+
+# Additional optional variables from .env
+prompt_if_empty "AZURE_OPENAI_API_KEY" "Azure OpenAI API Key (optional)" "" true
+prompt_if_empty "AZURE_SEARCH_INDEX" "Azure AI Search Index Name (optional)" "" false
+prompt_if_empty "AZURE_SQL_CONNECTION_STRING" "Azure SQL Connection String (optional)" "" true
+prompt_if_empty "USE_LOCAL_CSV" "Use Local CSV (optional)" "false" false
+
+# Build environment variables array
+declare -a ENV_VAR_ARRAY=()
+
+# All environment variables
+ENV_VAR_ARRAY+=("AZURE_OPENAI_ENDPOINT=$AZURE_OPENAI_ENDPOINT")
+ENV_VAR_ARRAY+=("AZURE_OPENAI_DEPLOYMENT=$AZURE_OPENAI_DEPLOYMENT")
+ENV_VAR_ARRAY+=("AZURE_OPENAI_API_VERSION=$AZURE_OPENAI_API_VERSION")
+ENV_VAR_ARRAY+=("AZURE_SEARCH_ENDPOINT=$AZURE_SEARCH_ENDPOINT")
+ENV_VAR_ARRAY+=("AZURE_SEARCH_ADMIN_KEY=$AZURE_SEARCH_ADMIN_KEY")
+ENV_VAR_ARRAY+=("COSMOS_DB_ENDPOINT=$COSMOS_DB_ENDPOINT")
+ENV_VAR_ARRAY+=("COSMOS_DB_KEY=$COSMOS_DB_KEY")
+ENV_VAR_ARRAY+=("COSMOS_DB_DATABASE=$COSMOS_DB_DATABASE")
+ENV_VAR_ARRAY+=("COSMOS_DB_CONTAINER=$COSMOS_DB_CONTAINER")
+ENV_VAR_ARRAY+=("COMPANY_ID=$COMPANY_ID")
+ENV_VAR_ARRAY+=("APPLICATIONINSIGHTS_CONNECTION_STRING=$APPLICATIONINSIGHTS_CONNECTION_STRING")
+ENV_VAR_ARRAY+=("AZURE_APP_CONFIG_ENDPOINT=$AZURE_APP_CONFIG_ENDPOINT")
+ENV_VAR_ARRAY+=("AZURE_CONTENT_SAFETY_ENDPOINT=$AZURE_CONTENT_SAFETY_ENDPOINT")
+ENV_VAR_ARRAY+=("AZURE_CONTENT_SAFETY_KEY=$AZURE_CONTENT_SAFETY_KEY")
+ENV_VAR_ARRAY+=("AZURE_OPENAI_API_KEY=$AZURE_OPENAI_API_KEY")
+ENV_VAR_ARRAY+=("AZURE_SEARCH_INDEX=$AZURE_SEARCH_INDEX")
+ENV_VAR_ARRAY+=("AZURE_SQL_CONNECTION_STRING=$AZURE_SQL_CONNECTION_STRING")
+ENV_VAR_ARRAY+=("USE_LOCAL_CSV=$USE_LOCAL_CSV")
 
 # Update Container App with environment variables
 echo -e "${YELLOW}Updating Container App environment variables...${NC}"
 az containerapp update \
     --name $CONTAINER_APP_NAME \
     --resource-group $RESOURCE_GROUP \
-    --set-env-vars $ENV_VARS \
+    --set-env-vars "${ENV_VAR_ARRAY[@]}" \
     --output none
 
 echo -e "${GREEN}=== Environment Variables Set Successfully! ===${NC}"

@@ -37,11 +37,27 @@ def load_config() -> Dict[str, Any]:
     #
     # Build overrides from env vars (NULL ignored)
     #
+    # Load Azure OpenAI config with debug logging
+    openai_api_key = os.getenv("AZURE_OPENAI_API_KEY")
+    openai_endpoint = os.getenv("AZURE_OPENAI_ENDPOINT")
+    
+    # Debug logging (without exposing sensitive data)
+    import logging
+    logger = logging.getLogger(__name__)
+    if openai_api_key:
+        logger.info(f"AZURE_OPENAI_API_KEY found in environment (length: {len(openai_api_key)})")
+    else:
+        logger.warning("AZURE_OPENAI_API_KEY not found in environment variables")
+    
+    if openai_endpoint:
+        logger.info(f"AZURE_OPENAI_ENDPOINT: {openai_endpoint[:50]}...")
+    
     env_cfg = {
         "azure_openai": {
-            "endpoint": os.getenv("AZURE_OPENAI_ENDPOINT"),
+            "endpoint": openai_endpoint,
             "deployment_name": os.getenv("AZURE_OPENAI_DEPLOYMENT"),
             "api_version": os.getenv("AZURE_OPENAI_API_VERSION"),
+            "api_key": openai_api_key,
         },
 
         "azure_search": {

@@ -37,16 +37,26 @@ PROJECT_ROOT="$(cd "$SCRIPT_DIR/../.." && pwd)"
 FRONTEND_DIR="$PROJECT_ROOT/frontend"
 DIST_DIR="$FRONTEND_DIR/dist"
 
-# Check if frontend is built
-if [ ! -d "$DIST_DIR" ]; then
-    echo -e "${YELLOW}Frontend not built. Building now...${NC}"
-    cd "$FRONTEND_DIR"
-    npm run build
-    if [ ! -d "dist" ]; then
-        echo -e "${RED}Error: Build failed or dist directory not found${NC}"
-        exit 1
-    fi
+# Build frontend for production (uses .env.production)
+echo -e "${YELLOW}Building frontend for production...${NC}"
+cd "$FRONTEND_DIR"
+
+# Check if .env.production exists
+if [ ! -f ".env.production" ]; then
+    echo -e "${RED}Error: .env.production file not found!${NC}"
+    echo -e "${YELLOW}Create .env.production with: VITE_API_URL=https://marketing-agent-api.delightfulbeach-185bfb37.eastus.azurecontainerapps.io${NC}"
+    exit 1
 fi
+
+# Build for production mode (uses .env.production)
+npm run build -- --mode production
+
+if [ ! -d "dist" ]; then
+    echo -e "${RED}Error: Build failed or dist directory not found${NC}"
+    exit 1
+fi
+
+echo -e "${GREEN}✓ Frontend built for production${NC}"
 
 # Register resource provider if needed
 echo -e "${YELLOW}Registering required resource providers...${NC}"
@@ -109,8 +119,9 @@ echo -e "${GREEN}=== Deployment Complete! ===${NC}"
 echo -e "${GREEN}Frontend URL: ${PRIMARY_ENDPOINT}${NC}"
 echo -e "${GREEN}Backend API: https://marketing-agent-api.delightfulbeach-185bfb37.eastus.azurecontainerapps.io${NC}"
 echo ""
-echo -e "${YELLOW}Note: The frontend is configured to use the backend API URL from the .env file${NC}"
-echo -e "${YELLOW}Make sure VITE_API_URL is set in frontend/.env before building${NC}"
+echo -e "${YELLOW}Important: The frontend was built with production mode using .env.production${NC}"
+echo -e "${YELLOW}Backend API URL: https://marketing-agent-api.delightfulbeach-185bfb37.eastus.azurecontainerapps.io${NC}"
 echo ""
-echo -e "${BLUE}To update the deployment, just run this script again after rebuilding${NC}"
+echo -e "${BLUE}To update the deployment, just run this script again${NC}"
+echo -e "${BLUE}It will rebuild with production settings automatically${NC}"
 
