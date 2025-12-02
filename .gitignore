@@ -226,4 +226,5 @@ dist/
 # Azure Functions
 .local.settings.
 .dockerignore
+.vscode
 >>>>>>> master
