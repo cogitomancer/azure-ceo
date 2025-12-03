@@ -1,6 +1,6 @@
-# Enterprise Multi-Agent Marketing Personalization System
+# Scalable Multi-Agent Marketing Personalization System
 
-A multi-agent architecture for enterprise marketing automation using Azure AI services, Semantic Kernel, and specialized AI agents to deliver compliant, data-driven marketing campaigns.
+A multi-agent architecture for scalable(SMB to Enterprise level) marketing automation using Azure AI services, Semantic Kernel, and specialized AI agents to deliver compliant, data-driven marketing campaigns.
 
 ## Quick Start
 
